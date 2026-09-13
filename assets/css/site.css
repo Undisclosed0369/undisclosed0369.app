@@ -1,0 +1,3312 @@
+/* ==========================================================================
+   SwiftMediaInfo — site stylesheet
+   --------------------------------------------------------------------------
+   Hand-written. No build step, no framework, no dependencies.
+
+   REVISION NOTES
+
+   The first pass leaned on Apple's black section bands and used glass exactly
+   once. Both were wrong for this brief.
+
+   The black bands made the page heavy, and they were borrowed reasoning:
+   apple.com uses true black because it shows photographs of black aluminium
+   objects that need to float free of an edge. This page shows screenshots of a
+   translucent, colourful Mac app. Those want light and colour behind them, not
+   a void.
+
+   Glass was used once because a frosted panel over a flat background blurs
+   nothing, and the eye notices. That reasoning was right; the conclusion was
+   not. The fix is to give the glass something to blur — brand-gradient fields
+   behind whole sections, with glass panels resting on them. Then the blur is
+   real, brand colour bleeds through it, and it looks like the app.
+
+   PERFORMANCE
+
+   backdrop-filter is expensive for the same reason it was inside the app:
+   every blurred layer re-samples what sits behind it. There are seven here,
+   not thirty, and the gradients they sample never move.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+    color-scheme: light;
+
+    /* LIGHT MODE IS NOT WHITE
+       
+       Pure #FFF was too bright, and the reason is worth stating: the page now
+       has a coloured wash behind everything, and a pure-white surface over a
+       violet field maximises the contrast between the two. The white glares
+       and the colour looks like it is fighting to get through.
+       
+       A soft off-white does two things at once. It stops the surface glaring,
+       and — because the scrims are semi-transparent — it lets the gradient
+       read as tinting the paper rather than being trapped under it. Every
+       print job with any confidence uses stock, not bleached white; screens
+       are no different.
+       
+       Text contrast is unaffected: #1D1D1F on #F8F8FA is 15.8:1, far past the
+       7:1 that counts as enhanced. Nothing is being traded for the softness. */
+    --surface: #f8f8fa;
+    --surface-alt: #f0f0f3;
+
+    --ink: #1d1d1f;
+
+    /* Body copy. Apple sets paragraphs at the same near-black as headings and
+       reserves grey for genuinely secondary text — captions, footnotes, the
+       source line under a table. Ours had every paragraph in grey, which is
+       what made the pages look lighter and thinner than theirs. */
+    --ink-body: #1d1d1f;
+
+    --ink-soft: #56565b;
+    --ink-faint: #86868b;
+
+    --hairline: rgba(0, 0, 0, 0.09);
+
+    /* Glass, light. Less opaque than before — at 62% the panes were nearly
+       solid white and the wash behind them barely showed, which made the glass
+       decorative rather than actual. At 52% the colour comes through and the
+       panel still reads as a surface. */
+    --glass-fill: rgba(255, 255, 255, 0.52);
+    --glass-edge: rgba(255, 255, 255, 0.82);
+    --glass-line: rgba(0, 0, 0, 0.07);
+    --glass-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.06);
+
+    /* The app's five brand colours, unchanged. */
+    --violet: #8d42f5;
+    --pink: #e042f5;
+    --blue: #42a1f5;
+    --green: #42f566;
+    --teal: #42e0f5;
+    --amber: #f5a142;
+
+    --accent: var(--violet);
+    --link: #6d28d9;
+
+    /* The navigation is dark in both themes. Apple's own bar is a dark
+       translucent slab regardless of page colour, and it is the strongest
+       single signal that a page belongs to a product rather than a blog. */
+    --nav-bg: rgba(22, 22, 26, 0.82);
+    --nav-ink: rgba(255, 255, 255, 0.82);
+    --nav-ink-strong: #ffffff;
+
+    /* Apple names the optical variants explicitly rather than relying on
+       -apple-system alone: SF Pro Text is drawn for body sizes, SF Pro Display
+       for large ones, and the two differ in aperture and spacing. Naming them
+       first means a Mac gets the right cut for the size; -apple-system stays
+       as the fallback for everything else. */
+    --sans: "SF Pro Text", -apple-system, BlinkMacSystemFont, "SF Pro Icons",
+            "Helvetica Neue", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --sans-display: "SF Pro Display", -apple-system, BlinkMacSystemFont,
+            "SF Pro Icons", "Helvetica Neue", "Segoe UI", Roboto, Helvetica,
+            Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+            "Liberation Mono", monospace;
+
+    --t-display: clamp(2.75rem, 7vw, 5.25rem);
+    --t-title: clamp(2rem, 4.5vw, 3.25rem);
+    --t-heading: clamp(1.375rem, 2.5vw, 1.75rem);
+    --t-lead: clamp(1.125rem, 1.8vw, 1.375rem);
+    --t-body: 1.0625rem;
+    --t-small: 0.9375rem;
+    --t-micro: 0.8125rem;
+
+    --measure: 34rem;
+    --content: 61.25rem;
+    --wide: 76rem;
+    /* Wider than --wide, for the sections where the screenshot is the point
+       and the copy is supporting it. Capped so the text beside it never
+       stretches past a comfortable line length. */
+    --xwide: 88rem;
+
+    --nav-h: 3rem;
+    --radius-panel: 22px;
+    --radius-shot: 14px;
+
+    /* Apple's own curve. Slow out, almost no ease in — motion that arrives
+       decisively and settles gently. */
+    --ease: cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+/* Dark, chosen explicitly ------------------------------------------------- */
+
+html[data-theme="dark"] {
+    color-scheme: dark;
+    --surface: #0d0d10;
+    --surface-alt: #141418;
+    --ink: #f5f5f7;
+    --ink-body: #e8e8ed;
+    --ink-soft: #a8a8ad;
+    --ink-faint: #86868b;
+    --hairline: rgba(255, 255, 255, 0.13);
+    --glass-fill: rgba(255, 255, 255, 0.07);
+    --glass-edge: rgba(255, 255, 255, 0.20);
+    --glass-line: rgba(255, 255, 255, 0.10);
+    --glass-shadow: 0 1px 2px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.45);
+    --link: #b794f6;
+    --nav-bg: rgba(255, 255, 255, 0.08);
+}
+
+/* Dark, following the system. Scoped to :not([data-theme]) so an explicit
+   choice always beats the operating system's. */
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) {
+        color-scheme: dark;
+        --surface: #0d0d10;
+        --surface-alt: #141418;
+        --ink: #f5f5f7;
+        --ink-body: #e8e8ed;
+        --ink-soft: #a8a8ad;
+        --ink-faint: #86868b;
+        --hairline: rgba(255, 255, 255, 0.13);
+        --glass-fill: rgba(255, 255, 255, 0.07);
+        --glass-edge: rgba(255, 255, 255, 0.20);
+        --glass-line: rgba(255, 255, 255, 0.10);
+        --glass-shadow: 0 1px 2px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.45);
+        --link: #b794f6;
+        --nav-bg: rgba(255, 255, 255, 0.08);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Reset
+   -------------------------------------------------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--nav-h) + 1rem);
+}
+
+/* The surface colour lives on <html> rather than <body>, so the fixed
+   background layer can sit between them. A background on <body> would paint
+   straight over it. */
+html { background: var(--surface); }
+
+body {
+    margin: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: var(--t-body);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Tabular figures throughout. On a site about measurements, digits that
+       change width as they change value are quietly wrong. */
+    font-variant-numeric: tabular-nums;
+    overflow-x: hidden;
+}
+
+img, svg, canvas { display: block; max-width: 100%; height: auto; }
+h1, h2, h3, p, ul, ol, dl, figure { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+dd { margin: 0; }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font: inherit; color: inherit; }
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Layout
+   -------------------------------------------------------------------------- */
+
+.wrap { width: 100%; max-width: var(--content); margin-inline: auto; padding-inline: 1.5rem; }
+.wrap--wide { max-width: var(--wide); }
+.wrap--xwide { max-width: var(--xwide); }
+.wrap--text { max-width: var(--measure); }
+
+.section { padding-block: clamp(5rem, 12vw, 9rem); position: relative; }
+.section--tight { padding-block: clamp(3.5rem, 8vw, 5.5rem); }
+/* THE HARD LINE, FOUND
+   
+   Masking the gradient was correct but incomplete — it was never the thing
+   making the visible cut. This was: a flat fill that simply starts, against a
+   section that does not have it. The colours are close, so it reads as a faint
+   horizontal band edge rather than an obvious stripe, which is exactly why it
+   looked like a rendering artefact instead of a design decision.
+   
+   The fill now arrives and departs as a gradient of itself. Same colour, same
+   coverage across the middle, but the first and last few percent dissolve into
+   whatever is above and below — so a tinted section and a gradient section
+   meet in a blend rather than at an edge. */
+/* The footer keeps its flat fill — see its own rule further down. It sits at
+   the very bottom with nothing beneath it, so a fade there would show the page
+   background as a pale strip under the last line of text. */
+
+.center { text-align: center; }
+.center .section__lead, .center .prose { margin-inline: auto; }
+
+/* --------------------------------------------------------------------------
+   Type
+   -------------------------------------------------------------------------- */
+
+.display {
+    font-family: var(--sans-display);
+    font-size: var(--t-display);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+}
+.title {
+    font-family: var(--sans-display);
+    font-size: var(--t-title);
+    line-height: 1.1;
+    letter-spacing: -0.024em;
+    font-weight: 600;
+}
+.heading { font-size: var(--t-heading); line-height: 1.2; letter-spacing: -0.012em; font-weight: 600; }
+
+.section__lead {
+    font-size: var(--t-lead);
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: var(--measure);
+    margin-top: 1.25rem;
+}
+
+.prose { color: var(--ink-soft); max-width: var(--measure); }
+
+.tagline {
+    font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    color: var(--ink-soft);
+    margin-top: 1.1rem;
+}
+/* Stated once, here — not restated in the reading-copy block below, which
+   would leave two declarations of the same two properties for the cascade to
+   arbitrate. */
+
+/* The only place a brand gradient touches type: the two headlines that are
+   the page's own name for itself. Sprinkling gradient text through headings
+   is the fastest way to make a page look generated. */
+.gradient-text {
+    background: linear-gradient(100deg, var(--violet), var(--pink) 42%, var(--blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.mt-1 { margin-top: 1rem; }
+.mt-3 { margin-top: 1.5rem; }
+.mt-6 { margin-top: 2.5rem; }
+
+/* --------------------------------------------------------------------------
+   One background for the whole page
+   --------------------------------------------------------------------------
+   Previously each gradient section carried its own wash, which is where every
+   seam came from: a section either had colour or it did not, and the boundary
+   between the two was a horizontal line no amount of masking fully hid.
+
+   There is now a single fixed layer behind the entire document. Nothing
+   starts, nothing stops, so there is nothing to blend — the seams are not
+   softened, they no longer exist.
+
+   Fixed rather than scrolling, so the colour stays put while content moves
+   over it. That is what makes it read as a lit room the page sits in rather
+   than as a picture attached to one part of it.
+   -------------------------------------------------------------------------- */
+
+.page-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.page-bg span {
+    position: absolute;
+    display: block;
+    width: clamp(30rem, 68vw, 82rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    will-change: transform;
+    /* No `filter: blur()`. A radial gradient is already soft — softness is
+       what a radial gradient is — so each blob carries its own falloff and
+       there is nothing to recompute as it moves. Each is painted once into
+       its own layer and then only transformed, which the compositor handles
+       without repainting. That is the difference between a background that
+       costs a few percent of a phone's battery and one that costs none. */
+    transform: translate3d(0, 0, 0);
+}
+
+.page-bg span:nth-child(1) {
+    left: -20%; top: -32%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--violet) 68%, transparent), transparent 72%);
+    animation: drift-a 19s ease-in-out infinite;
+}
+.page-bg span:nth-child(2) {
+    right: -22%; top: -6%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--pink) 60%, transparent), transparent 72%);
+    animation: drift-b 23s ease-in-out infinite;
+}
+.page-bg span:nth-child(3) {
+    left: 8%; bottom: -40%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--blue) 62%, transparent), transparent 72%);
+    animation: drift-c 29s ease-in-out infinite;
+}
+.page-bg span:nth-child(4) {
+    right: 4%; bottom: -30%;
+    background: radial-gradient(closest-side, color-mix(in srgb, var(--teal) 46%, transparent), transparent 72%);
+    animation: drift-b 31s ease-in-out infinite reverse;
+}
+
+.page-bg { opacity: .5; }
+html[data-theme="dark"] .page-bg { opacity: .34; }
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .page-bg { opacity: .34; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-bg span { animation: none; }
+}
+
+/* Longer travel and more scale than a first pass would suggest. Movement has
+   to be proportional to the space it moves through, or on a large display it
+   reads as static. */
+@keyframes drift-a {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    30%      { transform: translate3d(46%, 26%, 0) scale(1.22); }
+    62%      { transform: translate3d(14%, 52%, 0) scale(0.86); }
+}
+@keyframes drift-b {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1.08); }
+    38%      { transform: translate3d(-52%, 34%, 0) scale(0.84); }
+    72%      { transform: translate3d(-22%, -20%, 0) scale(1.2); }
+}
+@keyframes drift-c {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(0.96); }
+    42%      { transform: translate3d(36%, -44%, 0) scale(1.26); }
+    76%      { transform: translate3d(-38%, -14%, 0) scale(1.04); }
+}
+
+/* --------------------------------------------------------------------------
+   Scrims
+   --------------------------------------------------------------------------
+   Large type reads fine straight over colour — that is why the hero and the
+   closing panel sit on bare gradient. Body copy does not: a paragraph at 15px
+   over a drifting violet field is legible in some places and not others,
+   which is worse than either.
+
+   So sections carrying real reading get a frosted plate under them. It is the
+   same glass the app uses, and it is masked at both ends so it dissolves into
+   the page instead of starting at a line.
+   -------------------------------------------------------------------------- */
+
+.section--scrim {
+    position: relative;
+    isolation: isolate;
+}
+
+.section--scrim::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 9%, #000 91%, transparent 100%);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .section--scrim::before {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: var(--surface);
+    }
+}
+
+/* --------------------------------------------------------------------------
+   Glass
+   --------------------------------------------------------------------------
+   Every glass surface now sits over the page-wide gradient, so there is always
+   real colour behind it to pick up. Over a flat background a frosted pane
+   blurs nothing and looks like an imitation of depth; over a moving wash it
+   reads as an actual surface.
+   -------------------------------------------------------------------------- */
+
+.glass {
+    position: relative;
+    background: var(--glass-fill);
+    backdrop-filter: saturate(180%) blur(28px);
+    -webkit-backdrop-filter: saturate(180%) blur(28px);
+    border: 1px solid var(--glass-line);
+    border-radius: var(--radius-panel);
+    box-shadow: var(--glass-shadow);
+}
+
+/* The specular top edge — one bright hairline along the upper border, gone by
+   the midpoint. The same trick the app's glass surfaces use, and the detail
+   that separates "glass" from "semi-transparent box". */
+.glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(180deg, var(--glass-edge) 0%, transparent 55%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+}
+
+.glass__body { padding: clamp(1.5rem, 3vw, 2.25rem); }
+
+/* Honour the preference the app honours. With transparency reduced the panes
+   go solid and keep their border — once translucency is gone the border is the
+   only thing defining the shape. */
+@media (prefers-reduced-transparency: reduce) {
+    .glass, .nav, .btn--quiet {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    .glass { background: var(--surface); border-color: var(--hairline); }
+    .glass::before { display: none; }
+    .page-bg { opacity: 0.22; }
+}
+
+/* --------------------------------------------------------------------------
+   Navigation
+   -------------------------------------------------------------------------- */
+
+.nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    height: var(--nav-h);
+
+    /* SAFARI
+       
+       Two hard-won details, and both were reported as "still broken in Safari
+       only" after they worked everywhere else.
+       
+       The literal colour first, then the variable. A registered custom
+       property whose value fails to parse becomes invalid at computed-value
+       time, and a `background: var(--x)` with nothing behind it resolves to
+       transparent — which is precisely the see-through bar that was reported.
+       The plain declaration underneath means the worst case is a bar that does
+       not animate, rather than a bar that is not there.
+       
+       `translateZ(0)` promotes the bar to its own compositing layer. Safari
+       recomposites a backdrop-filtered sticky element as the layer tree
+       changes underneath it, and mid-recomposite it can paint as fully
+       transparent for a frame or two. Pinning it to its own layer stops the
+       tree changing under it at all. */
+    background: rgba(22, 22, 26, 0.82);
+    background: var(--nav-bg);
+    transform: translateZ(0);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    border-bottom: 1px solid transparent;
+    transition: background-color .35s var(--ease), border-color .35s var(--ease);
+}
+
+/* The hairline only appears once content has actually passed under the bar. A
+   permanent border at the top of a page draws a line beneath nothing. */
+.nav.is-scrolled {
+    background: color-mix(in srgb, var(--nav-bg) 100%, #000 14%);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+.nav__inner { height: 100%; display: flex; align-items: center; gap: 1.6rem; }
+
+.nav__brand {
+    font-weight: 600;
+    font-size: var(--t-small);
+    letter-spacing: -0.012em;
+    color: var(--nav-ink-strong);
+    margin-right: auto;
+}
+.nav__brand:hover { text-decoration: none; opacity: .75; }
+
+.nav__link {
+    font-size: var(--t-micro);
+    color: var(--nav-ink);
+    transition: color .2s var(--ease);
+    white-space: nowrap;
+}
+.nav__link:hover { color: var(--nav-ink-strong); text-decoration: none; }
+.nav__link[aria-current="page"] { color: var(--nav-ink-strong); }
+
+/* Theme control ---------------------------------------------------------- */
+
+.theme {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+    padding: 2px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+}
+
+.theme__btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--nav-ink);
+    width: 27px;
+    height: 21px;
+    border-radius: 999px;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: background-color .25s var(--ease), color .25s var(--ease);
+}
+.theme__btn:hover { color: var(--nav-ink-strong); }
+.theme__btn[aria-pressed="true"] {
+    background: rgba(255, 255, 255, 0.22);
+    color: var(--nav-ink-strong);
+}
+.theme__btn svg { width: 13px; height: 13px; }
+
+/* Phones.
+   
+   The nav was overflowing: the wordmark, three links and the theme pill add up
+   to more than an iPhone is wide, so the brand ran straight into "Overview"
+   and the pill was pushed off the right edge entirely.
+   
+   The wordmark is the thing to drop. The icon alone identifies the site, and
+   on a page whose first heading is the app's name in 48pt the wordmark in the
+   bar is repeating something the reader is about to see anyway. Everything
+   else stays reachable, which is the point.
+   
+   `min-width: 0` on the brand is what actually lets the row shrink — a flex
+   item defaults to refusing to go below its content width, and that default is
+   the usual reason a nav overflows instead of compressing. */
+@media (max-width: 46rem) {
+    .nav__inner { gap: .85rem; }
+    .nav__link { font-size: .75rem; }
+    .nav__link--optional { display: none; }
+
+    .nav__brand { min-width: 0; }
+    .nav__brand-text { display: none; }
+    .nav__logo { width: 22px; height: 22px; }
+
+    .theme { --btn-w: 30px; }
+    .theme .pill__btn { height: 26px; }
+    .theme .pill__btn svg { width: 14px; height: 14px; }
+}
+
+/* Very narrow phones. GitHub goes too — the footer carries it, and a bar that
+   wraps or clips is worse than a bar with one fewer link. */
+@media (max-width: 24rem) {
+    .nav__link--secondary { display: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------------- */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.875rem;
+    padding: .75rem 1.65rem;
+    border-radius: 980px;
+    font-size: var(--t-small);
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+                background-color .25s var(--ease), border-color .25s var(--ease);
+}
+.btn:hover { text-decoration: none; }
+.btn:active { transform: scale(.97); }
+
+.btn--primary {
+    background: linear-gradient(100deg, var(--violet), color-mix(in srgb, var(--pink) 70%, var(--violet)));
+    color: #fff;
+    box-shadow: 0 2px 10px color-mix(in srgb, var(--violet) 32%, transparent);
+}
+.btn--primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px color-mix(in srgb, var(--violet) 42%, transparent);
+}
+.btn--primary:active { transform: scale(.97); }
+
+.btn--quiet {
+    background: var(--glass-fill);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    color: var(--ink);
+    border-color: var(--glass-line);
+}
+.btn--quiet:hover { border-color: color-mix(in srgb, var(--violet) 45%, transparent); }
+
+.btn-row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 2.25rem; }
+.center .btn-row { justify-content: center; }
+
+/* --------------------------------------------------------------------------
+   Screenshots
+   --------------------------------------------------------------------------
+   Layered shadow rather than one soft blur. A single large diffuse shadow
+   reads as a sticker; a tight contact shadow plus a wide ambient one reads as
+   an object resting on a surface.
+   -------------------------------------------------------------------------- */
+
+.shot {
+    border-radius: var(--radius-shot);
+    overflow: hidden;
+    /* The real screenshots are not all the same shape — the Finder captures
+       are squarer than the app windows. So no aspect-ratio is forced here;
+       each image carries its own width and height attributes and the browser
+       reserves exactly the right box before the file arrives. Forcing a single
+       ratio would crop or letterbox whichever shot did not match it. */
+    display: block;
+    width: 100%;
+    height: auto;
+    box-shadow:
+        0 1px 2px rgba(0,0,0,.10),
+        0 10px 28px rgba(0,0,0,.10),
+        0 36px 72px rgba(0,0,0,.13);
+}
+
+html[data-theme="dark"] .shot { box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 28px 70px rgba(0,0,0,.55); }
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .shot { box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 28px 70px rgba(0,0,0,.55); }
+}
+
+
+/* --------------------------------------------------------------------------
+   Facts — the app's own grammar
+   --------------------------------------------------------------------------
+   A key in the interface font, a value in mono, aligned down a column.
+   Exactly what Easy View does, for the same reason: aligned monospaced values
+   are scannable in a way a paragraph is not.
+   -------------------------------------------------------------------------- */
+
+.facts { display: grid; }
+
+.fact {
+    display: grid;
+    grid-template-columns: minmax(7.5rem, 12rem) 1fr;
+    gap: 1.25rem;
+    padding-block: .8rem;
+    border-top: 1px solid var(--hairline);
+    align-items: baseline;
+}
+.fact:first-child { border-top: 0; }
+.fact__key { font-size: var(--t-small); color: var(--ink-soft); }
+.fact__value { font-family: var(--mono); font-size: var(--t-small); letter-spacing: -.01em; }
+.fact__value--accent { color: var(--accent); font-weight: 600; }
+
+@media (max-width: 34rem) {
+    .fact { grid-template-columns: 1fr; gap: .15rem; }
+}
+
+/* --------------------------------------------------------------------------
+   Feature layout
+   -------------------------------------------------------------------------- */
+
+.feature__head { max-width: var(--measure); }
+.feature__shot { margin-top: clamp(2.5rem, 5vw, 4rem); }
+
+.split { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+@media (min-width: 56rem) {
+    /* Not 1fr 1fr.
+    
+       An even split gives the copy far more room than it needs — the text is
+       capped at a comfortable line length anyway, so the leftover space was
+       being spent on nothing. Weighting the grid toward the media hands that
+       space to the screenshot, which is the thing the section exists to show.
+    
+       The `minmax` floor stops the copy column collapsing at the moment the
+       two-column layout first appears. */
+    .split {
+        grid-template-columns: minmax(17rem, 0.72fr) 1.28fr;
+    }
+
+    /* For the sections where the screenshot is doing nearly all the work and
+       the copy is a short caption beside it. */
+    .split--media {
+        grid-template-columns: minmax(15rem, 0.56fr) 1.44fr;
+    }
+
+    /* REVERSED SPLITS NEED THE RATIO REVERSED TOO
+    
+       `order: -1` moves the media into the FIRST grid track — but the track
+       sizes do not move with it. So a ratio written as "narrow, wide" on the
+       assumption that the media comes second put the media in the narrow
+       column the moment the order was flipped.
+    
+       That is why enlarging this section kept making it smaller: every
+       increase was being applied to the text column beside it. The ratios
+       below are the same numbers, mirrored. */
+    .split--reverse .split__media { order: -1; }
+
+    .split--reverse {
+        grid-template-columns: 1.28fr minmax(17rem, 0.72fr);
+    }
+
+    .split--reverse.split--media {
+        grid-template-columns: 1.44fr minmax(15rem, 0.56fr);
+    }
+}
+
+.points { margin-top: 2.5rem; display: grid; gap: 1.5rem; }
+@media (min-width: 48rem) { .points--three { grid-template-columns: repeat(3, 1fr); } }
+
+.point__title { font-size: var(--t-body); font-weight: 600; letter-spacing: -.01em; margin-bottom: .35rem; }
+.point__body { font-size: var(--t-small); color: var(--ink-soft); }
+
+/* A brand-tinted rule above each point. It encodes something — the colour is
+   carried from the app's own track colours — rather than decorating. */
+.point--tinted { padding-top: 1rem; border-top: 2px solid var(--tint, var(--violet)); }
+
+/* --------------------------------------------------------------------------
+   Pinned scroll section
+   --------------------------------------------------------------------------
+   The Apple move, rebuilt without a library.
+
+   Apple pins a canvas and scrubs through a few hundred pre-rendered frames.
+   That needs rendered frames, which a screenshot cannot provide — so this does
+   the achievable half: the screenshot pins in place while the copy beside it
+   crossfades through three panels as you scroll.
+
+   The scroll driver sets --p (0 to 1) on the section. Everything below is a
+   pure function of that number, so it scrubs both ways and stops exactly where
+   the reader stops.
+   -------------------------------------------------------------------------- */
+
+.pinned { position: relative; }
+
+.pinned__inner {
+    position: sticky;
+    top: var(--nav-h);
+    min-height: calc(100svh - var(--nav-h));
+    display: grid;
+    align-content: center;
+    padding-block: clamp(2rem, 6vh, 4rem);
+}
+
+.pinned__grid { display: grid; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+/* The sequence is the largest single thing on the page, and it should be.
+   It is 133 frames of the app doing the one thing nothing else does; the copy
+   beside it is a caption. */
+@media (min-width: 60rem) { .pinned__grid { grid-template-columns: minmax(16rem, 0.62fr) 1.38fr; } }
+
+.pinned__panels { position: relative; min-height: 13rem; }
+
+.panel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(14px);
+    transition: opacity .5s var(--ease), transform .5s var(--ease);
+    pointer-events: none;
+}
+.panel.is-active { opacity: 1; transform: none; pointer-events: auto; }
+
+/* Phones keep the pinning.
+   
+   The first version switched it off below 960px on the grounds that a
+   crossfade needs spare vertical room. That was wrong: it needs *some* room,
+   and a phone has a whole viewport of it — what it does not have is room for
+   a screenshot and three stacked paragraphs at once. So the layout changes
+   rather than the behaviour.
+   
+   The screenshot moves above the copy and is capped at 42% of the viewport,
+   leaving the rest for one panel at a time. `100svh` rather than `100vh` is
+   what keeps it honest while Safari's address bar is showing — `vh` measures
+   the viewport as if that bar were hidden, which is why sticky sections on
+   iOS so often end up slightly taller than the screen. */
+@media (max-width: 59.99rem) {
+    .pinned__grid { grid-template-columns: 1fr; gap: 1.5rem; }
+
+    /* Screenshot first, copy under it. */
+    .pinned__grid > .shot,
+    .pinned__grid > figure { order: -1; }
+
+    /* `aspect-ratio: auto` was the mistake. It removed the 16:10 shape the
+       screenshot relies on, so the box collapsed to whatever its contents
+       happened to be — correct width, far too little height.
+       
+       The shape stays; the height is capped instead. A cap only bites when the
+       shape would exceed it, which on a tall phone it does not, so the
+       screenshot fills its proper proportion and only gets trimmed on short
+       screens where there is genuinely no room. */
+    /* `:not(.sequence)` matters. The frame sequence is a <figure> too, and it
+       is 1900 × 1204, not 16:10. Forcing the wrong ratio on it while its
+       canvas is set to `cover` meant every frame was cropped — which is
+       exactly what landscape looked like. */
+    .pinned__grid > figure:not(.sequence) {
+        width: 100%;
+        aspect-ratio: 16 / 10;
+        max-height: 48svh;
+        margin-inline: auto;
+    }
+
+    .pinned__panels { min-height: 11rem; }
+
+    .pinned__inner {
+        min-height: calc(100svh - var(--nav-h));
+        padding-block: 1.25rem;
+    }
+}
+
+/* Only genuinely tiny heights stack.
+   
+   The threshold was 34rem, which unpinned every phone held sideways — and an
+   unpinned section has no scroll travel, so the sequence froze on frame one
+   and all three panels showed at once. A landscape phone is short but WIDE,
+   which is the ideal shape for this section, not the wrong one. It now keeps
+   the pinning and switches to two columns instead. */
+@media (max-height: 24rem) {
+    .pinned { min-height: 0 !important; }
+    .pinned__inner { position: static; min-height: 0; }
+    .pinned__panels { min-height: 0; display: grid; gap: 1.75rem; }
+    .panel { position: static; opacity: 1; transform: none; pointer-events: auto; }
+    .rail { display: none; }
+}
+
+/* Progress rail — three ticks that fill as the panels advance. Structural
+   rather than decorative: it says how much of this section is left. */
+.rail { display: flex; gap: 6px; margin-bottom: 1.5rem; }
+.rail__tick { width: 28px; height: 3px; border-radius: 999px; background: var(--hairline); overflow: hidden; }
+.rail__fill {
+    display: block; height: 100%; width: 0;
+    background: linear-gradient(90deg, var(--violet), var(--pink));
+    transition: width .35s var(--ease);
+}
+/* The rail stays on phones. It was hidden when the section did not pin; now
+   that it does, the rail is the only thing telling a reader how much of this
+   section is left to scroll through. */
+
+/* --------------------------------------------------------------------------
+   Scroll-scrubbed motion
+   --------------------------------------------------------------------------
+   Two behaviours, both driven by --p, both pure functions of scroll position.
+
+   `rise` is the entrance: a short lift and fade as an element enters. `zoom`
+   is the hero's opening move — the screenshot starts slightly small and
+   settles to full size as the page begins, which is the most recognisable
+   thing Apple's product pages do.
+   -------------------------------------------------------------------------- */
+
+[data-scroll] { --p: 0; }
+
+.rise {
+    opacity: var(--p);
+    transform: translateY(calc((1 - var(--p)) * 34px));
+    will-change: opacity, transform;
+}
+
+.zoom {
+    transform: scale(calc(0.9 + (0.1 * var(--p))));
+    transform-origin: center top;
+    will-change: transform;
+}
+
+/* Without JS nothing sets --p, so every scrubbed element defaults to its
+   finished state. The motion is an enhancement; the content never depends on
+   it running. */
+html:not(.js) .rise,
+html:not(.js) .zoom { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rise, .zoom { opacity: 1 !important; transform: none !important; }
+    .panel { transition: none; }
+    .btn:hover { transform: none; }
+    .hero__name, .hero__tagline, .hero__actions { animation: none !important; }
+}
+
+/* --------------------------------------------------------------------------
+   Hero load sequence
+   --------------------------------------------------------------------------
+   The one thing on the site that animates without being asked. Three elements
+   settle in turn over about a second; after that every piece of motion is a
+   response to the reader scrolling.
+   -------------------------------------------------------------------------- */
+
+@keyframes settle {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: none; }
+}
+
+.hero__name, .hero__tagline, .hero__actions { animation: settle .95s var(--ease) both; }
+.hero__tagline { animation-delay: .10s; }
+.hero__actions { animation-delay: .20s; }
+
+/* --------------------------------------------------------------------------
+   Closing call to action
+   -------------------------------------------------------------------------- */
+
+/* The button row is a flex container, and `text-align` does not reach flex
+   children — which is why the download button sat left while the headings
+   above it were centred. The rule below is what actually centres it.
+
+   `.center .btn-row` already existed and does this job, but .cta is a
+   different class, so it never applied. Two ways of saying "centred" is one
+   too many; .cta now states it for itself. */
+.cta { text-align: center; }
+.cta .btn-row { justify-content: center; }
+.cta .display { max-width: 16ch; margin-inline: auto; }
+.cta .tagline { max-width: 32ch; margin-inline: auto; }
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.footer {
+    border-top: 1px solid var(--hairline);
+    padding-block: 2.5rem 3rem;
+    font-size: var(--t-micro);
+    color: var(--ink-faint);
+    background: var(--surface-alt);
+}
+.footer__links { display: flex; flex-wrap: wrap; gap: 1.25rem; margin-bottom: 1.25rem; }
+.footer__links a { color: var(--ink-soft); }
+.footer__note { max-width: var(--measure); }
+.footer__note + .footer__note { margin-top: .6rem; }
+
+/* --------------------------------------------------------------------------
+   Skip link
+   -------------------------------------------------------------------------- */
+
+.skip {
+    position: absolute; left: -9999px; top: 0; z-index: 200;
+    padding: .75rem 1.25rem;
+    background: var(--surface); color: var(--ink);
+    border-radius: 0 0 8px 0;
+}
+.skip:focus { left: 0; }
+
+/* --------------------------------------------------------------------------
+   Visually hidden
+   --------------------------------------------------------------------------
+   Removed from view, kept for screen readers. The theme buttons are icons
+   with tooltips; a tooltip is not a name, and an icon-only button with no
+   accessible name is announced as "button".
+   -------------------------------------------------------------------------- */
+
+.visually-hidden {
+    position: absolute;
+    width: 1px; height: 1px;
+    margin: -1px; padding: 0;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ==========================================================================
+   Theme switching
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Liquid glass pill
+   --------------------------------------------------------------------------
+   One component, used by the theme switch and by the background-mode tabs.
+
+   WHAT MAKES APPLE'S VERSION READ AS GLASS
+
+   Looking closely at the Music player bar, four things are happening at once,
+   and leaving any one out is what makes a web imitation look like a grey
+   rounded rectangle:
+
+     1. The blur is heavy and SATURATED. Colour behind the pill does not just
+        blur, it intensifies — that is light bending through a lens rather
+        than passing through frosted plastic.
+     2. There is a bright rim along the top edge and a dark one along the
+        bottom. A single uniform border makes it a shape; opposing edges make
+        it a thing with a top and a bottom under a light source.
+     3. The selected item is its OWN piece of glass sitting on the first, with
+        its own highlight — not a coloured fill.
+     4. It casts a real shadow. Glass floats above what it covers.
+
+   The thumb's position and width are measured from the live buttons rather
+   than assumed, so the same component works for three equal icon buttons and
+   for three text buttons of different widths.
+   -------------------------------------------------------------------------- */
+
+.pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    border-radius: 999px;
+    isolation: isolate;
+
+    background: var(--pill-bg, rgba(255, 255, 255, 0.16));
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+
+    /* Opposing edges: light on top, shadow beneath. */
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.55),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.10),
+        0 1px 2px rgba(0, 0, 0, 0.10),
+        0 8px 28px rgba(0, 0, 0, 0.14);
+    border: 1px solid var(--pill-line, rgba(255, 255, 255, 0.22));
+}
+
+.pill__thumb {
+    position: absolute;
+    top: 4px;
+    left: 0;
+    height: calc(100% - 8px);
+    border-radius: 999px;
+    z-index: 0;
+
+    /* Its own piece of glass — but drawn, not filtered.
+       
+       This used to carry its own `backdrop-filter`. Safari leaves a trailing
+       artefact when a backdrop-filtered element is animated: the filter's
+       result is cached against a region, and moving the element leaves the old
+       region painted until the next full recomposite. That stray rectangle,
+       appearing and vanishing a moment later, is the block that was reported
+       in Safari and nowhere else.
+       
+       It does not need one. The pill underneath is already blurring the page,
+       so a translucent gradient on top of that blur reads as a second layer of
+       glass without asking the compositor to blur anything twice. Cheaper, and
+       artefact-free. */
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.38),
+        rgba(255, 255, 255, 0.22)
+    );
+    backface-visibility: hidden;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+        0 1px 3px rgba(0, 0, 0, 0.18);
+
+    /* `translate` and `scale` rather than one `transform`, so the travel and
+       the squash are independent properties that can carry different timings.
+       Combining them into a single transform means one has to wait for the
+       other. */
+    translate: var(--x, 0) 0;
+    width: var(--w, 0px);
+    scale: 1 1;
+
+    transition:
+        translate .52s cubic-bezier(0.34, 1.32, 0.42, 1),
+        width .52s cubic-bezier(0.34, 1.32, 0.42, 1),
+        scale .34s var(--ease);
+    pointer-events: none;
+}
+
+/* The squash. Held for a moment while the thumb travels, so it stretches into
+   the movement and relaxes on arrival — the small piece of physics that makes
+   the thing feel like liquid rather than like a slider. */
+.pill.is-moving .pill__thumb { scale: 1.07 0.92; }
+
+.pill__btn {
+    position: relative;
+    z-index: 1;
+    appearance: none;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 999px;
+    color: var(--pill-ink, rgba(255, 255, 255, 0.78));
+    transition: color .3s var(--ease), transform .25s var(--ease);
+    white-space: nowrap;
+}
+.pill__btn:hover { color: var(--pill-ink-strong, #fff); }
+.pill__btn:active { transform: scale(.93); }
+.pill__btn[aria-pressed="true"],
+.pill__btn[aria-selected="true"] { color: var(--pill-ink-strong, #fff); }
+
+@media (prefers-reduced-transparency: reduce) {
+    .pill {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    .pill { background: var(--surface); }
+    .pill__thumb { background: color-mix(in srgb, var(--violet) 22%, transparent); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pill__thumb { transition: none; }
+    .pill.is-moving .pill__thumb { scale: 1 1; }
+    .pill__btn:active { transform: none; }
+}
+
+/* Without JS the thumb is never measured, so it must not be drawn at all —
+   an empty sliver of glass parked at the left edge is worse than none. */
+html:not(.js) .pill__thumb { display: none; }
+html:not(.js) .pill__btn[aria-pressed="true"],
+html:not(.js) .pill__btn[aria-selected="true"] {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* The theme switch — icon buttons, sitting on the dark navigation bar. ---- */
+
+.theme {
+    --btn-w: 34px;
+    --pill-bg: rgba(255, 255, 255, 0.13);
+    --pill-line: rgba(255, 255, 255, 0.18);
+    --pill-ink: rgba(255, 255, 255, 0.78);
+    --pill-ink-strong: #fff;
+}
+.theme .pill__btn { width: var(--btn-w); height: 28px; display: grid; place-items: center; }
+.theme .pill__btn svg { width: 15px; height: 15px; }
+
+/* The background-mode tabs — text buttons, sitting on the page. ----------- */
+
+/* In light mode a white-on-white pill has nothing to separate it from the
+   page — the blur has no colour to pick up and the rim highlight is white on
+   white, so the control dissolves into the background.
+   
+   Three changes fix it without making it heavy: a more opaque fill so it
+   reads as a solid object, a real hairline instead of a white one, and a
+   deeper shadow so it sits above the page rather than in it. The thumb gains
+   a violet cast, which is what makes the selection legible at a glance. */
+.showcase__tabs {
+    --pill-bg: rgba(255, 255, 255, 0.66);
+    --pill-line: rgba(0, 0, 0, 0.09);
+    --pill-ink: var(--ink-soft);
+    --pill-ink-strong: var(--ink);
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.05),
+        0 1px 2px rgba(0, 0, 0, 0.06),
+        0 10px 30px rgba(0, 0, 0, 0.10);
+}
+
+.showcase__tabs .pill__thumb {
+    background: linear-gradient(180deg,
+        color-mix(in srgb, var(--violet) 20%, rgba(255,255,255,.92)),
+        color-mix(in srgb, var(--violet) 12%, rgba(255,255,255,.86)));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        0 1px 3px color-mix(in srgb, var(--violet) 22%, transparent),
+        0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.showcase__tabs .pill__btn[aria-selected="true"] { color: var(--violet); font-weight: 600; }
+.showcase__tab {
+    font-size: var(--t-small);
+    font-weight: 500;
+    padding: .55rem 1.35rem;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+}
+
+html[data-theme="dark"] .theme { --pill-bg: rgba(255,255,255,.09); --pill-line: rgba(255,255,255,.14); }
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .theme { --pill-bg: rgba(255,255,255,.09); --pill-line: rgba(255,255,255,.14); }
+}
+
+/* Dark mode has the opposite problem: the light-mode fill would glow. Back to
+   a translucent pane, with the violet cast kept on the thumb so the selection
+   still reads. */
+html[data-theme="dark"] .showcase__tabs {
+    --pill-bg: rgba(255, 255, 255, 0.08);
+    --pill-line: rgba(255, 255, 255, 0.14);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 2px 6px rgba(0, 0, 0, 0.35),
+        0 14px 40px rgba(0, 0, 0, 0.45);
+}
+html[data-theme="dark"] .showcase__tabs .pill__thumb {
+    background: linear-gradient(180deg,
+        color-mix(in srgb, var(--violet) 55%, rgba(255,255,255,.16)),
+        color-mix(in srgb, var(--violet) 38%, rgba(255,255,255,.10)));
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.32), 0 2px 8px rgba(0,0,0,.4);
+}
+html[data-theme="dark"] .showcase__tabs .pill__btn[aria-selected="true"] { color: #fff; }
+
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .showcase__tabs {
+        --pill-bg: rgba(255, 255, 255, 0.08);
+        --pill-line: rgba(255, 255, 255, 0.14);
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.22),
+            0 2px 6px rgba(0, 0, 0, 0.35),
+            0 14px 40px rgba(0, 0, 0, 0.45);
+    }
+    html:not([data-theme]) .showcase__tabs .pill__thumb {
+        background: linear-gradient(180deg,
+            color-mix(in srgb, var(--violet) 55%, rgba(255,255,255,.16)),
+            color-mix(in srgb, var(--violet) 38%, rgba(255,255,255,.10)));
+        box-shadow: inset 0 1px 0 rgba(255,255,255,.32), 0 2px 8px rgba(0,0,0,.4);
+    }
+    html:not([data-theme]) .showcase__tabs .pill__btn[aria-selected="true"] { color: #fff; }
+}
+
+/* --------------------------------------------------------------------------
+   The change itself — animated custom properties
+   --------------------------------------------------------------------------
+   THIRD ATTEMPT. The first two were wrong in instructive ways.
+
+   ATTEMPT ONE transitioned every colour property of every element. Each one
+   interpolated independently, so the page appeared to come apart and
+   reassemble rather than change.
+
+   ATTEMPT TWO used the View Transitions API. It genuinely does crossfade the
+   whole page as one image — but a snapshot is a flat picture, and that breaks
+   two things badly:
+
+     • A `backdrop-filter` has nothing behind a flat picture to blur, so the
+       navigation bar lost its frosting at the exact moment it needed it and
+       the page showed straight through it.
+     • Naming the thumb so it could slide put it in TWO places at once: its own
+       animated group, and painted into the root snapshot at its old position.
+       Fading the group's old copy did nothing about the copy baked into the
+       root. That duplicate is the block that flashed and vanished.
+
+   Both failures come from the same root cause: snapshots are pictures, and a
+   picture cannot blur what is behind it or be in one place.
+
+   ATTEMPT THREE takes no picture at all.
+
+   Every colour on this site derives from about a dozen custom properties.
+   Registering them with @property gives them a type, and a typed custom
+   property can be TRANSITIONED. So the variables themselves interpolate, and
+   every colour derived from them moves in lockstep — because there is one
+   source of truth being animated rather than two hundred separate properties
+   racing each other.
+
+   The DOM stays live throughout. The navigation keeps blurring real content.
+   The thumb slides on its own CSS transition like the other pill. Nothing is
+   duplicated because nothing is copied.
+   -------------------------------------------------------------------------- */
+
+@property --surface      { syntax: "<color>"; inherits: true; initial-value: #f8f8fa; }
+@property --surface-alt  { syntax: "<color>"; inherits: true; initial-value: #f0f0f3; }
+@property --ink          { syntax: "<color>"; inherits: true; initial-value: #1d1d1f; }
+@property --ink-body     { syntax: "<color>"; inherits: true; initial-value: #1d1d1f; }
+@property --ink-soft     { syntax: "<color>"; inherits: true; initial-value: #56565b; }
+@property --ink-faint    { syntax: "<color>"; inherits: true; initial-value: #86868b; }
+@property --hairline     { syntax: "<color>"; inherits: true; initial-value: rgba(0,0,0,.10); }
+@property --glass-fill   { syntax: "<color>"; inherits: true; initial-value: rgba(255,255,255,.52); }
+@property --glass-edge   { syntax: "<color>"; inherits: true; initial-value: rgba(255,255,255,.90); }
+@property --glass-line   { syntax: "<color>"; inherits: true; initial-value: rgba(0,0,0,.07); }
+@property --link         { syntax: "<color>"; inherits: true; initial-value: #6d28d9; }
+@property --nav-bg       { syntax: "<color>"; inherits: true; initial-value: rgba(22,22,26,.82); }
+@property --pill-bg      { syntax: "<color>"; inherits: true; initial-value: rgba(255,255,255,.16); }
+@property --pill-line    { syntax: "<color>"; inherits: true; initial-value: rgba(255,255,255,.22); }
+
+/* Only while switching. Leaving these transitions on permanently would mean
+   the variables eased during ordinary use as well, and every element deriving
+   from them would recalculate on every frame for no reason. */
+html.theming {
+    transition:
+        --surface .45s var(--ease),
+        --surface-alt .45s var(--ease),
+        --ink .45s var(--ease),
+        --ink-body .45s var(--ease),
+        --ink-soft .45s var(--ease),
+        --ink-faint .45s var(--ease),
+        --hairline .45s var(--ease),
+        --glass-fill .45s var(--ease),
+        --glass-edge .45s var(--ease),
+        --glass-line .45s var(--ease),
+        --link .45s var(--ease),
+        --nav-bg .45s var(--ease),
+        --pill-bg .45s var(--ease),
+        --pill-line .45s var(--ease);
+}
+
+/* Browsers without @property get an instant change, which is clean and
+   honest. Nothing is broken by its absence. */
+
+@media (prefers-reduced-motion: reduce) {
+    html.theming { transition: none; }
+}
+
+/* ==========================================================================
+   Background showcase — Off / Static / Animated
+   --------------------------------------------------------------------------
+   The three modes are a choice the reader can actually make here, rather than
+   three paragraphs describing a difference they cannot see. Off and Static are
+   stills; Animated has to be video, because a still of an animation is exactly
+   the thing that fails to communicate.
+   ========================================================================== */
+
+.showcase { margin-top: 2.5rem; }
+
+/* The pill is inline-flex so it hugs its buttons; this row is what actually
+   centres it. Setting `text-align: center` on the section would have centred
+   the headings too, which should stay left. */
+.showcase__bar { display: flex; justify-content: center; }
+
+.showcase__note {
+    font-size: var(--t-small);
+    margin-top: 1.1rem;
+    min-height: 3rem;
+    max-width: var(--measure);
+    margin-inline: auto;
+    text-align: center;
+}
+
+.showcase__stage { margin-top: 1.5rem; position: relative; }
+
+/* Breakout
+   
+   For a screenshot whose section keeps its copy at the reading width. The
+   image alone steps outside its container: `left: 50%` with a matching
+   translate re-centres it against the viewport rather than the column, which
+   is what lets a child be wider than its parent without negative-margin
+   arithmetic that breaks at some awkward width.
+   
+   Only above 68rem. Below that the container is already the full width of the
+   screen and there is nothing to break out of. */
+@media (min-width: 68rem) {
+    .breakout {
+        position: relative;
+        width: min(var(--breakout, 78rem), calc(100vw - 3rem));
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* The appearance showcase gets the smaller of the two — it sits between
+       two full-width sections and would compete with them at 78rem. */
+    .showcase__stage { --breakout: 72rem; }
+}
+
+.showcase__panel { display: none; }
+.showcase__panel.is-active { display: block; }
+
+/* `:where()` strips this rule's specificity to zero.
+   
+   Without it, `.showcase__panel img` (0,1,1) outranks
+   `.shot__variant--dark` (0,1,0) — so the rule forcing `display: block` beat
+   the rule hiding the wrong appearance, and both the light and dark versions
+   showed at once inside this section and nowhere else.
+   
+   Zero specificity is the right answer rather than making the variant rules
+   heavier: this rule only describes shape, and shape should never win an
+   argument with visibility. */
+:where(.showcase__panel video, .showcase__panel img) {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-shot);
+    display: block;
+}
+
+/* Without JS every panel shows, stacked and labelled. A tab control that
+   depends on script must still present all of its content when the script
+   never runs. */
+html:not(.js) .showcase__tabs { display: none; }
+html:not(.js) .showcase__panel { display: block; margin-bottom: 1.5rem; }
+
+
+/* ==========================================================================
+   Logo
+   ========================================================================== */
+
+.nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.nav__logo {
+    width: 20px;
+    height: 20px;
+    border-radius: 5px;
+    flex: none;
+}
+
+.hero__logo {
+    width: clamp(88px, 12vw, 128px);
+    height: auto;
+    margin: 0 auto 1.75rem;
+    border-radius: 22%;
+    /* A resting shadow rather than a flat placement — the icon should sit on
+       the gradient, not be pasted onto it. */
+    filter: drop-shadow(0 8px 24px color-mix(in srgb, var(--violet) 30%, transparent));
+    animation: settle .95s var(--ease) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero__logo { animation: none; }
+}
+
+/* ==========================================================================
+   Brand link
+   --------------------------------------------------------------------------
+   The default --link is a readable purple chosen for body copy on white. On
+   the green field it read as neither one thing nor the other, so this uses
+   the brand violet itself, with an underline that grows on hover rather than
+   appearing all at once.
+   ========================================================================== */
+
+.link-brand {
+    color: var(--violet);
+    font-weight: 600;
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size .3s var(--ease);
+    padding-bottom: 1px;
+}
+.link-brand:hover { text-decoration: none; background-size: 100% 1px; }
+
+/* On a dark panel pure #8D42F5 is too dark to read — a violet that dark
+   against near-black is barely a colour at all. This lightens it just enough
+   to be legible while staying unmistakably the brand violet rather than
+   drifting toward lavender. */
+html[data-theme="dark"] .link-brand { color: #b57cff; }
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .link-brand { color: #b57cff; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .link-brand { transition: none; }
+    .link-brand:hover { text-decoration: underline; }
+}
+
+/* ==========================================================================
+   Theme-aware screenshots
+   --------------------------------------------------------------------------
+   A light screenshot on a dark page looks like a hole punched through it. So
+   each shot ships in both appearances and the page shows the matching one.
+
+   Driven by the same two conditions the palette uses — an explicit choice
+   first, the system's preference only when no choice has been made — so the
+   images follow the toggle rather than only the operating system.
+   ========================================================================== */
+
+.shot__variant--dark { display: none; }
+
+html[data-theme="dark"] .shot__variant--light { display: none; }
+html[data-theme="dark"] .shot__variant--dark { display: block; }
+
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .shot__variant--light { display: none; }
+    html:not([data-theme]) .shot__variant--dark { display: block; }
+}
+
+/* ==========================================================================
+   Gradient swatches
+   --------------------------------------------------------------------------
+   Live CSS renderings of real presets, not pictures of them. They cost nothing
+   to ship and cannot fall out of date with the app's actual colours.
+   ========================================================================== */
+
+.swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+.swatch {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--glass-line);
+    background: var(--surface);
+}
+
+.swatch__field {
+    height: 5.5rem;
+    background: var(--sw, linear-gradient(120deg, var(--violet), var(--pink), var(--blue)));
+}
+
+.swatch__label { padding: .6rem .8rem .7rem; font-size: var(--t-micro); color: var(--ink-body); font-weight: 450; }
+.swatch__name { display: block; color: var(--ink); font-weight: 500; }
+.swatch__hexes { display: block; font-family: var(--mono); font-size: .75rem; margin-top: .15rem; }
+
+/* ==========================================================================
+   Footer identity
+   --------------------------------------------------------------------------
+   Two names for one person, shown as such. The display name leads because it
+   is how a human refers to the work; the handle follows in mono, because a
+   handle is an identifier and this site already sets identifiers in mono.
+   ========================================================================== */
+
+.identity {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .5rem .75rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--hairline);
+}
+
+.identity__name {
+    font-size: var(--t-body);
+    font-weight: 600;
+    letter-spacing: -.012em;
+    color: var(--ink);
+}
+
+.identity__handle { font-family: var(--mono); font-size: var(--t-micro); color: var(--ink-soft); }
+.identity__handle a { color: inherit; }
+.identity__handle a:hover { color: var(--accent); text-decoration: none; }
+
+/* ==========================================================================
+   Scroll-driven frame sequence
+   --------------------------------------------------------------------------
+   250 frames of the app entering Compare Mode, drawn to a canvas at whatever
+   position the reader has scrolled to. Not a video: a video seeks, and seeking
+   is exactly what browsers are bad at. Decoded images are instant in both
+   directions, which is what lets it track a finger.
+
+   The poster is the first frame as an ordinary <img>. It shows immediately,
+   stays through loading, and remains the whole experience for anyone who has
+   asked for reduced motion or whose browser never runs the script. Nothing
+   here is required to understand the page.
+   ========================================================================== */
+
+/* The sequence keeps an explicit ratio — a <canvas> has no intrinsic size, so
+   without one the section would collapse before the first frame decodes.
+   
+   1900 × 1204 is the shape of the frames themselves, not a rounded 16:9. A
+   ratio that disagreed with the source by even a little would letterbox every
+   frame or crop it, and on 145 of them that edge would be impossible to miss. */
+.sequence {
+    position: relative;
+    background: var(--surface-alt);
+    aspect-ratio: 1900 / 1204;
+    width: 100%;
+}
+
+.sequence__poster,
+.sequence__canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.sequence__canvas {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity .5s var(--ease);
+}
+
+/* The canvas only appears once it has something to draw. Fading it in over the
+   poster means the swap is invisible — the two show the same frame. */
+.sequence.is-ready .sequence__canvas { opacity: 1; }
+
+.sequence__loading {
+    position: absolute;
+    left: 50%;
+    bottom: 1.25rem;
+    transform: translateX(-50%);
+    width: min(11rem, 45%);
+    opacity: 0;
+    transition: opacity .4s var(--ease);
+    pointer-events: none;
+}
+
+/* Shown only while actually loading. A progress bar that appears before there
+   is anything to report, or lingers after, is worse than none. */
+.sequence.is-loading .sequence__loading { opacity: 1; }
+
+.sequence__bar {
+    display: block;
+    height: 3px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.25);
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+.sequence__fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--violet), var(--pink));
+    transition: width .25s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .sequence__canvas { display: none; }
+    .sequence__loading { display: none; }
+}
+
+/* ==========================================================================
+   Install paths
+   --------------------------------------------------------------------------
+   Two routes, shown side by side rather than as a list, because they are a
+   choice and not a sequence. The recommended one is marked once, quietly —
+   a badge and a slightly brighter edge — rather than being made twice the
+   size, which would read as pressure instead of guidance.
+   ========================================================================== */
+
+.paths { display: grid; gap: 1.5rem; margin-top: 3rem; }
+@media (min-width: 54rem) { .paths { grid-template-columns: 1fr 1fr; align-items: start; } }
+
+.path { display: flex; flex-direction: column; }
+.path--primary { border-color: color-mix(in srgb, var(--violet) 40%, transparent); }
+
+.path__head {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    margin-bottom: .35rem;
+}
+
+.path__title { font-size: var(--t-heading); font-weight: 600; letter-spacing: -.014em; }
+
+.path__badge {
+    font-size: .6875rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    color: #fff;
+    background: linear-gradient(100deg, var(--violet), color-mix(in srgb, var(--pink) 65%, var(--violet)));
+    padding: .15rem .5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.path__body { font-size: var(--t-small); color: var(--ink-soft); }
+
+/* ==========================================================================
+   Command blocks
+   --------------------------------------------------------------------------
+   A command someone has to type is the one place on a page where a mistake
+   costs them real time, so these are set in the same monospace the app uses
+   for values, at full contrast, with a copy button rather than an invitation
+   to select carefully.
+   ========================================================================== */
+
+.cmd {
+    position: relative;
+    margin-top: 1.25rem;
+    border-radius: 12px;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    overflow: hidden;
+}
+
+.cmd__code {
+    display: block;
+    margin: 0;
+    padding: .9rem 3.25rem .9rem 1rem;
+    font-family: var(--mono);
+    font-size: .8125rem;
+    line-height: 1.7;
+    color: var(--ink);
+    overflow-x: auto;
+    white-space: pre;
+    /* Long commands scroll rather than wrap. A wrapped shell command reads as
+       two commands, and someone will run only the first line. */
+    -webkit-overflow-scrolling: touch;
+}
+
+.cmd__copy {
+    position: absolute;
+    top: .5rem;
+    right: .5rem;
+    appearance: none;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--ink-soft);
+    font-size: var(--t-micro);
+    font-weight: 500;
+    padding: .3rem .6rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color .25s var(--ease), border-color .25s var(--ease), transform .2s var(--ease);
+}
+.cmd__copy:hover { color: var(--ink); border-color: color-mix(in srgb, var(--violet) 45%, transparent); }
+.cmd__copy:active { transform: scale(.94); }
+.cmd__copy[data-copied="true"] { color: var(--violet); border-color: color-mix(in srgb, var(--violet) 55%, transparent); }
+
+/* Without JS the button cannot do anything, so it should not be there. */
+html:not(.js) .cmd__copy { display: none; }
+html:not(.js) .cmd__code { padding-right: 1rem; }
+
+@media (prefers-reduced-transparency: reduce) {
+    .cmd, .cmd__copy { backdrop-filter: none; -webkit-backdrop-filter: none; }
+    .cmd { background: var(--surface); }
+}
+
+/* ==========================================================================
+   Numbered steps
+   ========================================================================== */
+
+.steps { counter-reset: step; display: grid; gap: 1.75rem; margin-top: 2.5rem; }
+
+.step { position: relative; padding-left: 3rem; }
+
+.step::before {
+    counter-increment: step;
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: -.1rem;
+    width: 2rem;
+    height: 2rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    font-size: var(--t-small);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    color: var(--violet);
+    background: color-mix(in srgb, var(--violet) 14%, transparent);
+    border: 1px solid color-mix(in srgb, var(--violet) 32%, transparent);
+}
+
+.step__title { font-size: var(--t-body); font-weight: 600; letter-spacing: -.01em; margin-bottom: .3rem; }
+.step__body { font-size: var(--t-small); color: var(--ink-soft); }
+.step .cmd { margin-top: .9rem; }
+
+/* A note that qualifies rather than instructs — set apart, never coloured
+   like a warning. Nothing here is going wrong. */
+.aside {
+    margin-top: 1.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid color-mix(in srgb, var(--blue) 45%, transparent);
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+    max-width: var(--measure);
+}
+
+/* The secondary route's label is stated without the accent colour — the tint
+   is what marks the recommended one, so spending it on both would mark
+   neither. */
+
+/* Inline code inside prose, as distinct from a full command block. */
+.prose code, .path__body code, .note code {
+    font-family: var(--mono);
+    font-size: .875em;
+    padding: .1em .35em;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   Copy button states
+   --------------------------------------------------------------------------
+   Two labels, one shown at a time, swapped by a class on the block rather than
+   by rewriting the button's text. Rewriting would work for a plain string and
+   break the moment the button contains anything else — and it makes the
+   confirmation impossible to style separately, which is the whole point of
+   having one.
+   -------------------------------------------------------------------------- */
+
+.cmd__done { display: none; }
+.cmd.is-copied .cmd__idle { display: none; }
+.cmd.is-copied .cmd__done { display: inline; }
+
+.cmd.is-copied .cmd__copy {
+    color: var(--green);
+    border-color: color-mix(in srgb, var(--green) 50%, transparent);
+}
+
+/* --------------------------------------------------------------------------
+   Note — where the page has to qualify something rather than instruct
+   -------------------------------------------------------------------------- */
+
+.note {
+    margin-top: 2rem;
+    padding: 1.1rem 1.25rem;
+    border-radius: 14px;
+    border: 1px solid var(--glass-line);
+    border-left: 3px solid var(--blue);
+    background: color-mix(in srgb, var(--blue) 7%, transparent);
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+    max-width: var(--measure);
+}
+/* The lead-in phrase is coloured further down, where the note tints live. */
+
+/* ==========================================================================
+   Install paths — refinements
+   ========================================================================== */
+
+/* Both cards the same height, so the two routes read as equal choices rather
+   than as a main one and an afterthought. */
+.paths { align-items: stretch; }
+/* `.path` is already a column flex container further up; only its child needs
+   to become one, so the trailing note can be pushed to the bottom. */
+.path > .glass__body { display: flex; flex-direction: column; width: 100%; }
+
+/* The route labels carry more weight than a caption. They are the first thing
+   the eye lands on in each card and they are what the reader is choosing
+   between, so they are sized as a choice rather than as a footnote. */
+.path__label {
+    font-size: var(--t-small);
+    font-weight: 700;
+    letter-spacing: .01em;
+    text-transform: none;
+    margin-bottom: .5rem;
+    /* Restored. Removing the duplicate rules last time took the colour with
+       them — the copy I kept set size and weight but never re-stated it, so
+       "Recommended" quietly fell back to body text. */
+    color: var(--violet);
+}
+
+/* Amber, not grey. The direct route is not lesser — it is the one for people
+   who would rather not install a package manager, and a grey label told them
+   they had picked the disappointing option. Amber marks it as different
+   without ranking it. */
+.path__label--quiet { color: var(--amber); }
+
+/* Breathing room after a command block, which is a dense object and needs
+   more space beneath it than a paragraph does. */
+.cmd + .path__body,
+.btn-row + .path__body { margin-top: 1.5rem; }
+
+/* The trailing note in each card sinks to the bottom, so both cards end on the
+   same line however long their bodies run. */
+.path__body--last { margin-top: auto; padding-top: 1.5rem; }
+
+/* ==========================================================================
+   The macOS warning, drawn rather than described
+   --------------------------------------------------------------------------
+   A facsimile of the dialog, built from the same glass the rest of the site
+   uses. Showing the thing is worth more than three paragraphs describing it:
+   the reader recognises it instantly, and a warning you have already seen —
+   calmly, in context, before it interrupts you — is far less alarming than one
+   that arrives unannounced.
+
+   Deliberately styled as this site rather than as a pixel-perfect copy of
+   Apple's. A convincing replica of a security dialog on a web page is the
+   technique phishing uses, and it is not one to borrow.
+   ========================================================================== */
+
+.dialog {
+    max-width: 22rem;
+    margin-inline: auto;
+    padding: 1.75rem 1.5rem 1.25rem;
+    border-radius: 18px;
+    text-align: center;
+    background: var(--glass-fill);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--glass-line);
+    box-shadow:
+        inset 0 1px 0 var(--glass-edge),
+        0 2px 6px rgba(0,0,0,.10),
+        0 24px 60px rgba(0,0,0,.18);
+}
+
+.dialog__icon {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto .9rem;
+    border-radius: 24%;
+    display: block;
+}
+
+.dialog__title {
+    font-size: var(--t-body);
+    font-weight: 600;
+    letter-spacing: -.01em;
+    line-height: 1.35;
+}
+
+.dialog__body {
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+    margin-top: .55rem;
+    line-height: 1.45;
+}
+
+.dialog__actions {
+    display: grid;
+    gap: .5rem;
+    margin-top: 1.35rem;
+}
+
+.dialog__btn {
+    border-radius: 9px;
+    padding: .5rem .9rem;
+    font-size: var(--t-small);
+    font-weight: 500;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+    color: var(--ink);
+}
+.dialog__btn--primary {
+    background: color-mix(in srgb, var(--blue) 82%, transparent);
+    border-color: transparent;
+    color: #fff;
+}
+
+/* ==========================================================================
+   Reassurance pair
+   --------------------------------------------------------------------------
+   Two columns: what Apple's check proves, and what this project offers
+   instead. Side by side they make an argument that neither makes alone, and
+   the reader draws the conclusion rather than being handed it.
+   ========================================================================== */
+
+/* `auto-fit` with a minimum, not a viewport media query.
+   
+   The media query was asking the wrong question. It checked how wide the
+   WINDOW was and split into two columns on any desktop — but these cards live
+   inside a narrow text column, so on a wide screen they were handed about
+   120px each and every line broke to one or two words.
+   
+   A minimum width per card asks the right question instead: they sit side by
+   side when there is room for both and stack when there is not, whatever the
+   window is doing around them. */
+.assure {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+}
+
+.assure__card { padding: 1.35rem 1.5rem; border-radius: 16px; border: 1px solid var(--glass-line); }
+.assure__card--apple { background: color-mix(in srgb, var(--ink) 5%, transparent); }
+.assure__card--ours { background: color-mix(in srgb, var(--violet) 8%, transparent);
+                      border-color: color-mix(in srgb, var(--violet) 30%, transparent); }
+
+.assure__head { font-size: var(--t-small); font-weight: 700; letter-spacing: .01em; margin-bottom: .5rem; }
+/* Amber lives HERE, on the descendant selector, not on a modifier class.
+   
+   I put it on `.assure__head--apple`, which is one class — and this rule is
+   two, so it kept winning and the heading stayed grey. Adding a third
+   declaration to out-specify the second would have been the wrong repair; one
+   colour should be stated in one place. */
+.assure__card--apple .assure__head { color: var(--amber); }
+.assure__card--ours .assure__head { color: var(--violet); }
+.assure__body { font-size: var(--t-small); color: var(--ink-soft); }
+
+/* ==========================================================================
+   Steps — a thread rather than a list
+   --------------------------------------------------------------------------
+   A hairline runs from each number to the next, so three separate blocks read
+   as one sequence with a beginning and an end. It is the difference between
+   instructions and a route.
+   ========================================================================== */
+
+.step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 1rem;
+    top: 2.1rem;
+    bottom: -1.75rem;
+    width: 1px;
+    background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--violet) 40%, transparent),
+        transparent
+    );
+}
+
+/* ==========================================================================
+   Glass button, blue
+   ========================================================================== */
+
+.btn--blue {
+    background: color-mix(in srgb, var(--blue) 16%, var(--glass-fill));
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-color: color-mix(in srgb, var(--blue) 38%, transparent);
+    color: color-mix(in srgb, var(--blue) 62%, var(--ink));
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.35),
+        0 1px 2px rgba(0,0,0,.08),
+        0 8px 26px color-mix(in srgb, var(--blue) 18%, transparent);
+}
+.btn--blue:hover {
+    transform: translateY(-1px);
+    border-color: color-mix(in srgb, var(--blue) 60%, transparent);
+    box-shadow:
+        inset 0 1px 0 rgba(255,255,255,.45),
+        0 10px 30px color-mix(in srgb, var(--blue) 30%, transparent);
+}
+.btn--blue:active { transform: scale(.97); }
+
+html[data-theme="dark"] .btn--blue { color: color-mix(in srgb, var(--blue) 78%, #fff); }
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .btn--blue { color: color-mix(in srgb, var(--blue) 78%, #fff); }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .dialog, .btn--blue {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+    }
+    .dialog { background: var(--surface); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn--blue:hover { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   Copy-weighted split
+   --------------------------------------------------------------------------
+   `.split--media` weights the grid toward the picture, which is right when the
+   picture is a screenshot doing the explaining. Here it is a small dialog and
+   the words are doing the work, so the weighting is reversed.
+
+   Top-aligned rather than centred, too: the copy is much taller than the
+   dialog, and centring left the dialog floating in the middle of nothing.
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 56rem) {
+    .split--copy {
+        grid-template-columns: 1.5fr minmax(18rem, 0.75fr);
+        align-items: start;
+    }
+}
+
+/* ==========================================================================
+   Comparison table
+   --------------------------------------------------------------------------
+   A real <table>, because this is tabular data and a grid of divs would be
+   read out as a pile of unrelated fragments. The headers are associated with
+   their columns properly, so a screen reader announces "Comparison, SwiftMediaInfo,
+   included" rather than just "included".
+
+   On narrow screens it stops being a table and becomes a stack of rows, each
+   carrying its own labels — a two-column table on a phone is either scrolled
+   sideways or squeezed until nothing is legible.
+   ========================================================================== */
+
+.compare-wrap { margin-top: 2.5rem; }
+
+.compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-small);
+}
+
+.compare th, .compare td { text-align: left; padding: .95rem 1rem; vertical-align: top; }
+
+/* The two names are what the reader is choosing between, so they are sized as
+   a choice rather than as column labels. */
+.compare thead th {
+    font-size: var(--t-body);
+    font-weight: 700;
+    letter-spacing: -.01em;
+    color: var(--ink);
+    border-bottom: 1px solid var(--hairline);
+    white-space: nowrap;
+    padding-bottom: .75rem;
+}
+
+.compare thead th.compare__mine { color: var(--violet); }
+
+.compare tbody th {
+    font-weight: 500;
+    color: var(--ink);
+    width: 38%;
+}
+
+.compare tbody tr { border-bottom: 1px solid var(--hairline); }
+.compare tbody tr:last-child { border-bottom: 0; }
+
+.compare td { color: var(--ink-soft); }
+
+/* The column for this app is tinted the whole way down — one continuous band
+   rather than a highlight repeated on every cell, which is what stops it
+   reading as a series of ticks and starts it reading as a column. */
+.compare__mine {
+    background: color-mix(in srgb, var(--violet) 7%, transparent);
+    color: var(--ink);
+}
+
+.compare tbody tr:first-child .compare__mine { border-radius: 10px 10px 0 0; }
+.compare tbody tr:last-child .compare__mine { border-radius: 0 0 10px 10px; }
+
+/* A dash, not an empty cell. An empty cell is ambiguous — it could mean "no"
+   or it could mean nobody filled it in. */
+.compare__none { color: var(--ink-faint); }
+.compare__yes { font-weight: 500; }
+
+/* On a phone this stays a TABLE.
+   
+   The first version restacked each row into a labelled block, which is the
+   standard advice — and it was wrong here. A comparison is read by looking
+   across, and stacking removes the one thing the layout exists to do: putting
+   the two answers next to each other. Nobody compares two values separated by
+   a line break and a label.
+   
+   So it scrolls sideways instead, with the row header pinned so you always
+   know which row you are reading. Smaller type, tighter padding, and the whole
+   table still fits most phones without scrolling at all. */
+@media (max-width: 44rem) {
+    .compare-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-inline: -1.5rem;
+        padding-inline: 1.5rem;
+    }
+
+    .compare { font-size: .8125rem; min-width: 30rem; }
+    .compare th, .compare td { padding: .7rem .6rem; }
+    .compare thead th { font-size: var(--t-small); }
+    .compare tbody th { width: 30%; }
+    .compare td::before { content: none; }
+}
+
+/* ==========================================================================
+   Feature groups
+   ========================================================================== */
+
+.groups { display: grid; gap: 1.25rem; margin-top: 3rem; }
+@media (min-width: 46rem) { .groups { grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); } }
+
+.group { padding: 1.5rem; border-radius: 16px; border: 1px solid var(--glass-line);
+         background: color-mix(in srgb, var(--ink) 4%, transparent); }
+
+.group__head {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    font-size: var(--t-body);
+    font-weight: 600;
+    letter-spacing: -.01em;
+    margin-bottom: .9rem;
+}
+
+.group__dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--tint, var(--violet)); flex: none; }
+
+.group__list { display: grid; gap: .55rem; }
+.group__list li { font-size: var(--t-small); color: var(--ink-soft); padding-left: 1.1rem; position: relative; }
+.group__list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .55em;
+    width: .35rem;
+    height: .35rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--tint, var(--violet)) 60%, transparent);
+}
+
+/* Group tints. Named rather than set inline: the colour encodes which part of
+   the app a group belongs to, and that mapping should live in one place. */
+.group--blue   { --tint: var(--blue); }
+.group--pink   { --tint: var(--pink); }
+.group--green  { --tint: var(--green); }
+.group--teal   { --tint: var(--teal); }
+.group--violet { --tint: var(--violet); }
+.group--amber  { --tint: var(--amber); }
+
+/* Browsers without @property leave --angle uninterpolated, so the sweep never
+   moves. The static tinted edge below is what they see instead, which is the
+   reduced-motion result and perfectly reasonable. */
+@supports not (background: conic-gradient(from var(--angle), red, blue)) {
+    .group::before { background: color-mix(in srgb, var(--tint, var(--violet)) 45%, transparent); }
+}
+/* ==========================================================================
+   Comparison — refinements
+   ========================================================================== */
+
+/* Where the MediaInfo column's information comes from, stated once. A dash in
+   a comparison table is an assertion, and this is the sentence that keeps it
+   an honest one. */
+.compare__source {
+    font-size: var(--t-micro);
+    color: var(--ink-faint);
+    margin-top: 1rem;
+    max-width: var(--measure);
+}
+
+/* --------------------------------------------------------------------------
+   Paired notes
+   --------------------------------------------------------------------------
+   The concession and the credit, side by side. Together they say something
+   neither says alone — that the comparison was written by someone who likes
+   the thing they are comparing against.
+   -------------------------------------------------------------------------- */
+
+.notes { display: grid; gap: 1.25rem; margin-top: 2.5rem; }
+@media (min-width: 52rem) { .notes { grid-template-columns: 1fr 1fr; align-items: start; } }
+.notes .note { margin-top: 0; max-width: none; }
+
+/* Violet rather than blue: the blue note concedes a point, this one gives
+   credit, and they should not look like the same kind of remark. */
+.note--credit {
+    border-left-color: var(--violet);
+    background: color-mix(in srgb, var(--violet) 7%, transparent);
+}
+
+/* ==========================================================================
+   Animated group outlines
+   --------------------------------------------------------------------------
+   A band of the group's own colour travelling around its border.
+
+   HOW, AND WHY THIS WAY
+
+   The obvious build is a big conic-gradient square spun with `transform` and
+   clipped by the card. Transforms are compositor-only, so that is cheap — but
+   it needs the card to have an opaque fill on top to hide the middle, and
+   these cards are deliberately translucent so the page gradient shows through.
+
+   So instead the gradient fills the element and is masked down to a one-pixel
+   ring, and the angle itself animates. That does repaint — but only the ring,
+   which is a hairline around a small box, and only while the card is on
+   screen. Six of those together cost less than one full-card repaint.
+
+   `--angle` has to be registered with @property or it cannot be animated at
+   all: an unregistered custom property has no type, so the browser has
+   nothing to interpolate between and the gradient would jump from 0 to 360.
+   ========================================================================== */
+
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+.group {
+    position: relative;
+    isolation: isolate;
+}
+
+.group::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    z-index: -1;
+
+    /* Most of the ring is the ordinary hairline; a short arc of the group's
+       colour travels around it. A full-colour rotating border reads as a
+       loading spinner — the point here is a highlight passing over an edge,
+       not a progress indicator. */
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        transparent 250deg,
+        color-mix(in srgb, var(--tint, var(--violet)) 85%, transparent) 320deg,
+        color-mix(in srgb, var(--tint, var(--violet)) 30%, transparent) 350deg,
+        transparent 360deg
+    );
+
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+
+    /* Durations share no common factor, so the six never sweep in unison —
+       which would look like a single animation rather than six cards. */
+    animation: group-sweep 7s linear infinite;
+}
+
+.group:nth-child(2)::before { animation-duration: 8s; }
+.group:nth-child(3)::before { animation-duration: 9s; }
+.group:nth-child(4)::before { animation-duration: 11s; }
+.group:nth-child(5)::before { animation-duration: 13s; }
+.group:nth-child(6)::before { animation-duration: 10s; }
+
+/* Staggered starts, so they are not merely at different speeds but at
+   different points in the same journey. */
+.group:nth-child(2)::before { animation-delay: -1.5s; }
+.group:nth-child(3)::before { animation-delay: -3s; }
+.group:nth-child(4)::before { animation-delay: -4.5s; }
+.group:nth-child(5)::before { animation-delay: -6s; }
+.group:nth-child(6)::before { animation-delay: -7.5s; }
+
+@keyframes group-sweep {
+    to { --angle: 360deg; }
+}
+
+/* Hovering brightens the arc rather than speeding it up. Speed reads as
+   urgency; brightness reads as attention. */
+.group:hover::before {
+    background: conic-gradient(
+        from var(--angle),
+        transparent 0deg,
+        color-mix(in srgb, var(--tint, var(--violet)) 20%, transparent) 200deg,
+        var(--tint, var(--violet)) 320deg,
+        color-mix(in srgb, var(--tint, var(--violet)) 40%, transparent) 350deg,
+        transparent 360deg
+    );
+}
+
+/* Without motion the ring holds still as a plain tinted edge. The card keeps
+   its colour coding; only the travel goes. */
+@media (prefers-reduced-motion: reduce) {
+    .group::before {
+        animation: none;
+        background: color-mix(in srgb, var(--tint, var(--violet)) 45%, transparent);
+    }
+    .group:hover::before {
+        background: color-mix(in srgb, var(--tint, var(--violet)) 70%, transparent);
+    }
+}
+
+
+/* ==========================================================================
+   FAQ
+   --------------------------------------------------------------------------
+   Built on <details>, not on JavaScript.
+
+   That gets the keyboard behaviour, the screen-reader semantics and the
+   expand-collapse state for free — and, less obviously, it means the answers
+   are in the page for anyone using find-in-page or reading it without
+   scripts. A JavaScript accordion hides its content from Cmd-F, which on a
+   FAQ is the single most likely way someone will look for an answer.
+
+   The card styling itself lives further down, with the app-shaped components.
+   ========================================================================== */
+
+.faq { display: grid; gap: .75rem; margin-top: 2.5rem; }
+.faq__a p + p { margin-top: .8rem; }
+
+/* ==========================================================================
+   Narrow screens — overflow
+   --------------------------------------------------------------------------
+   `min-width: auto` is the default for a grid or flex child, which means it
+   refuses to become narrower than its content. A command block containing a
+   60-character path therefore pushed its card wider than the phone, and the
+   whole page gained a horizontal scrollbar — which is why zooming out looked
+   wrong rather than just small.
+   
+   `min-width: 0` lets these boxes shrink to their container, and the command
+   block scrolls inside itself instead of dragging the layout with it.
+   ========================================================================== */
+
+.paths > *,
+.path,
+.path > .glass__body,
+.split > *,
+.groups > *,
+.notes > *,
+.steps > *,
+.step > *,
+.faq,
+.faq__item { min-width: 0; }
+
+/* The command block inside a step was the last thing still pushing the page
+   wide. `.step` is a grid child two levels down, and every level of that chain
+   needs permission to shrink before the innermost one can scroll instead of
+   stretching. */
+.step .cmd { max-width: 100%; overflow: hidden; }
+
+.cmd { max-width: 100%; }
+
+@media (max-width: 40rem) {
+    .glass__body { padding: 1.25rem; }
+    .cmd__code { font-size: .75rem; padding-right: 4.5rem; }
+    .step { padding-left: 2.5rem; }
+    .step::before { width: 1.65rem; height: 1.65rem; font-size: var(--t-micro); }
+    .step:not(:last-child)::after { left: .82rem; }
+    .dialog { max-width: 100%; }
+}
+
+/* ==========================================================================
+   FAQ — the app's own card
+   --------------------------------------------------------------------------
+   A tinted header strip with the content beneath it, which is exactly how the
+   About window builds its cards. Reusing the shape ties the site to the app
+   more convincingly than reusing its colours would.
+   ========================================================================== */
+
+.faq__item {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--tint, var(--violet)) 22%, transparent);
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+    transition: border-color .3s var(--ease);
+}
+
+.faq__q {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    padding: .95rem 1.15rem;
+    font-size: var(--t-body);
+    font-weight: 600;
+    letter-spacing: -.01em;
+    cursor: pointer;
+    list-style: none;
+    background: color-mix(in srgb, var(--tint, var(--violet)) 13%, transparent);
+    transition: background-color .3s var(--ease);
+}
+.faq__q::-webkit-details-marker { display: none; }
+.faq__q:hover { background: color-mix(in srgb, var(--tint, var(--violet)) 20%, transparent); }
+
+.faq__chev {
+    flex: none;
+    order: 2;
+    margin-left: auto;
+    width: .55rem;
+    height: .55rem;
+    border-right: 2px solid var(--tint, var(--violet));
+    border-bottom: 2px solid var(--tint, var(--violet));
+    transform: rotate(45deg);
+    transition: transform .3s var(--ease);
+}
+.faq__item[open] .faq__chev { transform: rotate(-135deg); }
+
+.faq__a { padding: 1.1rem 1.15rem 1.25rem; font-size: var(--t-small); color: var(--ink-soft); }
+
+.faq__item[open] { border-color: color-mix(in srgb, var(--tint, var(--violet)) 45%, transparent); }
+
+/* Group headings, sized as section titles rather than as captions. */
+.faq__group {
+    font-size: var(--t-heading);
+    font-weight: 700;
+    letter-spacing: -.012em;
+    text-transform: none;
+    color: var(--tint, var(--violet));
+    margin-top: 3rem;
+    margin-bottom: 1.25rem;
+}
+.faq__group:first-of-type { margin-top: 0; }
+
+.faq--blue   { --tint: var(--blue); }
+.faq--green  { --tint: var(--green); }
+.faq--violet { --tint: var(--violet); }
+
+/* ==========================================================================
+   Navigation — the overflow menu
+   --------------------------------------------------------------------------
+   Six links, a wordmark and a theme control do not fit across a phone. Rather
+   than shrinking everything until none of it is comfortable, the two links
+   people actually use stay in the bar and the rest move into a menu.
+
+   Overview and Download stay because they are the journey: what is this, and
+   how do I get it. Features, FAQ, Changelog and GitHub are all things you go
+   looking for deliberately, and a menu is a fine place to look.
+   ========================================================================== */
+
+/* Built as a sibling of the theme pill, not as a loose icon beside it.
+   
+   It was a bare 28px button next to a 34px glass capsule, so it sat at a
+   different height, on a different visual plane, and looked like it had been
+   dropped in afterwards. Same height, same glass, same corner radius — now
+   the two read as one group of controls at the end of the bar. */
+.nav__menu {
+    display: none;
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+    flex: none;
+
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+
+    background: var(--pill-bg, rgba(255, 255, 255, 0.13));
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        0 1px 2px rgba(0, 0, 0, 0.10);
+
+    transition: background-color .25s var(--ease);
+}
+.nav__menu:active { background: rgba(255, 255, 255, 0.22); }
+
+.nav__menu span {
+    position: absolute;
+    left: 11px;
+    right: 11px;
+    height: 1.5px;
+    border-radius: 2px;
+    background: var(--nav-ink-strong);
+    transition: transform .35s var(--ease), opacity .2s var(--ease);
+}
+
+/* Measured from the centre so the three stay balanced whatever the button's
+   height becomes. */
+.nav__menu span:nth-child(1) { top: calc(50% - 5px); }
+.nav__menu span:nth-child(2) { top: calc(50% - 0.75px); }
+.nav__menu span:nth-child(3) { top: calc(50% + 3.5px); }
+
+/* Open, the three lines become a cross — the same object rearranged rather
+   than one icon swapped for another, which is what makes the state legible. */
+.nav__menu[aria-expanded="true"] span:nth-child(1) { transform: translateY(4.25px) rotate(45deg); }
+.nav__menu[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav__menu[aria-expanded="true"] span:nth-child(3) { transform: translateY(-4.25px) rotate(-45deg); }
+
+@media (prefers-reduced-transparency: reduce) {
+    .nav__menu { backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+
+.nav__panel {
+    position: absolute;
+    top: calc(100% + .35rem);
+    right: 1rem;
+    left: auto;
+    min-width: 11rem;
+    display: none;
+    flex-direction: column;
+    padding: .4rem;
+    border-radius: 16px;
+
+    /* Its own fill rather than the navigation bar's.
+       
+       The bar can afford to be barely there because it sits over an inch of
+       page; a menu sits over WORDS, and at the bar's opacity the headline
+       underneath read straight through the links. This is opaque enough that
+       nothing shows through the text, and translucent enough that the colour
+       behind it still comes through the panel — which is what keeps it glass
+       rather than a grey rectangle. */
+    background: color-mix(in srgb, #16161a 88%, transparent);
+    backdrop-filter: blur(30px) saturate(180%);
+    -webkit-backdrop-filter: blur(30px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .12),
+        0 16px 48px rgba(0, 0, 0, .5);
+}
+
+.nav__panel.is-open { display: flex; animation: panel-in .28s var(--ease) both; }
+
+@keyframes panel-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: none; }
+}
+
+.nav__panel a {
+    padding: .7rem .85rem;
+    border-radius: 10px;
+    font-size: var(--t-small);
+    color: var(--nav-ink);
+}
+.nav__panel a:hover { background: rgba(255, 255, 255, .1); color: var(--nav-ink-strong); text-decoration: none; }
+.nav__panel a[aria-current="page"] { color: var(--nav-ink-strong); }
+
+@media (prefers-reduced-motion: reduce) {
+    .nav__menu span { transition: none; }
+    .nav__panel.is-open { animation: none; }
+}
+
+@media (max-width: 46rem) {
+    .nav__menu { display: block; }
+    /* Everything that moved into the menu. */
+    .nav__link--more { display: none; }
+
+    /* The wordmark stays off. I brought it back on the assumption the menu
+       had freed enough room; it had not, and the name overlapped "Overview".
+       The icon identifies the site perfectly well, and the page's own first
+       heading is the app's name in 48pt a moment later. */
+    .nav__brand-text { display: none; }
+
+    .nav__inner { gap: .7rem; }
+    .nav__link { font-size: .8125rem; }
+
+    /* NOT `margin-right: .25rem`.
+    
+       That is what was here, and it overrode the base rule's
+       `margin-right: auto` — so the push that holds the icon at the left edge
+       and everything else at the right simply stopped existing on phones, and
+       the whole bar packed to the left. The comment below described a layout
+       the line above it had just disabled. */
+
+    /* `margin-left: auto` was here, and it split the bar in two: the icon and
+       the links huddled on the left, the controls alone on the right. The
+       brand already carries `margin-right: auto`, which is the one push this
+       layout needs — icon at the left edge, everything else as a single group
+       at the right. A second auto margin fights the first. */
+    .theme { --btn-w: 30px; }
+    .nav__menu { height: 34px; width: 34px; }
+}
+
+/* ==========================================================================
+   Cursor glow
+   --------------------------------------------------------------------------
+   A soft light that follows the pointer, drifting through the brand colours.
+
+   THREE THINGS THAT KEEP IT CHEAP
+
+   It is one element, not a trail of them. It moves by `translate3d` only, so
+   the compositor handles it without repainting anything. And the colour cycle
+   is a `hue-rotate` filter over a single static gradient rather than an
+   animated gradient — filters run on the GPU, whereas re-generating a radial
+   gradient every frame is a repaint of a 420px box sixty times a second.
+
+   WHERE IT DOES NOT APPEAR
+
+   Touch devices have no cursor to follow, and a glow parked wherever the last
+   tap landed is just a smudge. Reduced motion switches it off entirely: it is
+   decoration with no informational content, so there is nothing to preserve.
+   ========================================================================== */
+
+.cursor-glow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 420px;
+    height: 420px;
+    margin: -210px 0 0 -210px;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    will-change: transform;
+
+    background: radial-gradient(
+        closest-side,
+        color-mix(in srgb, var(--violet) 55%, transparent) 0%,
+        color-mix(in srgb, var(--violet) 22%, transparent) 45%,
+        transparent 72%
+    );
+
+    animation: glow-hue 26s linear infinite;
+    transition: opacity .6s var(--ease);
+}
+
+/* Screen on a dark page adds light, which is what a glow does. Multiply on a
+   light page tints instead — adding light to white produces nothing, so the
+   same blend mode would make it invisible in one of the two themes. Light is
+   the default here, so it carries the multiply. */
+.cursor-glow { mix-blend-mode: multiply; }
+.cursor-glow.is-visible { opacity: .30; }
+
+html[data-theme="dark"] .cursor-glow { mix-blend-mode: screen; }
+html[data-theme="dark"] .cursor-glow.is-visible { opacity: .5; }
+
+@media (prefers-color-scheme: dark) {
+    html:not([data-theme]) .cursor-glow { mix-blend-mode: screen; }
+    html:not([data-theme]) .cursor-glow.is-visible { opacity: .5; }
+}
+
+@keyframes glow-hue {
+    to { filter: hue-rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .cursor-glow { display: none; }
+}
+
+/* Green rather than blue: the blue note qualifies something, this one answers
+   a different reader's question. Two remarks side by side should not look like
+   two halves of the same remark. */
+.note--manual {
+    border-left-color: var(--green);
+    background: color-mix(in srgb, var(--green) 8%, transparent);
+}
+
+/* ==========================================================================
+   Pinned section on short viewports
+   --------------------------------------------------------------------------
+   The layout only ever asked how WIDE the viewport was. A phone in landscape
+   has plenty of width and almost no height, so it kept a layout sized for a
+   desktop and the sequence overflowed its own sticky container.
+
+   The sequence now sizes itself from the height available, with its width
+   derived from that figure and the frames' own ratio. Capping the height alone
+   would leave the width at 100% and break the shape; deriving one from the
+   other keeps it exact at every size, with no cropping and no letterboxing.
+   ========================================================================== */
+
+.pinned .sequence {
+    --seq-h: calc(100svh - var(--nav-h) - 8rem);
+    aspect-ratio: 1900 / 1204;
+    width: 100%;
+    height: auto;
+    max-width: calc(var(--seq-h) * 1900 / 1204);
+    max-height: none;
+    margin-inline: auto;
+}
+
+/* Landscape: short and wide. Two columns, because side by side is what this
+   shape of screen is good at — and because stacking a picture above three
+   paragraphs needs vertical room that is not there. */
+@media (max-height: 40rem) and (min-width: 44rem) {
+    .pinned__grid {
+        grid-template-columns: 1fr 1.15fr;
+        gap: 1.5rem;
+        align-items: center;
+    }
+
+    /* The <60rem rules put the picture first for portrait; in landscape the
+       copy leads and the picture sits beside it. */
+    .pinned__grid > .sequence { order: 2; }
+
+    .pinned__inner { padding-block: .75rem; }
+    .pinned__panels { min-height: 8.5rem; }
+
+    .panel .title { font-size: 1.5rem; }
+    .panel .section__lead { font-size: .9375rem; margin-top: .5rem; line-height: 1.4; }
+
+    .rail { margin-bottom: .75rem; }
+    .rail__tick { width: 22px; }
+
+    .pinned .sequence { --seq-h: calc(100svh - var(--nav-h) - 3rem); }
+}
+
+/* Amber, not blue and certainly not grey.
+   
+   Grey read as "the real one and the other one". Blue was better but it is
+   this site's colour for links and for the note that concedes a point, so it
+   carried a meaning it should not have here.
+   
+   Amber is already the page's word for "different, not lesser" — it marks the
+   direct download route further up, for exactly the same reason. Apple's check
+   is a genuine signal this app does not have; the heading should say so
+   without either apologising or sulking. */
+.assure__card--apple { border-color: color-mix(in srgb, var(--amber) 26%, transparent); }
+
+/* THE LINK HAS TO LOOK LIKE ONE.
+   
+   This was `color: inherit; text-decoration: none`, on the reasoning that a
+   table header should not read as a row of links. But there is only one link
+   in that header, and the result was a link with no indication whatsoever
+   that it could be clicked — which is indistinguishable from a broken one.
+   
+   Restraint is right for a row of links and wrong for a single one. It now
+   carries the link colour and a permanent underline set below the baseline,
+   plus an arrow marking it as leaving the site. */
+.compare__link {
+    color: var(--link);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--link) 45%, transparent);
+    transition: text-decoration-color .25s var(--ease);
+}
+.compare__link:hover { text-decoration-color: currentColor; }
+
+.compare__link::after {
+    content: "↗";
+    display: inline-block;
+    margin-left: .25em;
+    font-size: .8em;
+    text-decoration: none;
+    vertical-align: 1px;
+}
+
+/* ==========================================================================
+   Rendering cost
+   --------------------------------------------------------------------------
+   `content-visibility: auto` tells the browser it may skip layout, paint AND
+   ANIMATION for a subtree that is off screen. That last part is the reason it
+   is here: the six feature cards each run a conic-gradient sweep on their
+   border, and without this they keep repainting while the reader is three
+   screens away looking at something else.
+
+   `contain-intrinsic-size` is not optional alongside it. Without a size hint
+   the browser treats skipped content as zero-height, the scrollbar jumps as
+   sections come into view, and dragging the scrollbar becomes unusable. The
+   values are rough on purpose — they only need to be close enough that the
+   correction is imperceptible.
+
+   Applied narrowly. It is not put on the pinned section, where it would
+   interfere with sticky positioning, nor on anything the scroll driver
+   measures.
+   ========================================================================== */
+
+.groups {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1200px;
+}
+
+.faq {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 800px;
+}
+
+.compare-wrap {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+}
+
+.footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 320px;
+}
+
+/* --------------------------------------------------------------------------
+   The cursor glow, at rest
+   --------------------------------------------------------------------------
+   Its colour cycle is a filter animation, which runs on the GPU but runs
+   FOREVER — including while the cursor has been sitting still for ten minutes
+   and nobody is watching the colour change.
+
+   Pausing it costs nothing to look at and stops a laptop spending battery on
+   an effect no one is currently perceiving.
+   -------------------------------------------------------------------------- */
+
+.cursor-glow.is-idle { animation-play-state: paused; }
+
+/* ==========================================================================
+   Reading copy
+   --------------------------------------------------------------------------
+   Everything a reader actually reads moves from grey to near-black, and picks
+   up a little weight. 450 rather than 500: SF Pro is a variable font on Apple
+   devices, so it renders at exactly 450 and gains presence without going
+   bold; elsewhere it rounds to the nearest static cut and nothing breaks.
+
+   Grey stays where grey belongs — captions, footnotes, the line under a table
+   explaining where its data came from. Those are meant to recede.
+   ========================================================================== */
+
+.prose,
+.section__lead,
+.point__body,
+.faq__a,
+.assure__body,
+.path__body,
+.step__body,
+.group__list li,
+.note,
+.compare td,
+.showcase__note {
+    color: var(--ink-body);
+    font-weight: 450;
+}
+
+/* Slightly heavier again where the type is smallest, since 450 at 13px is
+   thinner than 450 at 17px. */
+.point__body,
+.group__list li,
+.step__body,
+.assure__body { font-weight: 470; }
+
+/* Deliberately still grey. */
+.footer__note,
+.compare__source,
+.shot__spec,
+.identity__handle,
+.swatch__hexes { color: var(--ink-faint); font-weight: 400; }
+
+
+/* ==========================================================================
+   FAQ open and close
+   --------------------------------------------------------------------------
+   A <details> element snaps open. There is no height to animate between,
+   because the browser goes straight from "not rendered" to "rendered".
+
+   The script measures the answer and drives this variable, so the transition
+   has two real numbers to move between. Everything else stays native: the
+   element is still a <details>, still keyboard-operable, still found by
+   Cmd-F when closed.
+   ========================================================================== */
+
+/* The open and close animation is driven entirely from the script, which sets
+   height, padding and transition as inline styles and removes them afterwards.
+   
+   A class-based version was tried first and it fought the script: the two were
+   both trying to own `height`, and whichever ran second won at unpredictable
+   moments. One owner is the fix.
+   
+   Nothing is needed here. The opacity fade that used to live in this block is
+   also gone — it finished sixty milliseconds before the height did, so the
+   answer went invisible while still visibly shrinking. */
+
+/* ==========================================================================
+   Notes — the lead-in colour
+   --------------------------------------------------------------------------
+   Each note's opening phrase now takes the colour of its own left edge, so the
+   emphasis and the border are saying the same thing. Three notes in three
+   colours all opening in the same near-black read as three copies of one
+   remark; coloured, they read as three separate points.
+
+   Driven by a variable rather than restated per variant, so a new note colour
+   is one declaration rather than two that can drift apart.
+   ========================================================================== */
+
+.note { --note-tint: var(--blue); }
+.note--credit { --note-tint: var(--violet); }
+.note--manual { --note-tint: var(--green); }
+
+.note strong { color: var(--note-tint); font-weight: 600; }
+
+/* ==========================================================================
+   The privacy summary pair
+   --------------------------------------------------------------------------
+   Larger than the same component elsewhere, because on that page these two
+   boxes ARE the answer. Everything below them is detail for people who want
+   it; a reader who stops here should already have what they came for.
+   ========================================================================== */
+
+.assure--lead { gap: 1.5rem; }
+
+.assure--lead .assure__card {
+    padding: 1.9rem 2rem;
+    border-radius: 20px;
+}
+
+.assure--lead .assure__head {
+    font-size: var(--t-heading);
+    letter-spacing: -.012em;
+    margin-bottom: .8rem;
+}
+
+.assure--lead .assure__body {
+    font-size: var(--t-lead);
+    line-height: 1.45;
+    font-weight: 450;
+}
+
+@media (max-width: 40rem) {
+    .assure--lead .assure__card { padding: 1.4rem 1.4rem; }
+    .assure--lead .assure__body { font-size: var(--t-body); }
+}
+
+/* ==========================================================================
+   Changelog
+   --------------------------------------------------------------------------
+   Each release is a glass card with a version, a date and its notes. The
+   whole list is generated from GitHub Releases and committed as static HTML,
+   so it costs one file request and works with scripts disabled — see
+   tools/build-changelog.py.
+   ========================================================================== */
+
+.releases { display: grid; gap: 1.5rem; margin-top: 3rem; }
+
+.release {
+    position: relative;
+    border-radius: 18px;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+    overflow: hidden;
+}
+
+/* The newest release is marked once, by its edge. A badge saying LATEST would
+   be redundant with being first in a list ordered newest-first. */
+.release--latest { border-color: color-mix(in srgb, var(--violet) 35%, transparent); }
+
+.release__head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: .5rem .9rem;
+    padding: 1.1rem 1.4rem;
+    background: color-mix(in srgb, var(--violet) 8%, transparent);
+    border-bottom: 1px solid var(--glass-line);
+}
+
+.release--latest .release__head { background: color-mix(in srgb, var(--violet) 14%, transparent); }
+
+.release__version {
+    font-size: var(--t-heading);
+    font-weight: 600;
+    letter-spacing: -.014em;
+    color: var(--ink);
+}
+
+.release__date {
+    font-family: var(--mono);
+    font-size: var(--t-micro);
+    color: var(--ink-faint);
+}
+
+.release__link { margin-left: auto; font-size: var(--t-micro); }
+
+.release__body { padding: 1.35rem 1.4rem 1.5rem; font-size: var(--t-small); color: var(--ink-body); font-weight: 450; }
+.release__body h3 { font-size: var(--t-body); font-weight: 600; color: var(--ink); margin: 1.4rem 0 .6rem; letter-spacing: -.01em; }
+.release__body h3:first-child { margin-top: 0; }
+.release__body p { margin-bottom: .7rem; }
+.release__body ul { display: grid; gap: .45rem; margin-bottom: .9rem; }
+.release__body li { padding-left: 1.1rem; position: relative; }
+.release__body li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .55em;
+    width: .35rem;
+    height: .35rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--violet) 55%, transparent);
+}
+.release__body code {
+    font-family: var(--mono);
+    font-size: .875em;
+    padding: .1em .35em;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.release__body a { color: var(--link); }
+.release__body > *:last-child { margin-bottom: 0; }
+
+/* Shown when the generator has never run, or found nothing. Better than an
+   empty page, and it says which is which. */
+.releases__empty {
+    padding: 2.5rem;
+    border-radius: 18px;
+    border: 1px dashed var(--glass-line);
+    text-align: center;
+    color: var(--ink-soft);
+}
+
+@media (max-width: 40rem) {
+    .release__head { padding: .95rem 1.1rem; }
+    .release__body { padding: 1.1rem 1.1rem 1.25rem; }
+    .release__link { margin-left: 0; width: 100%; }
+}
+
+/* ==========================================================================
+   Changelog layout and contents
+   --------------------------------------------------------------------------
+   With a dozen versions this page runs several screens. Most people arriving
+   want one specific version rather than a read from the top, so the contents
+   list is a fixture beside the releases rather than a link at the top that
+   scrolls away the moment it is used.
+   ========================================================================== */
+
+.changelog { display: grid; gap: 2rem; margin-top: 3rem; }
+
+@media (min-width: 62rem) {
+    .changelog {
+        grid-template-columns: minmax(12rem, 15rem) 1fr;
+        gap: 3rem;
+        align-items: start;
+    }
+
+    .toc {
+        position: sticky;
+        /* Clear of the navigation bar, which is itself sticky. */
+        top: calc(var(--nav-h) + 2rem);
+        max-height: calc(100svh - var(--nav-h) - 4rem);
+        overflow-y: auto;
+    }
+}
+
+/* The contents heading is a label, and labels are set in caps — but caps at
+   caption size read as an afterthought. At body size with the brand violet it
+   reads as the title of a thing, which is what it is: the reader's map of a
+   page several screens long. */
+.toc__title {
+    font-size: var(--t-body);
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--violet);
+    margin-bottom: 1rem;
+}
+
+.toc__list { display: grid; gap: 2px; counter-reset: none; }
+
+.toc__link {
+    display: flex;
+    align-items: baseline;
+    gap: .6rem;
+    padding: .5rem .7rem;
+    border-radius: 9px;
+    color: var(--ink-soft);
+    font-size: var(--t-small);
+    font-weight: 450;
+    border-left: 2px solid transparent;
+    transition: background-color .22s var(--ease), color .22s var(--ease),
+                border-color .22s var(--ease);
+}
+.toc__link:hover {
+    background: color-mix(in srgb, var(--violet) 9%, transparent);
+    color: var(--ink);
+    text-decoration: none;
+    border-left-color: color-mix(in srgb, var(--violet) 45%, transparent);
+}
+
+/* The current release is marked as you scroll past it, by the script. */
+.toc__link.is-current {
+    background: color-mix(in srgb, var(--violet) 12%, transparent);
+    color: var(--ink);
+    border-left-color: var(--violet);
+}
+
+.toc__link--latest .toc__name { font-weight: 600; }
+.toc__name { flex: 1; min-width: 0; }
+.toc__date { font-family: var(--mono); font-size: var(--t-micro); color: var(--ink-faint); flex: none; }
+
+/* Anchors have to clear the sticky navigation, or jumping to a release puts
+   its title underneath the bar. */
+.release { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+
+/* --------------------------------------------------------------------------
+   Release notes, in the site's own voice
+   --------------------------------------------------------------------------
+   Release notes are written in Markdown by one person and rendered here, so
+   they arrive with headings, bullets, bold and code that belong to no design
+   system at all. These rules put them in this one — the same scale, the same
+   near-black body copy, the same monospace for identifiers.
+   -------------------------------------------------------------------------- */
+
+.release__body h2 {
+    font-family: var(--sans-display);
+    font-size: var(--t-heading);
+    font-weight: 600;
+    letter-spacing: -.014em;
+    color: var(--ink);
+    margin: 1.75rem 0 .7rem;
+}
+.release__body h2:first-child { margin-top: 0; }
+
+.release__body h4 {
+    font-size: var(--t-small);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 1.1rem 0 .5rem;
+    letter-spacing: -.005em;
+}
+
+.release__body strong { color: var(--ink); font-weight: 600; }
+.release__body em { font-style: normal; color: var(--ink-soft); }
+
+/* A Markdown rule becomes the site's spectrum divider rather than a grey
+   line — the same one the app uses wherever it separates one thing from
+   another. */
+.release__rule {
+    border: 0;
+    height: 1px;
+    margin: 1.75rem 0;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        color-mix(in srgb, var(--violet) 45%, transparent) 20%,
+        color-mix(in srgb, var(--pink) 45%, transparent) 50%,
+        color-mix(in srgb, var(--blue) 45%, transparent) 80%,
+        transparent
+    );
+}
+
+/* A heavier variant of the route label, for a page with only one route. The
+   download page has two and they balance each other; here the label is alone
+   above the single thing on offer, and it should carry that weight. */
+.path__label--strong {
+    font-size: var(--t-heading);
+    font-weight: 700;
+    letter-spacing: .01em;
+    margin-bottom: .75rem;
+}
+
+/* A screenshot that can be opened should say so on hover. The cursor is the
+   whole affordance — a button over the image would sit on top of the thing it
+   is offering to show you. */
+img.shot[data-peek-self] { cursor: zoom-in; }
+
+/* ==========================================================================
+   Peek — hover preview and Quick Look
+   --------------------------------------------------------------------------
+   An inline phrase that shows a small floating preview on hover and opens the
+   image properly on click, the way Quick Look does in Finder.
+
+   WHY BOTH
+
+   The hover preview is the joke's punchline — it should land without anyone
+   having to commit to a click. The full view is for people on a touch screen,
+   people using a keyboard, and anyone who wants to actually look at it. One
+   without the other serves half the audience.
+   ========================================================================== */
+
+.peek {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    font: inherit;
+    color: var(--violet);
+    cursor: zoom-in;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in srgb, var(--violet) 55%, transparent);
+    transition: color .25s var(--ease), text-decoration-color .25s var(--ease);
+}
+.peek:hover { color: color-mix(in srgb, var(--violet) 80%, var(--ink)); text-decoration-color: currentColor; }
+
+/* --------------------------------------------------------------------------
+   The floating preview
+   -------------------------------------------------------------------------- */
+
+.peek-hover {
+    position: fixed;
+    z-index: 90;
+    width: min(19rem, 46vw);
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--glass-line);
+    box-shadow:
+        inset 0 1px 0 var(--glass-edge),
+        0 12px 40px rgba(0, 0, 0, .35);
+    background: var(--surface-alt);
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(.94) translateY(6px);
+    transform-origin: bottom left;
+    transition: opacity .18s var(--ease), transform .22s var(--ease);
+}
+.peek-hover.is-open { opacity: 1; transform: scale(1) translateY(0); }
+.peek-hover img { display: block; width: 100%; height: auto; }
+
+/* --------------------------------------------------------------------------
+   The full view
+   --------------------------------------------------------------------------
+   Backdrop and figure animate separately: the backdrop fades, the image scales
+   up from slightly small. That difference is most of what makes Quick Look
+   feel like the file is being opened rather than a panel being shown.
+   -------------------------------------------------------------------------- */
+
+.peek-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 120;
+    display: grid;
+    place-items: center;
+    padding: clamp(1rem, 5vw, 4rem);
+    background: color-mix(in srgb, #000 62%, transparent);
+    backdrop-filter: blur(22px) saturate(120%);
+    -webkit-backdrop-filter: blur(22px) saturate(120%);
+    opacity: 0;
+    transition: opacity .28s var(--ease);
+    cursor: zoom-out;
+}
+.peek-modal.is-open { opacity: 1; }
+
+.peek-modal img {
+    display: block;
+    max-width: min(100%, 60rem);
+    max-height: 82vh;
+    width: auto;
+    height: auto;
+    border-radius: 16px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, .6);
+    transform: scale(.9);
+    opacity: 0;
+    transition: transform .34s cubic-bezier(0.32, 0.72, 0, 1), opacity .24s var(--ease);
+}
+.peek-modal.is-open img { transform: scale(1); opacity: 1; }
+
+.peek-modal__close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(255, 255, 255, .22);
+    background: rgba(255, 255, 255, .12);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: 1;
+}
+.peek-modal__close:hover { background: rgba(255, 255, 255, .22); }
+
+@media (prefers-reduced-motion: reduce) {
+    .peek-hover, .peek-modal, .peek-modal img { transition: none; }
+    .peek-modal img { transform: none; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .peek-modal { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(0,0,0,.9); }
+}
+
+/* Touch devices never hover, so the floating preview would either never appear
+   or appear stuck after a tap. They get the full view only. */
+@media (hover: none) {
+    .peek-hover { display: none; }
+}

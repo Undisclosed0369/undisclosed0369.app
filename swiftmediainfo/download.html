@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Download — SwiftMediaInfo</title>
+
+<meta name="description" content="Install SwiftMediaInfo for macOS with Homebrew or a direct download. Free, open source, and released under the MIT licence.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Download SwiftMediaInfo">
+<meta property="og:description" content="Install SwiftMediaInfo for macOS with Homebrew or a direct download.">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/download.html">
+<meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/download.html">
+
+<link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+<link rel="stylesheet" href="../assets/css/site.css">
+<script src="../assets/js/site.js"></script>
+</head>
+
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand" href="./">
+            <img class="nav__logo" src="../assets/img/icon-64.png" alt="" width="20" height="20">
+            <span class="nav__brand-text">SwiftMediaInfo</span>
+            <span class="visually-hidden">SwiftMediaInfo home</span>
+        </a>
+
+        <a class="nav__link" href="./">Overview</a>
+        <a class="nav__link nav__link--more" href="features.html">Features</a>
+        <a class="nav__link" aria-current="page" href="download.html">Download</a>
+        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
+        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-more" aria-label="More pages">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav__panel" id="nav-more">
+        <a href="features.html">Features</a>
+        <a href="faq.html">FAQ</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="donate.html">Donate</a>
+        <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+    </div>
+</nav>
+
+<main id="main">
+
+    <header class="section section--tight center">
+        <div class="wrap">
+            <img class="hero__logo" src="../assets/img/icon-256.png" alt="" width="256" height="256">
+            <h1 class="display hero__name">Download</h1>
+            <p class="tagline hero__tagline">Free, open source, and yours permanently.</p>
+        </div>
+    </header>
+
+
+    <!-- ==================================================================
+         The two routes
+
+         Homebrew leads, and not only because it is tidier. It installs the
+         mediainfo dependency as part of the same command, it keeps the app
+         updated, and — see the note below — it is the one route that avoids
+         macOS's security prompt entirely.
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim">
+        <div class="wrap wrap--wide">
+
+            <div class="paths">
+
+                <div class="glass path path--primary">
+                    <div class="glass__body">
+                        <p class="path__label">Recommended</p>
+                        <h2 class="path__title">Homebrew</h2>
+                        <p class="path__body">
+                            Three commands. The first points Homebrew at this
+                            project's repository, the second tells Homebrew you are
+                            willing to install from it, and the third installs. After
+                            that, updates arrive alongside everything else you keep
+                            current.
+                        </p>
+
+                        <div class="cmd">
+                            <code class="cmd__code" data-copy="brew tap undisclosed0369/swiftmediainfo">brew tap undisclosed0369/swiftmediainfo</code>
+                            <button class="cmd__copy" type="button">
+                                <span class="cmd__idle">Copy</span>
+                                <span class="cmd__done">Copied</span>
+                            </button>
+                        </div>
+
+                        <!-- Homebrew will not install from a tap it has not been
+                             told to trust. Its error names this command, but by then
+                             the reader has already hit a wall — better to hand it over
+                             before that happens than to explain it afterwards. -->
+                        <div class="cmd">
+                            <code class="cmd__code" data-copy="brew trust undisclosed0369/swiftmediainfo/swiftmediainfo">brew trust undisclosed0369/swiftmediainfo/swiftmediainfo</code>
+                            <button class="cmd__copy" type="button">
+                                <span class="cmd__idle">Copy</span>
+                                <span class="cmd__done">Copied</span>
+                            </button>
+                        </div>
+
+                        <div class="cmd">
+                            <code class="cmd__code" data-copy="brew install --cask --no-quarantine swiftmediainfo">brew install --cask --no-quarantine swiftmediainfo</code>
+                            <button class="cmd__copy" type="button">
+                                <span class="cmd__idle">Copy</span>
+                                <span class="cmd__done">Copied</span>
+                            </button>
+                        </div>
+
+                        <p class="path__body path__body--last">
+                            Don't have Homebrew? One command installs it, from
+                            <a class="link-brand" href="https://brew.sh">brew.sh</a>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass path">
+                    <div class="glass__body">
+                        <p class="path__label path__label--quiet">Direct</p>
+                        <h2 class="path__title">Disk image</h2>
+                        <p class="path__body">
+                            A regular <code>.dmg</code> from GitHub. Drag the app to
+                            your Applications folder, then follow the three steps
+                            below — macOS will not open it otherwise.
+                        </p>
+
+                        <div class="btn-row">
+                            <a class="btn btn--primary" href="https://github.com/Undisclosed0369/SwiftMediaInfo/releases/latest">
+                                Download from GitHub
+                            </a>
+                        </div>
+
+                        <p class="path__body path__body--last">
+                            You will also need the MediaInfo tool. SwiftMediaInfo
+                            offers to install it if it cannot find one on your
+                            system.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Gatekeeper
+
+         The most important section on the site, and the one most sites in
+         this position get wrong — by hiding it, by blaming Apple, or by
+         cheerfully telling people to click past a security warning without
+         saying what the warning is for.
+
+         The approach here: explain the mechanism, say plainly what is and
+         is not being claimed, and give the reader enough to decide. Someone
+         who reads this and installs something else has been served well.
+         ================================================================== -->
+
+    <section class="section">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">You will see this once.</h2>
+                <p class="section__lead">
+                    Install the disk image and macOS will stop you the first time.
+                    Here is the dialog, before it surprises you — and what it does
+                    and does not mean.
+                </p>
+            </div>
+
+            <div class="split split--copy mt-6 rise" data-scroll="rise">
+                <div>
+                    <div class="assure">
+                        <div class="assure__card assure__card--apple">
+                            <h3 class="assure__head">What Apple's check proves</h3>
+                            <p class="assure__body">
+                                That a developer paid for a certificate and submitted
+                                the app to Apple's servers for inspection. It is a
+                                real signal, and SwiftMediaInfo does not have it.
+                            </p>
+                        </div>
+
+                        <div class="assure__card assure__card--ours">
+                            <h3 class="assure__head">What you can check</h3>
+                            <p class="assure__body">
+                                Every line, yourself. The source is public, the
+                                releases are built from it, and you are free to read
+                                it, compile it, or ask someone you trust to look.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="prose mt-6">
+                        Those are different kinds of assurance, not a better and a
+                        worse one. Apple asks you to trust a process; this one asks
+                        you to trust what you can see. For some people the second is
+                        not enough, and that is a reasonable place to land.
+                    </p>
+
+                    <p class="prose mt-1">
+                        What you should not do is wave the warning away on reflex. It
+                        is the same one you would get from something genuinely
+                        malicious, and it is worth reading every time.
+                    </p>
+                </div>
+
+                <div class="split__media">
+                    <!-- The dialog, drawn in the site's own materials rather than
+                         copied pixel for pixel. A convincing replica of a security
+                         warning on a web page is the technique phishing uses, and
+                         it is not one to borrow. -->
+                    <div class="dialog" role="img"
+                         aria-label="A macOS dialog saying Apple could not verify SwiftMediaInfo is free of malware, with Move to Trash and Done buttons.">
+                        <img class="dialog__icon" src="../assets/img/icon-128.png" alt="" width="128" height="128">
+                        <p class="dialog__title">
+                            Apple could not verify &ldquo;SwiftMediaInfo&rdquo; is free
+                            of malware that may harm your Mac.
+                        </p>
+                        <p class="dialog__body">
+                            This software needs to be updated. Contact the developer
+                            for more information.
+                        </p>
+                        <div class="dialog__actions">
+                            <span class="dialog__btn dialog__btn--primary">Done</span>
+                            <span class="dialog__btn">Move to Trash</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h3 class="heading mt-6 rise" data-scroll="rise">Getting past it, once</h3>
+
+            <div class="steps rise" data-scroll="rise">
+                <div class="step">
+                    <h4 class="step__title">Move the app to Applications</h4>
+                    <p class="step__body">
+                        Open the disk image, drag SwiftMediaInfo into your
+                        Applications folder, then eject the image.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h4 class="step__title">Clear the download mark</h4>
+                    <p class="step__body">
+                        macOS flags everything that arrives from the internet. This
+                        removes the flag from this one app and nothing else. Paste it
+                        into Terminal and press Return.
+                    </p>
+
+                    <div class="cmd">
+                        <code class="cmd__code" data-copy="xattr -dr com.apple.quarantine /Applications/SwiftMediaInfo.app">xattr -dr com.apple.quarantine /Applications/SwiftMediaInfo.app</code>
+                        <button class="cmd__copy" type="button">
+                            <span class="cmd__idle">Copy</span>
+                            <span class="cmd__done">Copied</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="step">
+                    <h4 class="step__title">Open it</h4>
+                    <p class="step__body">
+                        That is the whole of it. SwiftMediaInfo opens normally from
+                        now on, including after every future update.
+                    </p>
+                </div>
+            </div>
+
+            <div class="note note--manual rise" data-scroll="rise">
+                <strong>Why Homebrew asks you to trust the tap.</strong> It refuses to
+                install from a third-party repository until you say so. That is a
+                sensible default and I would not want it removed — it is the same
+                question this section asks about macOS, and it deserves the same
+                answer: read the source, or do not install it.
+            </div>
+
+            <div class="note rise" data-scroll="rise">
+                <strong>Homebrew skips all of this.</strong> The
+                <code>--no-quarantine</code> flag means the flag is never applied, so
+                there is no warning and no Terminal. If either route suits you, take
+                that one.
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Requirements
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim">
+        <div class="wrap">
+            <div class="rise" data-scroll="rise">
+                <h2 class="heading">Requirements</h2>
+
+                <dl class="facts mt-3">
+                    <div class="fact">
+                        <dt class="fact__key">macOS</dt>
+                        <dd class="fact__value">26.0 or later</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Architecture</dt>
+                        <dd class="fact__value">Apple silicon</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Dependency</dt>
+                        <dd class="fact__value">mediainfo (installed for you)</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Licence</dt>
+                        <dd class="fact__value">MIT</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Price</dt>
+                        <dd class="fact__value fact__value--accent">Free, permanently</dd>
+                    </div>
+                </dl>
+
+                <p class="prose mt-6">
+                    SwiftMediaInfo reads media files using
+                    <a class="link-brand" href="https://mediaarea.net/en/MediaInfo">MediaInfo</a>,
+                    an open-source tool by MediaArea. If the app cannot find one on
+                    your system it offers to install it — and tells you exactly what
+                    it is about to run.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Uninstall
+
+         On the download page on purpose. A page that explains how to remove
+         something before you have installed it is telling you it expects to
+         earn its place rather than to be difficult to get rid of.
+         ================================================================== -->
+
+    <section class="section section--tight">
+        <div class="wrap">
+            <div class="rise" data-scroll="rise">
+                <h2 class="heading">Removing it</h2>
+                <p class="prose mt-3">
+                    If you installed with Homebrew, there are two commands and the
+                    difference between them is what happens to your settings.
+                </p>
+
+                <h3 class="step__title mt-6">Remove the app, keep your settings</h3>
+                <p class="prose">
+                    Uninstalls SwiftMediaInfo and leaves its preferences on disk —
+                    your gradient colours, zoom level and tab choice. Reinstall
+                    later and everything is where you left it.
+                </p>
+
+                <div class="cmd">
+                    <code class="cmd__code" data-copy="brew uninstall --cask swiftmediainfo">brew uninstall --cask swiftmediainfo</code>
+                    <button class="cmd__copy" type="button">
+                        <span class="cmd__idle">Copy</span>
+                        <span class="cmd__done">Copied</span>
+                    </button>
+                </div>
+
+                <p class="prose mt-6"><strong>Or</strong></p>
+
+                <h3 class="step__title mt-1">Remove everything</h3>
+                <p class="prose">
+                    Adds <code>--zap</code>, which also deletes the preferences.
+                    Nothing SwiftMediaInfo wrote remains on your Mac.
+                </p>
+
+                <div class="cmd">
+                    <code class="cmd__code" data-copy="brew uninstall --cask --zap swiftmediainfo">brew uninstall --cask --zap swiftmediainfo</code>
+                    <button class="cmd__copy" type="button">
+                        <span class="cmd__idle">Copy</span>
+                        <span class="cmd__done">Copied</span>
+                    </button>
+                </div>
+
+                <div class="notes">
+                    <div class="note">
+                        <strong>Neither touches your media.</strong> SwiftMediaInfo
+                        only ever reads your files, so removing it leaves them exactly
+                        as they were. The MediaInfo tool stays too — other software may
+                        be using it, so it is not assumed to be yours to delete.
+                    </div>
+
+                    <div class="note note--manual">
+                        <strong>Installed by hand?</strong> Drag SwiftMediaInfo from
+                        Applications to the Trash. That is the equivalent of the first
+                        command — your settings stay behind, ready if you reinstall.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section cta">
+        <div class="wrap">
+            <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
+            <p class="tagline">The Power of MediaInfo, Beautifully Reimagined for macOS</p>
+            <div class="btn-row">
+                <a class="btn btn--blue" href="./">See what it does</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <div class="identity">
+            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__handle">
+                <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
+            </span>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer">
+            <a href="./">Overview</a>
+            <a href="features.html">Features</a>
+            <a href="download.html">Download</a>
+            <a href="faq.html">FAQ</a>
+            <a href="changelog.html">Changelog</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="donate.html">Donate</a>
+            <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+            <a href="../">Undisclosed</a>
+        </nav>
+
+        <p class="footer__note">
+            SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
+            MediaArea. It is not affiliated with or endorsed by MediaArea.
+        </p>
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Privacy — SwiftMediaInfo</title>
+
+<meta name="description" content="What SwiftMediaInfo does with your files, what it sends, and what it never sends. No account, no telemetry, no analytics.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="SwiftMediaInfo — Privacy">
+<meta property="og:description" content="What the app does with your files, what it sends, and what it never sends.">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/privacy.html">
+<meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/privacy.html">
+
+<link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+<link rel="stylesheet" href="../assets/css/site.css">
+<script src="../assets/js/site.js"></script>
+</head>
+
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand" href="./">
+            <img class="nav__logo" src="../assets/img/icon-64.png" alt="" width="20" height="20">
+            <span class="nav__brand-text">SwiftMediaInfo</span>
+            <span class="visually-hidden">SwiftMediaInfo home</span>
+        </a>
+
+        <a class="nav__link" href="./">Overview</a>
+        <a class="nav__link nav__link--more" href="features.html">Features</a>
+        <a class="nav__link" href="download.html">Download</a>
+        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
+        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="privacy.html">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-more" aria-label="More pages">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav__panel" id="nav-more">
+        <a href="features.html">Features</a>
+        <a href="faq.html">FAQ</a>
+        <a href="changelog.html">Changelog</a>
+        <a aria-current="page" href="privacy.html">Privacy</a>
+        <a href="donate.html">Donate</a>
+        <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+    </div>
+</nav>
+
+<main id="main">
+
+    <header class="section section--tight center">
+        <div class="wrap">
+            <h1 class="display hero__name">Privacy.</h1>
+            <p class="tagline hero__tagline">Short, because there is not much to say.</p>
+        </div>
+    </header>
+
+
+    <!-- ==================================================================
+         The summary
+
+         Up front and in full. A privacy page that makes you read four
+         sections to learn whether anything is uploaded has already failed
+         the person who came here to find out.
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim">
+        <div class="wrap">
+
+            <div class="assure assure--lead rise" data-scroll="rise">
+                <div class="assure__card assure__card--ours">
+                    <h2 class="assure__head">What is sent</h2>
+                    <p class="assure__body">
+                        A report, to a paste service, only when you press Share and
+                        confirm — and you see the exact text first. Nothing else,
+                        ever.
+                    </p>
+                </div>
+
+                <div class="assure__card assure__card--apple">
+                    <h2 class="assure__head">What is never sent</h2>
+                    <p class="assure__body">
+                        Your media files. Your file names or paths. Anything about
+                        you, your Mac, or how you use the app. There is no account,
+                        no telemetry and no analytics of any kind.
+                    </p>
+                </div>
+            </div>
+
+            <p class="section__lead mt-6 rise" data-scroll="rise">
+                That is the whole of it. The rest of this page explains the details
+                for anyone who wants them, and every claim on it can be checked
+                against the
+                <a class="link-brand" href="https://github.com/Undisclosed0369/SwiftMediaInfo">source</a>.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Sharing
+         ================================================================== -->
+
+    <section class="section">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">The one thing that leaves.</h2>
+                <p class="section__lead">
+                    SwiftMediaInfo can upload a report and give you a link to it, so
+                    you can send someone the details of a file without sending the
+                    file. It is the only feature that touches the network.
+                </p>
+            </div>
+
+            <div class="steps rise" data-scroll="rise">
+                <div class="step">
+                    <h3 class="step__title">You press Share</h3>
+                    <p class="step__body">
+                        Nothing happens automatically. There is no background sync and
+                        no upload you did not start.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h3 class="step__title">You are shown what will go</h3>
+                    <p class="step__body">
+                        The full text of the report, before it is sent. If it contains
+                        file paths — and a path often carries your username, sometimes
+                        a good deal more — the app offers to strip them and shows you
+                        the result with them gone.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <h3 class="step__title">It is uploaded, and you get a link</h3>
+                    <p class="step__body">
+                        Reports go to <code>pb.plz.ac</code>, or to <code>up.sb</code>
+                        when the report is large enough to need an archive. Both are
+                        third-party paste services: once a report is there, its
+                        retention and its terms are theirs, not mine.
+                    </p>
+                </div>
+            </div>
+
+            <div class="note rise" data-scroll="rise">
+                <strong>Anyone with the link can read it.</strong> These are public
+                paste services, not private storage — the link is unguessable but it
+                is not protected. Share reports the way you would share any link, and
+                strip the paths if there is anything in them you would not put in a
+                message.
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         What stays
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--wide">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">What stays on your Mac.</h2>
+            </div>
+
+            <div class="groups rise" data-scroll="rise">
+
+                <div class="group group--blue">
+                    <h3 class="group__head"><span class="group__dot"></span>Your files</h3>
+                    <ul class="group__list">
+                        <li>Read to extract metadata, never modified</li>
+                        <li>Never copied, moved or uploaded</li>
+                        <li>Renaming and moving to the Trash happen only when you ask</li>
+                    </ul>
+                </div>
+
+                <div class="group group--violet">
+                    <h3 class="group__head"><span class="group__dot"></span>What the app stores</h3>
+                    <ul class="group__list">
+                        <li>A cache of analysis results, so reopening a file is instant</li>
+                        <li>Computed checksums, so a file is never hashed twice</li>
+                        <li>Your recent files list, your settings and your colours</li>
+                        <li>All of it inside the app's own preferences, all of it local</li>
+                    </ul>
+                </div>
+
+                <div class="group group--green">
+                    <h3 class="group__head"><span class="group__dot"></span>What does not exist</h3>
+                    <ul class="group__list">
+                        <li>No account and no sign-in</li>
+                        <li>No usage tracking, crash reporting or analytics</li>
+                        <li>No update check that phones home</li>
+                        <li>No advertising, and nothing sold to anyone</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <p class="prose mt-6 rise" data-scroll="rise">
+                Deleting the app with <code>--zap</code>, or dragging it to the Trash
+                and removing its preferences, leaves nothing behind. The
+                <a class="link-brand" href="download.html">download page</a> has both
+                commands.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Third parties
+
+         Named rather than glossed. A privacy page that says "we may use
+         third-party services" without saying which is telling you nothing.
+         ================================================================== -->
+
+    <section class="section">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Everyone else involved.</h2>
+                <p class="section__lead">
+                    Four other parties can be involved in using this app. Here is each
+                    of them, and exactly when.
+                </p>
+            </div>
+
+            <div class="compare-wrap rise" data-scroll="rise">
+                <table class="compare">
+                    <caption class="visually-hidden">Third parties and when they are involved</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Who</th>
+                            <th scope="col">When</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">MediaInfo (MediaArea)</th>
+                            <td>Runs on your Mac to read each file. It is a local program, not a service, and sends nothing anywhere.</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Homebrew</th>
+                            <td>Only if you install through it, or let the app install MediaInfo for you. Their servers see a download request, as any package manager would.</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">pb.plz.ac and up.sb</th>
+                            <td>Only when you share a report. They receive the text you were shown and nothing else.</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">GitHub</th>
+                            <td>If you download a release, open an issue, or read the source. Their privacy terms apply on their site, not in the app.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p class="compare__source rise" data-scroll="rise">
+                This website is served as static files and sets no cookies. Your theme
+                choice is remembered in your browser and never leaves it.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Verification
+
+         The closing argument, and the one that distinguishes this page from
+         every privacy policy that asks to be believed.
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim">
+        <div class="wrap">
+            <div class="rise" data-scroll="rise">
+                <h2 class="heading">Do not take my word for it.</h2>
+
+                <p class="prose mt-3">
+                    Every claim above is a statement about code you can read. If you
+                    want to check rather than trust, the two useful ways are opening
+                    the source and watching what the app actually does.
+                </p>
+
+                <p class="prose mt-1">
+                    Little Snitch, LuLu or macOS's own firewall will show you every
+                    connection the app makes. Open a hundred files, export a dozen
+                    reports, and you should see nothing at all until the moment you
+                    press Share.
+                </p>
+
+                <div class="btn-row">
+                    <a class="btn btn--primary" href="https://github.com/Undisclosed0369/SwiftMediaInfo">Read the source</a>
+                    <a class="btn btn--blue" href="faq.html">More questions</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section cta">
+        <div class="wrap">
+            <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
+            <p class="tagline">Beyond the File.</p>
+            <div class="btn-row">
+                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--blue" href="./">See what it does</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <div class="identity">
+            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__handle">
+                <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
+            </span>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer">
+            <a href="./">Overview</a>
+            <a href="features.html">Features</a>
+            <a href="download.html">Download</a>
+            <a href="faq.html">FAQ</a>
+            <a href="changelog.html">Changelog</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="donate.html">Donate</a>
+            <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+            <a href="../">Undisclosed</a>
+        </nav>
+
+        <p class="footer__note">
+            SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
+            MediaArea. It is not affiliated with or endorsed by MediaArea.
+        </p>
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+</body>
+</html>

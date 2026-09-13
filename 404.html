@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Not found — Undisclosed</title>
+
+<!-- Search engines should not index an error page, but they should follow the
+     links on it back to pages that do exist. -->
+<meta name="robots" content="noindex, follow">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="/assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+
+<!-- Absolute paths throughout.
+     
+     A 404 is served for a URL at any depth — /swiftmediainfo/nonsense/deep
+     is as likely as /nonsense — and relative paths would resolve against
+     whatever the reader mistyped. The one page guaranteed to be reached from
+     an unknown location is the one that cannot use relative links. -->
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/assets/css/studio.css">
+<script src="/assets/js/site.js"></script>
+</head>
+
+<body>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand" href="/">
+            <span class="nav__brand-text">Undisclosed</span>
+        </a>
+
+        <a class="nav__link" href="/">Home</a>
+        <a class="nav__link" href="/swiftmediainfo/">SwiftMediaInfo</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<main id="main">
+    <section class="section lost">
+        <div class="wrap">
+            <p class="lost__code">404</p>
+
+            <h1 class="title mt-3">This page is, fittingly, undisclosed.</h1>
+
+            <p class="section__lead mt-3">
+                Either it moved, or it never existed. Both are plausible.
+            </p>
+
+            <div class="btn-row">
+                <a class="btn btn--primary" href="/">Back to the start</a>
+                <a class="btn btn--blue" href="/swiftmediainfo/">SwiftMediaInfo</a>
+            </div>
+        </div>
+    </section>
+</main>
+
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+</body>
+</html>

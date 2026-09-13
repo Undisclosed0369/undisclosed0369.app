@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Features — SwiftMediaInfo</title>
+
+<meta name="description" content="Everything SwiftMediaInfo does: six views, side-by-side comparison, SHA-256 checksums, Finder integration, six export formats, and a field glossary.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="SwiftMediaInfo features">
+<meta property="og:description" content="Six views, side-by-side comparison, checksums, Finder integration and six export formats.">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/features.html">
+<meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/features.html">
+
+<link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+<link rel="stylesheet" href="../assets/css/site.css">
+<script src="../assets/js/site.js"></script>
+</head>
+
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand" href="./">
+            <img class="nav__logo" src="../assets/img/icon-64.png" alt="" width="20" height="20">
+            <span class="nav__brand-text">SwiftMediaInfo</span>
+            <span class="visually-hidden">SwiftMediaInfo home</span>
+        </a>
+
+        <a class="nav__link" href="./">Overview</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="features.html">Features</a>
+        <a class="nav__link" href="download.html">Download</a>
+        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
+        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-more" aria-label="More pages">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav__panel" id="nav-more">
+        <a aria-current="page" href="features.html">Features</a>
+        <a href="faq.html">FAQ</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="donate.html">Donate</a>
+        <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+    </div>
+</nav>
+
+<main id="main">
+
+    <header class="section section--tight center">
+        <div class="wrap">
+            <h1 class="display hero__name">Everything it does.</h1>
+            <p class="tagline hero__tagline">In one page, with nothing held back for later.</p>
+        </div>
+    </header>
+
+
+    <!-- ==================================================================
+         The feature groups
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim">
+        <div class="wrap wrap--wide">
+
+            <div class="groups rise" data-scroll="rise">
+
+                <div class="group group--blue">
+                    <h2 class="group__head"><span class="group__dot"></span>Reading</h2>
+                    <ul class="group__list">
+                        <li>Every field MediaInfo reports, grouped by track</li>
+                        <li>General, video, audio, subtitle and menu tracks, each collapsible</li>
+                        <li>Six views: Easy View, Text, Raw Text, HTML, XML and JSON</li>
+                        <li>Values aligned in a monospaced column, so they can be scanned</li>
+                        <li>Around seventy fields carry a plain-language explanation</li>
+                        <li>Search and filter across every field at once</li>
+                    </ul>
+                </div>
+
+                <div class="group group--pink">
+                    <h2 class="group__head"><span class="group__dot"></span>Comparing</h2>
+                    <ul class="group__list">
+                        <li>Two files side by side, every differing field marked</li>
+                        <li>A summary panel listing the differences, click to jump to one</li>
+                        <li>Hold Option while dragging to open a second file as the comparison</li>
+                        <li>Swap the two sides from a control on the divider</li>
+                        <li>Export either file's report, or both together</li>
+                    </ul>
+                </div>
+
+                <div class="group group--green">
+                    <h2 class="group__head"><span class="group__dot"></span>Verifying</h2>
+                    <ul class="group__list">
+                        <li>SHA-256 checksums, included in the exported report</li>
+                        <li>Real progress, and cancelling stops the work immediately</li>
+                        <li>Computed on request, because it means reading every byte</li>
+                        <li>Results cached, so the same file is never hashed twice</li>
+                    </ul>
+                </div>
+
+                <div class="group group--teal">
+                    <h2 class="group__head"><span class="group__dot"></span>Exporting</h2>
+                    <ul class="group__list">
+                        <li>Text, Raw Text, HTML, XML, JSON and CSV</li>
+                        <li>All six at once, as a single archive</li>
+                        <li>Copy any single value, or a field and its value together</li>
+                        <li>Share a report online and get a link back, if you choose to</li>
+                    </ul>
+                </div>
+
+                <div class="group group--violet">
+                    <h2 class="group__head"><span class="group__dot"></span>Fitting in</h2>
+                    <ul class="group__list">
+                        <li>Right-click any media file in Finder to open it here</li>
+                        <li>Reveal in Finder, copy path, rename, move to Trash</li>
+                        <li>Light, dark or system appearance</li>
+                        <li>Background wash: off, static or animated, in colours you choose</li>
+                        <li>Zoom in and out of the report</li>
+                        <li>Full keyboard control, and VoiceOver throughout</li>
+                    </ul>
+                </div>
+
+                <div class="group group--amber">
+                    <h2 class="group__head"><span class="group__dot"></span>Privacy</h2>
+                    <ul class="group__list">
+                        <li>Analysis happens on your Mac and nowhere else</li>
+                        <li>Reading metadata never alters a file</li>
+                        <li>Sharing is opt-in, and shows exactly what is removed first</li>
+                        <li>No account, no telemetry, no network calls you did not ask for</li>
+                        <li>Open source under the MIT licence</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         The comparison
+
+         Written as facts with no adjectives, including the rows where the
+         other app wins. A table that only favours its author is a table
+         nobody believes — the honest rows are what make the rest credible.
+         ================================================================== -->
+
+    <section class="section">
+        <div class="wrap wrap--wide">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Against the official app.</h2>
+                <p class="section__lead">
+                    MediaArea, who make MediaInfo itself, also sell a Mac app. It is
+                    a reasonable question which to use, so here is the comparison
+                    without any thumb on the scale.
+                </p>
+            </div>
+
+            <div class="compare-wrap rise" data-scroll="rise">
+                <table class="compare">
+                    <caption class="visually-hidden">
+                        Feature comparison between SwiftMediaInfo and MediaArea's MediaInfo for Mac
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col" class="compare__mine">SwiftMediaInfo</th>
+                            <th scope="col">
+                                <a class="compare__link" href="https://apps.apple.com/sg/app/mediainfo/id510620098?mt=12" target="_blank" rel="noopener">MediaInfo for Mac</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">Price</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Free</td>
+                            <td class="" data-label="MediaInfo">The tool is free; the Mac app is paid, plus an in-app purchase</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Licence</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">MIT, open source</td>
+                            <td class="" data-label="MediaInfo">The MediaInfo library is BSD; the Mac app is sold</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Interface</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Liquid Glass, written entirely in SwiftUI</td>
+                            <td class="" data-label="MediaInfo">Shared across five platforms</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Side-by-side comparison</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Included</td>
+                            <td class="" data-label="MediaInfo">Requires the in-app purchase</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Difference highlighting</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Field and line level, with per-track counts</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Field explanations</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Around 70 fields</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">SHA-256 checksums</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Yes</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Search</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Global fuzzy search across every field</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Share online</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Upload a report and get a link</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Interface zoom</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Scales the whole interface</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Keyboard shortcuts</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Full, with a reference window</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Finder integration</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Context menu, drag-and-drop, and ⌥-drag to compare directly</td>
+                            <td class="" data-label="MediaInfo">Context menu and drag-and-drop</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Export formats</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">TXT, Raw TXT, CSV, HTML, JSON and XML — one at a time, all six separately, or bundled as a ZIP</td>
+                            <td class="" data-label="MediaInfo">Text, XML, JSON, EBUCore and more</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Appearance</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Light, dark or system, with an off, static or animated background in colours you choose</td>
+                            <td class="" data-label="MediaInfo">Follows the system</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Platforms</th>
+                            <td class="compare__mine " data-label="SwiftMediaInfo">macOS 26 and later</td>
+                            <td class="compare__yes" data-label="MediaInfo">macOS, Windows, Linux, Android, iOS</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Languages</th>
+                            <td class="compare__mine " data-label="SwiftMediaInfo">English</td>
+                            <td class="compare__yes" data-label="MediaInfo">37 languages</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Signed and notarised</th>
+                            <td class="compare__mine compare__none" data-label="SwiftMediaInfo">No</td>
+                            <td class="compare__yes" data-label="MediaInfo">Yes, via the App Store</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p class="compare__source">
+                    The MediaInfo column reflects what MediaArea documents on the App
+                    Store and their own site. A dash means it is not described there,
+                    which is not the same as it being absent.
+                </p>
+            </div>
+
+            <div class="notes rise" data-scroll="rise">
+                <div class="note">
+                    <strong>Three of those rows go the other way.</strong>
+                    MediaArea's app is on every platform, in 37 languages, and it is
+                    signed and sold through the App Store — so it installs without a
+                    warning and without a Terminal command. If any of that matters to
+                    you, buy theirs. It is a good app by people who have maintained
+                    this work since 2002.
+                </div>
+
+                <div class="note note--credit">
+                    <strong>None of this exists without MediaInfo.</strong>
+                    SwiftMediaInfo reads your files using MediaArea's tool, and every
+                    field on screen comes from their work. This is a different
+                    front-end for it, not a replacement — and if you find the app
+                    useful, the people who built the engine deserve
+                    <a class="link-brand" href="https://mediaarea.net/en/MediaInfo/Donate">supporting</a>.
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section cta">
+        <div class="wrap">
+            <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
+            <p class="tagline">Beyond the File.</p>
+            <div class="btn-row">
+                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--blue" href="./">See what it does</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <div class="identity">
+            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__handle">
+                <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
+            </span>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer">
+            <a href="./">Overview</a>
+            <a href="features.html">Features</a>
+            <a href="download.html">Download</a>
+            <a href="faq.html">FAQ</a>
+            <a href="changelog.html">Changelog</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="donate.html">Donate</a>
+            <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+            <a href="../">Undisclosed</a>
+        </nav>
+
+        <p class="footer__note">
+            SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
+            MediaArea. It is not affiliated with or endorsed by MediaArea.
+        </p>
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+</body>
+</html>

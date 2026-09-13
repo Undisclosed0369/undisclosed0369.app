@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>SwiftMediaInfo — Beyond the File.</title>
+
+<!-- The plain descriptor, not the subtitle. This is the machine-facing
+     string: it exists to be findable, and it is deliberately never shown on
+     the page alongside the tagline. -->
+<meta name="description" content="Native macOS front-end for MediaInfo, with side-by-side comparison and powerful new features.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="SwiftMediaInfo">
+<meta property="og:description" content="Native macOS front-end for MediaInfo, with side-by-side comparison and powerful new features.">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/">
+<meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/">
+
+<!-- Favicons, PNG only. This icon is a rendered illustration — lens glass,
+     film strips, a waveform — and tracing that into vectors would be days of
+     work for a result no better than the raster at the sizes a favicon is
+     ever drawn. Browsers have accepted PNG favicons for twenty years. -->
+<link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/css/site.css">
+
+<!-- Loaded in head, not deferred. The theme has to be applied before first
+     paint, or a reader who chose dark gets a white flash on every load. -->
+<script src="../assets/js/site.js"></script>
+</head>
+
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- One fixed wash behind the whole document. Nothing starts and nothing
+     stops, so there are no section boundaries left to blend. Decorative, so it
+     says nothing to assistive technology. -->
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand" href="./">
+            <img class="nav__logo" src="../assets/img/icon-64.png" alt="" width="20" height="20">
+            <span class="nav__brand-text">SwiftMediaInfo</span>
+            <!-- The wordmark is hidden on phones, so the link needs a name of
+                 its own or it becomes an unlabelled image link. -->
+            <span class="visually-hidden">SwiftMediaInfo home</span>
+        </a>
+
+        <a class="nav__link" aria-current="page" href="./">Overview</a>
+        <a class="nav__link nav__link--more" href="features.html">Features</a>
+        <a class="nav__link" href="download.html">Download</a>
+        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
+        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <!-- The travelling lens. Decorative — the pressed state is carried
+                 by aria-pressed on the buttons, which is what a screen reader
+                 reads. -->
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-more" aria-label="More pages">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav__panel" id="nav-more">
+        <a href="features.html">Features</a>
+        <a href="faq.html">FAQ</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="donate.html">Donate</a>
+        <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+    </div>
+</nav>
+
+<main id="main">
+
+    <!-- ==================================================================
+         Hero
+
+         Name, tagline, one calm screenshot. Compare Mode is the more
+         distinctive feature, but a dense two-column diff is the wrong thing
+         to open with: a hero has about two seconds to say "this is nice"
+         before it has to say anything else. Compare gets the pinned section
+         below, where it lands harder because the reader now knows what they
+         are looking at.
+         ================================================================== -->
+
+    <header class="section center">
+
+        <div class="wrap">
+            <!-- Served at 256 and displayed at 128 so it stays sharp on a
+                 Retina display, where one CSS pixel is two device pixels. -->
+            <img class="hero__logo" src="../assets/img/icon-256.png"
+                 alt="" width="256" height="256">
+            <h1 class="display hero__name">SwiftMediaInfo</h1>
+            <p class="tagline hero__tagline">Beyond the File.</p>
+
+            <div class="btn-row hero__actions">
+                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--quiet" href="https://github.com/Undisclosed0369/SwiftMediaInfo">View source</a>
+            </div>
+        </div>
+
+        <div class="wrap wrap--wide mt-6">
+            <img class="shot shot__variant--light zoom" data-scroll="zoom"
+                 src="../assets/img/hero-easy-view-light.webp"
+                 alt="SwiftMediaInfo showing a video file in Easy View, fields grouped by track."
+                 width="1586" height="917"
+                 loading="lazy" fetchpriority="high" decoding="async" data-peek-self>
+            <img class="shot shot__variant--dark zoom" data-scroll="zoom"
+                 src="../assets/img/hero-easy-view-dark.webp"
+                 alt="SwiftMediaInfo showing a video file in Easy View, fields grouped by track."
+                 width="1586" height="917"
+                 loading="lazy" fetchpriority="high" decoding="async" data-peek-self>
+        </div>
+    </header>
+
+
+    <!-- ==================================================================
+         Readability
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Every field, readable.</h2>
+                <p class="section__lead">
+                    MediaInfo reports hundreds of fields per file. SwiftMediaInfo
+                    groups them by track, aligns the values in a monospaced column,
+                    and explains the ones nobody remembers.
+                </p>
+            </div>
+
+            <div class="feature__shot breakout rise" data-scroll="rise">
+                <img class="shot shot__variant--light" src="../assets/img/easy-view-glossary-light.webp"
+                             alt="An Easy View field with its plain-language explanation open." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                        <img class="shot shot__variant--dark" src="../assets/img/easy-view-glossary-dark.webp"
+                             alt="An Easy View field with its plain-language explanation open." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+            </div>
+
+            <div class="points points--three rise" data-scroll="rise">
+                <div class="point point--tinted" style="--tint: var(--blue)">
+                    <h3 class="point__title">Grouped by track</h3>
+                    <p class="point__body">
+                        General, video, audio, subtitles and menus, each in its own
+                        card, collapsible when you want the rest out of the way.
+                    </p>
+                </div>
+                <div class="point point--tinted" style="--tint: var(--violet)">
+                    <h3 class="point__title">Plain-language notes</h3>
+                    <p class="point__body">
+                        Around seventy fields carry an explanation. Hover the marker
+                        for a quick read, or click to keep it open.
+                    </p>
+                </div>
+                <div class="point point--tinted" style="--tint: var(--pink)">
+                    <h3 class="point__title">Six ways to read it</h3>
+                    <p class="point__body">
+                        Easy View, Text, Raw Text, HTML, XML and JSON. The same
+                        analysis, in whichever form you need.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Compare — the pinned section
+
+         The screenshot holds still while the copy beside it advances. This
+         is the Apple move rebuilt without a library: their pages pin a canvas
+         and scrub a few hundred pre-rendered frames, which needs rendered
+         frames rather than screenshots. Pinning plus crossfading copy is the
+         achievable half, and it is the half that carries the meaning.
+
+         The section is three viewports tall; that height is the scroll
+         budget the panels advance through.
+         ================================================================== -->
+
+    <section class="pinned section--scrim" data-pinned style="min-height: 300svh;">
+
+        <div class="pinned__inner">
+            <div class="wrap wrap--xwide">
+                <div class="pinned__grid">
+
+                    <div class="pinned__panels">
+                        <div class="rail" aria-hidden="true">
+                            <span class="rail__tick"><span class="rail__fill"></span></span>
+                            <span class="rail__tick"><span class="rail__fill"></span></span>
+                            <span class="rail__tick"><span class="rail__fill"></span></span>
+                        </div>
+
+                        <div class="panel is-active">
+                            <h2 class="title">See what changed.</h2>
+                            <p class="section__lead">
+                                Open two files side by side. Every field that differs is
+                                marked, and a summary lists the differences so you can
+                                jump straight to the one you were looking for.
+                            </p>
+                        </div>
+
+                        <div class="panel">
+                            <h2 class="title">Drop the second file.</h2>
+                            <p class="section__lead">
+                                Hold Option while dragging onto an open file and it opens
+                                as the comparison, without leaving the window. A control
+                                on the divider exchanges the two sides.
+                            </p>
+                        </div>
+
+                        <div class="panel">
+                            <h2 class="title">Take the result with you.</h2>
+                            <p class="section__lead">
+                                Export either file's report, or both together, in any of
+                                the six formats — including a single archive containing
+                                all of them.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- The scroll-driven sequence.
+                    
+                         145 frames of the app actually entering Compare Mode,
+                         scrubbed by scroll position rather than played. The
+                         same scroll that advances the copy on the left moves
+                         the frames on the right, so the two are describing the
+                         same moment.
+                    
+                         `poster` is the first frame, shown as a plain image
+                         until the sequence is ready — and left in place
+                         permanently for anyone whose browser or preferences
+                         mean the sequence never runs. -->
+                    <figure class="shot sequence"
+                            data-sequence
+                            data-count="145"
+                            data-ext=".webp"
+                            data-desktop="../assets/frames/"
+                            data-mobile="../assets/frames-mobile/"
+                            data-breakpoint="1024">
+
+                        <!-- The poster is the mobile first frame: small enough
+                             to arrive immediately, and identical in content to
+                             the desktop one, so the handover to the canvas is
+                             invisible. -->
+                        <img class="sequence__poster" src="../assets/frames-mobile/0001.webp"
+                             alt="SwiftMediaInfo entering Compare Mode, with two files side by side."
+                             width="1200" height="760">
+
+                        <!-- These dimensions are a starting point only. The
+                             script re-sizes the canvas from the first frame
+                             that decodes, so re-encoding at another resolution
+                             does not require editing them. -->
+                        <canvas class="sequence__canvas" width="1900" height="1204" aria-hidden="true"></canvas>
+
+                        <div class="sequence__loading" aria-hidden="true">
+                            <span class="sequence__bar"><span class="sequence__fill"></span></span>
+                        </div>
+                    </figure>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Finder
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">Start from Finder.</h2>
+                    <p class="section__lead">
+                        Right-click any media file and open it straight into
+                        SwiftMediaInfo. No launching the app first, no dragging
+                        anything anywhere.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/finder-extension-light.webp"
+                             alt="The Finder right-click menu with the SwiftMediaInfo entry."
+                             width="1122" height="821" loading="lazy" decoding="async" data-peek-self>
+                        <img class="shot shot__variant--dark" src="../assets/img/finder-extension-dark.webp"
+                             alt="The Finder right-click menu with the SwiftMediaInfo entry."
+                             width="1120" height="814" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Checksums
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split split--reverse split--media rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">Verify what you have.</h2>
+                    <p class="section__lead">
+                        SwiftMediaInfo computes a SHA-256 checksum and includes it in
+                        the report, so an archive copy can be checked against the
+                        original years later.
+                    </p>
+                    <p class="prose mt-1">
+                        Producing a checksum means reading every byte of the file, so
+                        SwiftMediaInfo waits until you ask for one. The progress it
+                        shows is the work itself, and cancelling stops that work
+                        immediately.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/checksum-light.webp"
+                             alt="A SHA-256 checksum being computed, with progress shown." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                        <img class="shot shot__variant--dark" src="../assets/img/checksum-dark.webp"
+                             alt="A SHA-256 checksum being computed, with progress shown." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Appearance
+
+         Placed after the features and before the pricing argument, because
+         it is the section that answers "will this feel like mine" — which is
+         a question people ask once they have decided the app is capable.
+
+         The swatches are live CSS, not pictures of gradients. They cost
+         nothing to ship and cannot fall out of date with the app's real
+         colours.
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Make it yours.</h2>
+                <p class="section__lead">
+                    The colour wash behind the glass is built from three shades,
+                    and all three are yours to choose. Pick from the palette the
+                    app ships with, or set your own.
+                </p>
+            </div>
+
+            <div class="swatches rise" data-scroll="rise">
+                <div class="swatch">
+                    <div class="swatch__field" style="--sw: radial-gradient(60% 80% at 22% 28%, #8d42f5 0%, transparent 70%), radial-gradient(60% 80% at 78% 62%, #e042f5 0%, transparent 70%), radial-gradient(60% 80% at 54% 14%, #42a1f5 0%, transparent 70%), #f2eefb;"></div>
+                    <div class="swatch__label">
+                        <span class="swatch__name">Signature</span>
+                        <span class="swatch__hexes">8D42F5 · E042F5 · 42A1F5</span>
+                    </div>
+                </div>
+
+                <div class="swatch">
+                    <div class="swatch__field" style="--sw: radial-gradient(60% 80% at 22% 28%, #42a1f5 0%, transparent 70%), radial-gradient(60% 80% at 78% 62%, #42e0f5 0%, transparent 70%), radial-gradient(60% 80% at 54% 14%, #8d42f5 0%, transparent 70%), #eaf3fd;"></div>
+                    <div class="swatch__label">
+                        <span class="swatch__name">Tide</span>
+                        <span class="swatch__hexes">42A1F5 · 42E0F5 · 8D42F5</span>
+                    </div>
+                </div>
+
+                <div class="swatch">
+                    <div class="swatch__field" style="--sw: radial-gradient(60% 80% at 22% 68%, #42f566 0%, transparent 70%), radial-gradient(60% 80% at 78% 30%, #42e0f5 0%, transparent 70%), radial-gradient(60% 80% at 50% 10%, #42a1f5 0%, transparent 70%), #ecfaf0;"></div>
+                    <div class="swatch__label">
+                        <span class="swatch__name">Meadow</span>
+                        <span class="swatch__hexes">42F566 · 42E0F5 · 42A1F5</span>
+                    </div>
+                </div>
+
+                <div class="swatch">
+                    <div class="swatch__field" style="--sw: radial-gradient(60% 80% at 26% 30%, #e042f5 0%, transparent 70%), radial-gradient(60% 80% at 74% 66%, #f5a142 0%, transparent 70%), radial-gradient(60% 80% at 52% 12%, #8d42f5 0%, transparent 70%), #fbeef6;"></div>
+                    <div class="swatch__label">
+                        <span class="swatch__name">Ember</span>
+                        <span class="swatch__hexes">E042F5 · F5A142 · 8D42F5</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- The three background modes, as a control rather than as
+                 three paragraphs describing a difference the reader cannot
+                 see. Off and Static are stills; Animated has to be video,
+                 because a still of an animation is precisely the thing that
+                 fails to communicate. -->
+            <div class="showcase rise" data-showcase data-scroll="rise">
+                <div class="showcase__bar">
+                <div class="pill showcase__tabs" role="tablist" aria-label="Background mode">
+                    <span class="pill__thumb" aria-hidden="true"></span>
+                    <button class="pill__btn showcase__tab" type="button" role="tab"
+                            id="tab-off" aria-controls="panel-off" aria-selected="false" tabindex="-1"
+                            data-note="No wash at all. The glass has nothing to pick colour up from, so the panels read grey.">
+                        Off
+                    </button>
+                    <button class="pill__btn showcase__tab" type="button" role="tab"
+                            id="tab-static" aria-controls="panel-static" aria-selected="true" tabindex="0"
+                            data-note="The default. Drawn once and held still — indistinguishable from Animated at a glance, and free to keep on screen.">
+                        Static
+                    </button>
+                    <button class="pill__btn showcase__tab" type="button" role="tab"
+                            id="tab-animated" aria-controls="panel-animated" aria-selected="false" tabindex="-1"
+                            data-note="The wash drifts slowly. It pauses when the app is in the background, and stops entirely in Low Power Mode.">
+                        Animated
+                    </button>
+                </div>
+                </div>
+
+                <p class="showcase__note">The default. Drawn once and held still — indistinguishable from Animated at a glance, and free to keep on screen.</p>
+
+                <div class="showcase__stage">
+
+                    <div class="showcase__panel" id="panel-off" role="tabpanel" aria-labelledby="tab-off">
+                        <img class="shot shot__variant--light" src="../assets/img/bg-off-light.webp"
+                             alt="SwiftMediaInfo with the background wash switched off." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                        <img class="shot shot__variant--dark" src="../assets/img/bg-off-dark.webp"
+                             alt="SwiftMediaInfo with the background wash switched off." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                    </div>
+
+                    <div class="showcase__panel is-active" id="panel-static" role="tabpanel" aria-labelledby="tab-static">
+                        <img class="shot shot__variant--light" src="../assets/img/bg-static-light.webp"
+                             alt="SwiftMediaInfo with the static background wash." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                        <img class="shot shot__variant--dark" src="../assets/img/bg-static-dark.webp"
+                             alt="SwiftMediaInfo with the static background wash." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                    </div>
+
+                    <!-- Video, muted and inline: the only combination iOS will
+                         play without a tap. `preload="none"` keeps it off the
+                         wire until the reader chooses this tab, so nobody pays
+                         for it on a phone unless they ask. -->
+                    <div class="showcase__panel" id="panel-animated" role="tabpanel" aria-labelledby="tab-animated">
+                        <!-- Muted, inline and without controls: the only combination iOS
+                             will play without a tap. `preload="none"` keeps it off the
+                             wire until this tab is chosen, so nobody pays for it on a
+                             phone unless they ask.
+                        
+                             The clip plays forward then backward, so its last frame is
+                             its first and the loop has no seam. The app's three blobs
+                             cycle at 19, 23 and 29 seconds with no common factor —
+                             deliberately, so it never visibly repeats — which means no
+                             recording of any length loops on its own. -->
+                        <video class="shot shot__variant--light" muted loop playsinline preload="none"
+                               poster="../assets/img/bg-animated-light-poster.webp"
+                               width="2480" height="1418"
+                               aria-label="The background wash drifting slowly, in light mode.">
+                            <source src="../assets/img/bg-animated-light.mp4" type="video/mp4">
+                        </video>
+                        <video class="shot shot__variant--dark" muted loop playsinline preload="none"
+                               poster="../assets/img/bg-animated-dark-poster.webp"
+                               width="2480" height="1418"
+                               aria-label="The background wash drifting slowly, in dark mode.">
+                            <source src="../assets/img/bg-animated-dark.mp4" type="video/mp4">
+                        </video>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Trust and price
+
+         Deliberately the last thing before the download. Someone about to
+         install an unsigned app from a stranger's GitHub has one question
+         left, and this answers it before they have to ask.
+
+         The pricing argument is made without naming anyone. MIT licensing is
+         a stronger claim than any comparison: a paid competitor can add
+         features, but it cannot make itself impossible to paywall.
+         ================================================================== -->
+
+    <section class="section">
+
+        <div class="wrap">
+            <div class="glass rise" data-scroll="rise">
+                <div class="glass__body">
+                    <h2 class="title">Every feature, for everyone.</h2>
+                    <p class="section__lead">
+                        No tiers, no trial, no purchase. Everything on this page is in
+                        the download, and it is released under the MIT licence — so it
+                        cannot be put behind a paywall, and it cannot be taken away.
+                    </p>
+
+                    <div class="points points--three mt-6">
+                        <div class="point point--tinted" style="--tint: var(--green)">
+                            <h3 class="point__title">Nothing leaves your Mac</h3>
+                            <p class="point__body">
+                                Analysis happens locally. A report is only uploaded if you
+                                choose to share it, and you see exactly what is removed
+                                before it goes.
+                            </p>
+                        </div>
+                        <div class="point point--tinted" style="--tint: var(--teal)">
+                            <h3 class="point__title">Read-only analysis</h3>
+                            <p class="point__body">
+                                Reading metadata never alters a file. Renaming and moving
+                                to the Trash happen only when you ask for them.
+                            </p>
+                        </div>
+                        <div class="point point--tinted" style="--tint: var(--blue)">
+                            <h3 class="point__title">Open to audit</h3>
+                            <p class="point__body">
+                                Every line is public. You do not have to take any of this
+                                on trust.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p class="prose mt-6"><a class="link-brand" href="privacy.html">Read the full privacy note</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Requirements — the app's own grammar
+
+         Keys in the interface font, values in mono, aligned down a column.
+         Exactly what Easy View does, for exactly the same reason: aligned
+         monospaced values are scannable in a way a paragraph is not.
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim">
+        <div class="wrap">
+            <div class="rise" data-scroll="rise">
+                <h2 class="heading">Requirements</h2>
+
+                <dl class="facts mt-3">
+                    <div class="fact">
+                        <dt class="fact__key">macOS</dt>
+                        <dd class="fact__value">26.0 or later</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Architecture</dt>
+                        <dd class="fact__value">Apple silicon</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Dependency</dt>
+                        <dd class="fact__value">mediainfo (installed for you)</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Licence</dt>
+                        <dd class="fact__value">MIT</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Price</dt>
+                        <dd class="fact__value fact__value--accent">Free, permanently</dd>
+                    </div>
+                </dl>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Close
+         ================================================================== -->
+
+    <section class="section cta">
+
+        <div class="wrap">
+            <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
+            <p class="tagline">The Power of MediaInfo, Beautifully Reimagined for macOS</p>
+            <div class="btn-row">
+                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <nav class="footer__links" aria-label="Footer">
+            <a href="./">Overview</a>
+            <a href="features.html">Features</a>
+            <a href="download.html">Download</a>
+            <a href="faq.html">FAQ</a>
+            <a href="changelog.html">Changelog</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="donate.html">Donate</a>
+            <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+            <a href="../">Undisclosed</a>
+        </nav>
+
+        <div class="identity">
+            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__handle">
+                <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
+            </span>
+        </div>
+
+        <p class="footer__note">
+            SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
+            MediaArea. It is not affiliated with or endorsed by MediaArea.
+        </p>
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+</body>
+</html>

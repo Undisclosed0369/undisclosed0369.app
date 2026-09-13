@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>FAQ — SwiftMediaInfo</title>
+
+<meta name="description" content="Answers about SwiftMediaInfo: why macOS warns on first launch, why MediaInfo is needed, what happens to your files, and how the app was built.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="SwiftMediaInfo — FAQ">
+<meta property="og:description" content="Why macOS warns on first launch, why MediaInfo is needed, and what happens to your files.">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/faq.html">
+<meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/faq.html">
+
+<link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+<link rel="stylesheet" href="../assets/css/site.css">
+<script src="../assets/js/site.js"></script>
+</head>
+
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand" href="./">
+            <img class="nav__logo" src="../assets/img/icon-64.png" alt="" width="20" height="20">
+            <span class="nav__brand-text">SwiftMediaInfo</span>
+            <span class="visually-hidden">SwiftMediaInfo home</span>
+        </a>
+
+        <a class="nav__link" href="./">Overview</a>
+        <a class="nav__link nav__link--more" href="features.html">Features</a>
+        <a class="nav__link" href="download.html">Download</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="faq.html">FAQ</a>
+        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-more" aria-label="More pages">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav__panel" id="nav-more">
+        <a href="features.html">Features</a>
+        <a aria-current="page" href="faq.html">FAQ</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="donate.html">Donate</a>
+        <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+    </div>
+</nav>
+
+<main id="main">
+
+    <header class="section section--tight center">
+        <div class="wrap">
+            <h1 class="display hero__name">Questions.</h1>
+            <p class="tagline hero__tagline">Including the awkward ones.</p>
+        </div>
+    </header>
+
+
+    <section class="section section--tight">
+        <div class="wrap">
+
+            <!-- ==========================================================
+                 Installing
+
+                 First, because these are the questions someone has while
+                 something is going wrong, and a FAQ that opens with
+                 philosophy while the reader is stuck is a FAQ nobody
+                 finishes.
+                 ========================================================== -->
+
+            <h2 class="faq__group faq--blue">Installing</h2>
+
+            <div class="faq faq--blue">
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Why does macOS say the app is damaged?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            It is not damaged. That message is what macOS shows for an
+                            app it cannot verify, and SwiftMediaInfo is not signed with
+                            an Apple developer certificate — that requires a paid
+                            membership this project does not have.
+                        </p>
+                        <p>
+                            The fix is one command, and the
+                            <a class="link-brand" href="download.html">download page</a>
+                            walks through it. Installing with Homebrew avoids the
+                            warning entirely — three commands there, because Homebrew
+                            asks you to trust a third-party repository before it will
+                            install from one.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Why do I need MediaInfo installed as well?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            SwiftMediaInfo is a front-end. Every field it shows comes
+                            from MediaInfo, MediaArea's tool, which does the actual
+                            reading. If the app cannot find one on your system it
+                            offers to install it, and tells you exactly what it is
+                            about to run.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Why isn't MediaInfo just bundled in?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            MediaInfo is updated often. Bundling a copy would mean
+                            re-releasing SwiftMediaInfo every time it changed, and
+                            leaving you on whatever version happened to ship with the
+                            app you installed.
+                        </p>
+                        <p>
+                            Installing it through Homebrew means it stays current on
+                            its own schedule, and new format support arrives
+                            without waiting for me to ship anything.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Which macOS versions does it run on?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            macOS 26 and later, on Apple silicon. That is a deliberate limit
+                            rather than an untested guess: the interface is built on
+                            APIs that only exist in 26, and supporting anything earlier
+                            would mean maintaining a second, worse-looking version of
+                            every screen.
+                        </p>
+                    </div>
+                </details>
+
+            </div>
+
+
+            <!-- ==========================================================
+                 Your files
+                 ========================================================== -->
+
+            <h2 class="faq__group faq--green">Your files</h2>
+
+            <div class="faq faq--green">
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Does it modify my media?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            No. Reading metadata never alters a file, and the app has no
+                            code that writes to one.
+                        </p>
+                        <p>
+                            The two exceptions are things you ask for explicitly:
+                            renaming a file, and moving one to the Trash. Both are
+                            deliberate actions with confirmation, and neither touches
+                            the contents.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Does anything get sent anywhere?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            Not unless you press Share. Analysis happens on your Mac.
+                            There is no account, no telemetry, and no analytics.
+                        </p>
+                        <p>
+                            If you do share a report, the app shows you exactly what it
+                            is about to upload and offers to strip file paths first —
+                            because a path often contains a username, and sometimes a
+                            good deal more.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        What formats does it support?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            Whatever MediaInfo supports, which is most things:
+                            MKV, MP4, MOV, AVI, FLAC, MP3, WAV and a long list beyond
+                            them. Since the reading is MediaInfo's work, support arrives
+                            as they add it.
+                        </p>
+                    </div>
+                </details>
+
+            </div>
+
+
+            <!-- ==========================================================
+                 The project
+
+                 The AI question is here, answered the way the About window
+                 answers it: with what the reader can verify rather than with
+                 a confession or a defence.
+                 ========================================================== -->
+
+            <h2 class="faq__group faq--violet">The project</h2>
+
+            <div class="faq faq--violet">
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Was this written by AI?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            Yes. The code was written by Claude, under my direction and
+                            review — I specified every feature, tested every build, and
+                            made every decision about what this app is.
+                        </p>
+                        <p>
+                            I say so plainly because the source is public. You do not have
+                            to take any of it on trust: read it, build it yourself, or
+                            have someone you trust look at it. That is a
+                            stronger position than most software can offer, however it
+                            was written.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Is this the official MediaInfo app?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            No. MediaArea make MediaInfo and also sell their own Mac
+                            app. SwiftMediaInfo is an independent front-end built on
+                            their tool, not affiliated with or endorsed by them.
+                        </p>
+                        <p>
+                            If you want the official one, it is on the App Store and it
+                            is a good app. The
+                            <a class="link-brand" href="features.html">comparison</a>
+                            lays out where each is stronger.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Is it really free? Will that change?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            Free, with everything included and no paid tier — and that
+                            applies to every version, including the ones not written
+                            yet. There is no plan to charge for anything, ever.
+                        </p>
+                        <p>
+                            The MIT licence makes that more than a promise. Even if I
+                            changed my mind, the code already released stays free
+                            permanently, and anyone could continue it from where I
+                            stopped.
+                        </p>
+                        <p>
+                            If you would like to support the work anyway, there is
+                            <a class="link-brand" href="donate.html">one way to</a> —
+                            and it buys nothing you would otherwise be charged for.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Why does it only support English?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            Because I am one person, and a translation I cannot check is
+                            worse than an honest gap. The field explanations in
+                            particular are written prose rather than labels, and a
+                            machine translation of those would be confidently wrong in
+                            ways only a native speaker would catch.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        I found a bug, or I want a feature.
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            Open an issue on
+                            <a class="link-brand" href="https://github.com/Undisclosed0369/SwiftMediaInfo/issues">GitHub</a>
+                            — that is the best place, because it is public and nothing
+                            gets lost.
+                        </p>
+                        <p>
+                            I read every one. Bugs with a file that reproduces them
+                            get fixed fastest.
+                        </p>
+                    </div>
+                </details>
+
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="section cta">
+        <div class="wrap">
+            <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
+            <p class="tagline">Beyond the File.</p>
+            <div class="btn-row">
+                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--blue" href="./">See what it does</a>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <div class="identity">
+            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__handle">
+                <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
+            </span>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer">
+            <a href="./">Overview</a>
+            <a href="features.html">Features</a>
+            <a href="download.html">Download</a>
+            <a href="faq.html">FAQ</a>
+            <a href="changelog.html">Changelog</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="donate.html">Donate</a>
+            <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+            <a href="../">Undisclosed</a>
+        </nav>
+
+        <p class="footer__note">
+            SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
+            MediaArea. It is not affiliated with or endorsed by MediaArea.
+        </p>
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+</body>
+</html>

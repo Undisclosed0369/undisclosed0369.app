@@ -1,0 +1,607 @@
+/* ==========================================================================
+   undisclosed0369.app — the studio root
+   --------------------------------------------------------------------------
+   Loaded AFTER site.css, and depends on it. Every token, every piece of glass,
+   the page-wide gradient, the scroll reveals, the theme switch and the cursor
+   glow all come from there.
+
+   WHY NOT A SEPARATE STYLESHEET FROM SCRATCH
+
+   The studio and the app's site are meant to feel like the same hand made
+   both — because the same hand did. Rebuilding the design system here would
+   guarantee they drift apart the first time one is touched and the other is
+   not. This file holds only what the studio needs and the app's site does not.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The hero
+   -------------------------------------------------------------------------- */
+
+.studio-hero {
+    min-height: calc(100svh - var(--nav-h));
+    display: grid;
+    place-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.studio-hero__inner { max-width: 52rem; padding-inline: 1.5rem; }
+
+.studio-hero__name {
+    font-family: var(--sans-display);
+    font-size: clamp(3.5rem, 11vw, 9rem);
+    font-weight: 600;
+    line-height: 0.95;
+    letter-spacing: -0.045em;
+    margin-bottom: 1.75rem;
+}
+
+.studio-hero__line {
+    font-family: var(--sans-display);
+    font-size: clamp(1.35rem, 3.4vw, 2.5rem);
+    font-weight: 600;
+    line-height: 1.22;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    max-width: 20ch;
+    margin-inline: auto;
+}
+
+.studio-hero__sub {
+    font-size: var(--t-lead);
+    color: var(--ink-soft);
+    font-weight: 450;
+    margin-top: 1.1rem;
+}
+
+/* A cue to keep scrolling, which a full-height hero otherwise fails to give.
+   It fades out as soon as the reader takes the hint — leaving it up would be
+   nagging someone who has already done the thing. */
+.studio-hero__cue {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    translate: -50% 0;
+    width: 1.5rem;
+    height: 2.4rem;
+    border-radius: 999px;
+    border: 1.5px solid color-mix(in srgb, var(--ink) 28%, transparent);
+    opacity: 1;
+    transition: opacity .5s var(--ease);
+}
+.studio-hero__cue.is-gone { opacity: 0; }
+
+.studio-hero__cue::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: .4rem;
+    width: 3px;
+    height: 7px;
+    border-radius: 2px;
+    translate: -50% 0;
+    background: var(--violet);
+    animation: cue-fall 1.9s var(--ease) infinite;
+}
+
+@keyframes cue-fall {
+    0%, 12%   { transform: translateY(0); opacity: 0; }
+    25%       { opacity: 1; }
+    70%, 100% { transform: translateY(13px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .studio-hero__cue::after { animation: none; opacity: .8; }
+}
+
+/* --------------------------------------------------------------------------
+   Work
+   -------------------------------------------------------------------------- */
+
+.work { display: grid; gap: 1.5rem; margin-top: 3.5rem; }
+@media (min-width: 52rem) { .work { grid-template-columns: 1fr 1fr; align-items: stretch; } }
+
+.work__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 24rem;
+    padding: 2rem;
+    border-radius: 22px;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: var(--glass-shadow);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform .5s var(--ease), box-shadow .5s var(--ease),
+                border-color .5s var(--ease);
+}
+
+.work__card:hover {
+    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--tint, var(--violet)) 40%, transparent);
+    box-shadow:
+        inset 0 1px 0 var(--glass-edge),
+        0 2px 8px rgba(0,0,0,.08),
+        0 26px 60px color-mix(in srgb, var(--tint, var(--violet)) 22%, transparent);
+}
+
+/* A wash of the project's own colour, pooled in one corner. It is what makes
+   two cards of identical shape read as two different things. */
+.work__card::before {
+    content: "";
+    position: absolute;
+    inset: -40% -40% auto auto;
+    width: 26rem;
+    height: 26rem;
+    border-radius: 50%;
+    z-index: -1;
+    background: radial-gradient(
+        closest-side,
+        color-mix(in srgb, var(--tint, var(--violet)) 40%, transparent),
+        transparent 70%
+    );
+    opacity: .55;
+    transition: opacity .5s var(--ease), transform .8s var(--ease);
+}
+.work__card:hover::before { opacity: .8; transform: scale(1.12); }
+
+.work__icon {
+    width: 74px;
+    height: 74px;
+    border-radius: 22%;
+    display: block;
+    margin-bottom: 1.5rem;
+}
+
+.work__name {
+    font-family: var(--sans-display);
+    font-size: var(--t-title);
+    font-weight: 600;
+    letter-spacing: -.024em;
+    line-height: 1.1;
+}
+
+.work__tag {
+    font-size: var(--t-body);
+    color: var(--ink-body);
+    font-weight: 450;
+    margin-top: .75rem;
+    max-width: 32ch;
+}
+
+.work__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: 1.25rem;
+}
+
+.work__chip {
+    font-size: var(--t-micro);
+    font-weight: 600;
+    letter-spacing: .02em;
+    padding: .3rem .6rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--tint, var(--violet)) 30%, transparent);
+    color: color-mix(in srgb, var(--tint, var(--violet)) 70%, var(--ink));
+    background: color-mix(in srgb, var(--tint, var(--violet)) 10%, transparent);
+}
+
+.work__foot { margin-top: auto; padding-top: 1.75rem; }
+
+/* --------------------------------------------------------------------------
+   The locked card
+   --------------------------------------------------------------------------
+   Crackula has no icon yet, and a placeholder icon would be a lie that has to
+   be replaced. Frosted glass over an empty plate is not a placeholder — it is
+   the point, and the real icon drops behind it later with no redesign.
+   -------------------------------------------------------------------------- */
+
+.work__lock {
+    position: relative;
+    width: 74px;
+    height: 74px;
+    border-radius: 22%;
+    margin-bottom: 1.5rem;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: linear-gradient(
+        145deg,
+        color-mix(in srgb, var(--tint) 30%, transparent),
+        color-mix(in srgb, var(--ink) 14%, transparent)
+    );
+    border: 1px solid color-mix(in srgb, var(--tint) 28%, transparent);
+}
+
+/* The frost. On hover it thins, as though the glass is considering it, then
+   settles back — which says "not yet" far better than any label would. */
+.work__lock::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(7px) saturate(130%);
+    -webkit-backdrop-filter: blur(7px) saturate(130%);
+    background: color-mix(in srgb, var(--surface) 24%, transparent);
+    transition: backdrop-filter .6s var(--ease), background-color .6s var(--ease);
+}
+.work__card:hover .work__lock::after {
+    backdrop-filter: blur(3px) saturate(130%);
+    -webkit-backdrop-filter: blur(3px) saturate(130%);
+    background: color-mix(in srgb, var(--surface) 12%, transparent);
+}
+
+.work__lock svg {
+    width: 30px;
+    height: 30px;
+    color: color-mix(in srgb, var(--tint) 60%, var(--ink));
+    position: relative;
+    z-index: 1;
+}
+
+.work__soon {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: color-mix(in srgb, var(--tint) 75%, var(--ink));
+}
+
+/* --------------------------------------------------------------------------
+   Prose sections
+   -------------------------------------------------------------------------- */
+
+.essay { max-width: 40rem; }
+.essay p { font-size: var(--t-lead); line-height: 1.55; color: var(--ink-body); font-weight: 450; }
+
+.essay p + p { margin-top: 1.4rem; }
+.essay strong { font-weight: 600; color: var(--ink); }
+.essay em { font-style: italic; }
+
+/* The opening line of a section, set larger. Apple does this and it works for
+   a reason: it gives the eye somewhere to land before the paragraph rhythm
+   takes over. */
+.essay__lead {
+    font-family: var(--sans-display);
+    font-size: clamp(1.35rem, 2.6vw, 1.9rem);
+    font-weight: 600;
+    letter-spacing: -.018em;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 1.6rem;
+}
+
+/* A pull-quote for the one line that carries a whole section. */
+.pull {
+    font-family: var(--sans-display);
+    font-size: clamp(1.6rem, 3.6vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -.026em;
+    line-height: 1.2;
+    margin: 2.5rem 0;
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--violet);
+    color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Elsewhere
+   -------------------------------------------------------------------------- */
+
+.elsewhere { display: grid; gap: .75rem; margin-top: 2.5rem; max-width: 34rem; }
+
+.elsewhere__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.4rem;
+    border-radius: 14px;
+    color: var(--ink);
+    
+    /* Real glass, not a four-per-cent tint.
+       
+       These sat on a scrimmed section at `ink 4%`, which over a frosted plate
+       is very nearly nothing — the boxes and their text were barely visible.
+       They now use the same glass as every other raised surface on the site,
+       so they read as objects rather than faint rectangles. */
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+    box-shadow:
+        inset 0 1px 0 var(--glass-edge),
+        0 1px 2px rgba(0,0,0,.05),
+        0 8px 24px rgba(0,0,0,.07);
+    transition: border-color .3s var(--ease), background-color .3s var(--ease),
+                transform .3s var(--ease);
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    cursor: pointer;
+}
+.elsewhere__item:hover {
+    text-decoration: none;
+    transform: translateX(3px);
+    border-color: color-mix(in srgb, var(--violet) 38%, transparent);
+    background: color-mix(in srgb, var(--violet) 8%, transparent);
+}
+
+.elsewhere__label { font-weight: 600; font-size: var(--t-body); color: var(--ink); }
+.elsewhere__value { font-family: var(--mono); font-size: var(--t-small); color: var(--ink-soft); }
+.elsewhere__text { display: grid; gap: .15rem; }
+.elsewhere__action { margin-left: auto; font-size: var(--t-small); font-weight: 600; color: var(--violet); flex: none; }
+
+.elsewhere__item.is-copied .elsewhere__action { color: var(--green); font-weight: 600; }
+
+@media (prefers-reduced-motion: reduce) {
+    .work__card:hover, .elsewhere__item:hover { transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   404
+   -------------------------------------------------------------------------- */
+
+.lost { min-height: calc(100svh - var(--nav-h) - 8rem); display: grid; place-items: center; text-align: center; }
+.lost__code {
+    font-family: var(--mono);
+    font-size: clamp(4rem, 16vw, 10rem);
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 1;
+    background: linear-gradient(120deg, var(--violet), var(--pink), var(--blue));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* --------------------------------------------------------------------------
+   The arrival
+   --------------------------------------------------------------------------
+   The blobs start collapsed at the centre and expand into place, then carry on
+   into their usual drift. Driven by two classes from studio.js.
+
+   The animation is suppressed while arriving, because an element cannot both
+   be animated by a keyframe and transitioned into position — the keyframe owns
+   `transform` and would overwrite the transition on the first frame.
+   -------------------------------------------------------------------------- */
+
+.page-bg.is-arriving span {
+    animation: none;
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.2);
+    transition: transform 1.6s cubic-bezier(0.22, 0.68, 0, 1),
+                opacity 1.1s var(--ease);
+}
+
+.page-bg.is-arriving.is-here span {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+}
+
+/* Staggered, so they resolve one after another rather than as a single mass. */
+.page-bg.is-arriving span:nth-child(2) { transition-delay: .12s; }
+.page-bg.is-arriving span:nth-child(3) { transition-delay: .24s; }
+.page-bg.is-arriving span:nth-child(4) { transition-delay: .36s; }
+
+/* Per-project tints, named rather than set inline — the colour identifies the
+   project, and that mapping belongs in one place. */
+.work__card--smi { --tint: var(--violet); }
+.work__card--crackula { --tint: var(--pink); }
+
+.work__tag--quiet { margin: 0; color: var(--ink-faint); }
+
+/* The 404 centres everything, including things that are left-aligned
+   elsewhere. */
+.lost .section__lead { margin-inline: auto; }
+.lost .btn-row { justify-content: center; }
+
+/* In-page anchors must clear the sticky bar, or jumping to a section puts its
+   heading underneath it. */
+[id] { scroll-margin-top: calc(var(--nav-h) + 1.5rem); }
+
+/* ==========================================================================
+   Breaking up the prose
+   --------------------------------------------------------------------------
+   About, Process and Origin were four hundred words of unbroken paragraphs
+   each. The writing is the point and none of it should be cut — so instead of
+   editing it down, the parts that were already LISTS in disguise are given the
+   shape they were always asking for.
+
+   Nothing here is decoration added to fill space. Each block exists because
+   the text underneath it had that structure all along: three interests, three
+   steps, two halves of a name.
+   ========================================================================== */
+
+.facets { display: grid; gap: 1.25rem; margin-top: 2.5rem; }
+@media (min-width: 46rem) { .facets { grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); } }
+
+.facet {
+    position: relative;
+    padding: 1.5rem;
+    border-radius: 18px;
+    border: 1px solid color-mix(in srgb, var(--tint, var(--violet)) 24%, transparent);
+    background: color-mix(in srgb, var(--tint, var(--violet)) 7%, transparent);
+}
+
+.facet__head {
+    display: flex;
+    /* `flex-start`, not `center`.
+       
+       Centring works until a heading wraps — then the dot centres itself
+       across BOTH lines and floats into the gap between them. Pinning it to
+       the top and nudging it down by half a line puts it beside the first
+       line, where it belongs, whatever the heading does below. */
+    align-items: flex-start;
+    gap: .6rem;
+    font-size: var(--t-body);
+    font-weight: 600;
+    letter-spacing: -.012em;
+    margin-bottom: .8rem;
+    color: var(--ink);
+}
+
+.facet__dot {
+    width: .55rem;
+    height: .55rem;
+    border-radius: 50%;
+    background: var(--tint, var(--violet));
+    flex: none;
+    /* Half a line down, minus half the dot — which lands it on the optical
+       centre of the first line rather than its top edge. */
+    margin-top: calc(.75em - .275rem);
+}
+
+.facet p { font-size: var(--t-small); line-height: 1.55; color: var(--ink-body); font-weight: 450; }
+.facet p + p { margin-top: .7rem; }
+.facet em { font-style: italic; }
+
+.facet--film { --tint: var(--blue); }
+.facet--music { --tint: var(--teal); }
+.facet--games { --tint: var(--pink); }
+.facet--speed { --tint: var(--amber); }
+.facet--books { --tint: var(--green); }
+.facet--curious { --tint: var(--violet); }
+
+/* --------------------------------------------------------------------------
+   The method, as three steps
+   -------------------------------------------------------------------------- */
+
+.method { display: grid; gap: 1rem; margin-top: 2.5rem; counter-reset: method; }
+@media (min-width: 46rem) { .method { grid-template-columns: repeat(3, 1fr); } }
+
+.method__step {
+    counter-increment: method;
+    padding: 1.4rem;
+    border-radius: 16px;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+
+.method__step::before {
+    content: counter(method);
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 50%;
+    font-family: var(--mono);
+    font-size: var(--t-micro);
+    font-weight: 700;
+    color: var(--violet);
+    border: 1px solid color-mix(in srgb, var(--violet) 35%, transparent);
+    background: color-mix(in srgb, var(--violet) 9%, transparent);
+    margin-bottom: .85rem;
+}
+
+.method__title { font-size: var(--t-body); font-weight: 600; letter-spacing: -.01em; margin-bottom: .35rem; }
+.method__body { font-size: var(--t-small); color: var(--ink-body); font-weight: 450; line-height: 1.5; }
+
+/* --------------------------------------------------------------------------
+   The name, in two halves
+   -------------------------------------------------------------------------- */
+
+.halves { display: grid; gap: 1.25rem; margin-top: 2.5rem; }
+@media (min-width: 46rem) { .halves { grid-template-columns: 1fr 1fr; align-items: stretch; } }
+
+.half {
+    padding: 1.75rem;
+    border-radius: 20px;
+    border: 1px solid color-mix(in srgb, var(--tint) 26%, transparent);
+    background: color-mix(in srgb, var(--tint) 7%, transparent);
+}
+
+.half--word { --tint: var(--violet); }
+.half--number { --tint: var(--blue); }
+
+/* `.half .half__key`, not `.half__key`.
+   
+   `.half p` is a class plus an element, which outranks a single class — so the
+   key was being rendered at body size by the rule meant for the paragraphs
+   underneath it. Matching the specificity is the fix; raising the font size
+   would have changed nothing. */
+.half .half__key {
+    font-family: var(--sans-display);
+    font-size: clamp(2.25rem, 5.5vw, 3.4rem);
+    font-weight: 700;
+    letter-spacing: -.032em;
+    line-height: 1;
+    color: color-mix(in srgb, var(--tint) 78%, var(--ink));
+    margin-bottom: 1.25rem;
+}
+
+.half p { font-size: var(--t-small); line-height: 1.55; color: var(--ink-body); font-weight: 450; }
+.half p + p { margin-top: .7rem; }
+
+/* --------------------------------------------------------------------------
+   Elsewhere — visibility
+   --------------------------------------------------------------------------
+   These sat on a scrimmed section at four per cent of the ink colour, which
+   over a frosted plate is very nearly nothing. They now use the same glass as
+   every other raised surface on the site, with a real hairline — so they read
+   as objects rather than as faint rectangles.
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-transparency: reduce) {
+    .elsewhere__item { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--surface); }
+}
+
+/* --------------------------------------------------------------------------
+   The single offer
+   -------------------------------------------------------------------------- */
+
+.offer {
+    max-width: 34rem;
+    margin-top: 2.5rem;
+    padding: 2rem;
+    border-radius: 22px;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: var(--glass-shadow);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .offer { backdrop-filter: none; -webkit-backdrop-filter: none; background: var(--surface); }
+}
+
+/* --------------------------------------------------------------------------
+   Spacing corrections
+   -------------------------------------------------------------------------- */
+
+/* The offer panel's title sat directly on its paragraph. */
+.offer .path__title { margin-bottom: .6rem; }
+.offer .path__body + .path__body { margin-top: 1.25rem; }
+.offer .btn-row { margin-top: 1.75rem; }
+
+/* A blank line under a section heading, and another under the lead that
+   follows it.
+   
+   These two gaps were the only ones missing: everything else already had its
+   spacing and did not need changing. `.feature__head + .essay` is the one that
+   fixes About, where the lead sat directly on the first paragraph with nothing
+   between them. */
+.feature__head .section__lead { margin-top: 1.6rem; }
+.feature__head + .essay { margin-top: 1.6rem; }
+
+/* --------------------------------------------------------------------------
+   The wordmark on phones
+   --------------------------------------------------------------------------
+   The app's site hides its wordmark below 46rem because it has an icon that
+   identifies it perfectly well without one. This page has no icon — the
+   wordmark IS the identity, and hiding it left the bar showing two links and
+   a theme control belonging to nobody.
+
+   So it stays, and the links move into the menu instead. Work and About are
+   one tap away either way; the name is the thing that has to be visible.
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 46rem) {
+    .nav__brand--wordmark .nav__brand-text { display: inline; font-size: .875rem; }
+}

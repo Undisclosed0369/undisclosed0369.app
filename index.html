@@ -2,8 +2,545 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>Undisclosed</title>
+
+<meta name="description" content="Built once, built properly, built to be forgotten about. Apps for people who care about the details.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Undisclosed">
+<meta property="og:description" content="Built once, built properly, built to be forgotten about.">
+<meta property="og:url" content="https://undisclosed0369.app/">
+<meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="canonical" href="https://undisclosed0369.app/">
+
+<link rel="icon" href="assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/studio.css">
+<script src="assets/js/site.js"></script>
+<script src="assets/js/studio.js"></script>
 </head>
-<body></body>
+
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand nav__brand--wordmark" href="./">
+            <span class="nav__brand-text">Undisclosed</span>
+        </a>
+
+        <a class="nav__link nav__link--more" href="#work">Work</a>
+        <a class="nav__link nav__link--more" href="#about">About</a>
+        <a class="nav__link nav__link--more" href="#process">Process</a>
+        <a class="nav__link nav__link--more" href="#origin">Origin</a>
+        <a class="nav__link nav__link--more" href="#support">Support</a>
+        <a class="nav__link nav__link--more" href="#elsewhere">Elsewhere</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-more" aria-label="More sections">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav__panel" id="nav-more">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#process">Process</a>
+        <a href="#origin">Origin</a>
+        <a href="#support">Support</a>
+        <a href="#elsewhere">Elsewhere</a>
+        <a href="swiftmediainfo/">SwiftMediaInfo</a>
+    </div>
+</nav>
+
+<main id="main">
+
+    <!-- ==================================================================
+         Hero
+
+         Nothing but the name and the line. A studio page that opens by
+         explaining itself has already conceded that the work cannot.
+         ================================================================== -->
+
+    <header class="studio-hero">
+        <div class="studio-hero__inner">
+            <h1 class="studio-hero__name gradient-text">Undisclosed</h1>
+            <p class="studio-hero__line">Built once, built properly, built to be forgotten about.</p>
+            <p class="studio-hero__sub">Building apps for people who care about the details.</p>
+        </div>
+
+        <div class="studio-hero__cue" data-cue aria-hidden="true"></div>
+    </header>
+
+
+    <!-- ==================================================================
+         Work
+         ================================================================== -->
+
+    <section class="section section--scrim" id="work">
+        <div class="wrap wrap--wide">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Work.</h2>
+                <p class="section__lead">Two so far. Both started as something I needed and could not find.</p>
+            </div>
+
+            <div class="work">
+
+                <article class="work__card work__card--smi rise" data-scroll="rise">
+                    <img class="work__icon" src="assets/img/icon-256.png" alt="" width="256" height="256">
+                    <h3 class="work__name">SwiftMediaInfo</h3>
+                    <p class="work__tag">
+                        A native macOS front-end for MediaInfo. Every field your media
+                        files carry, readable, comparable and free.
+                    </p>
+
+                    <div class="work__meta">
+                        <span class="work__chip">macOS</span>
+                        <span class="work__chip">SwiftUI</span>
+                        <span class="work__chip">Open source</span>
+                    </div>
+
+                    <div class="work__foot">
+                        <a class="btn btn--primary" href="swiftmediainfo/">Open</a>
+                    </div>
+                </article>
+
+
+                <!-- The locked one.
+                
+                     No icon exists yet, and a stand-in would be a lie that has
+                     to be taken back. Frosted glass over an empty plate is not
+                     a placeholder — it is the design, and the real icon slides
+                     in behind it later without anything being redrawn. -->
+                <article class="work__card work__card--crackula rise" data-scroll="rise">
+                    <span class="work__soon">Soon</span>
+
+                    <div class="work__lock" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <rect x="4" y="10.5" width="16" height="10.5" rx="2.5"/>
+                            <path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/>
+                            <circle cx="12" cy="15.6" r="1.3" fill="currentColor" stroke="none"/>
+                        </svg>
+                    </div>
+
+                    <h3 class="work__name">Crackula</h3>
+                    <p class="work__tag">
+                        Password recovery for documents and archives you have locked
+                        yourself out of. The rest is still under wraps.
+                    </p>
+
+                    <div class="work__meta">
+                        <span class="work__chip">macOS</span>
+                        <span class="work__chip">Windows</span>
+                        <span class="work__chip">Linux</span>
+                    </div>
+
+                    <div class="work__foot">
+                        <p class="work__tag work__tag--quiet">
+                            Still being built. It'll be here when it's actually
+                            finished.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         About
+         ================================================================== -->
+
+    <section class="section" id="about">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">About.</h2>
+                <p class="section__lead">I am Undisclosed / Data Lass.</p>
+            </div>
+
+            <div class="essay rise" data-scroll="rise">
+                <p>
+                    I like computers because their potential is almost infinite. That
+                    can be good or bad — depends how you look at it.
+                </p>
+
+                <p>
+                    I'm the sort of person who runs into a problem and wishes I could
+                    just fix it myself. Most of the time, I can't. But with AI and the
+                    right tools, plus relentless dedication and an obsession with the
+                    craft, I can usually build my way to something that solves it. I
+                    share them because I think they might help some of you too. I guess.
+                </p>
+
+            </div>
+
+            <div class="facets rise" data-scroll="rise">
+
+                <div class="facet facet--film">
+                    <h3 class="facet__head"><span class="facet__dot"></span>Film &amp; colour</h3>
+                    <p>
+                        Deep into upscales and remuxes for films and shows. I love
+                        colour grading in DaVinci Resolve — I don't really have the
+                        hardware for it, but I try my best, and sometimes I even
+                        surprise myself.
+                    </p>
+                </div>
+
+                <div class="facet facet--music">
+                    <h3 class="facet__head"><span class="facet__dot"></span>Music</h3>
+                    <p>Pretty much every genre.</p>
+                </div>
+
+                <div class="facet facet--games">
+                    <h3 class="facet__head"><span class="facet__dot"></span>Games, for the story</h3>
+                    <p>
+                        <em>The Last of Us</em>, <em>Assassin's Creed IV: Black
+                        Flag</em> — that new remaster looks amazing — <em>Resident
+                        Evil</em>, <em>Ghost of Tsushima</em> and <em>Yotei</em>, which
+                        was so epic, <em>Detroit: Become Human</em>, <em>Red Dead</em>,
+                        <em>GTA</em>. I could keep going.
+                    </p>
+                </div>
+
+                <div class="facet facet--speed">
+                    <h3 class="facet__head"><span class="facet__dot"></span>Games, for the speed</h3>
+                    <p>
+                        When I don't want a story, I want speed. <em>DriveClub</em> is
+                        still the best racing game ever made. <em>Forza Horizon</em>.
+                        <em>Ace Combat</em>, if it's jets.
+                    </p>
+                </div>
+
+                <div class="facet facet--books">
+                    <h3 class="facet__head"><span class="facet__dot"></span>Books</h3>
+                    <p>
+                        Both fiction and non-fiction. I read manga and other novels from
+                        time to time too.
+                    </p>
+                </div>
+
+                <div class="facet facet--curious">
+                    <h3 class="facet__head"><span class="facet__dot"></span>F#cking around and finding out</h3>
+                    <p>
+                        I'm a very curious person — curious, not nosy, there's a
+                        difference. I keep experimenting with whatever I have in my
+                        vicinity.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Process
+         ================================================================== -->
+
+    <section class="section section--scrim" id="process">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Process.</h2>
+            </div>
+
+            <div class="essay rise" data-scroll="rise">
+                <p class="essay__lead">
+                    Everyone has a process. Mine comes down to one rule.
+                </p>
+
+                <p class="pull">Make it so good I never have to think about it again.</p>
+
+                <p>
+                    The best things in your life are the ones you don't think about. You
+                    buy them once and forget them. Years ago I paid over the odds for a
+                    1000W power supply, 80+ Platinum, and seven years later it still runs
+                    like it came out of the box yesterday. That's the bar. Whatever I
+                    make, I want it to be like that.
+                </p>
+
+                <p>
+                    It costs, though. It takes so much time, so much effort, and
+                    sometimes it means I don't get the hours with the people I love. Some
+                    days I love that part of myself and some days I really don't. Ups and
+                    downs. Part of life, I guess.
+                </p>
+
+                <p>
+                    The method itself is simple.
+                </p>
+            </div>
+
+            <div class="method rise" data-scroll="rise">
+                <div class="method__step">
+                    <h3 class="method__title">Build the vision</h3>
+                    <p class="method__body">
+                        Decide what the finished thing is before writing a line of it.
+                    </p>
+                </div>
+
+                <div class="method__step">
+                    <h3 class="method__title">Split it into phases</h3>
+                    <p class="method__body">
+                        Sized so each one can actually be finished, not just started.
+                    </p>
+                </div>
+
+                <div class="method__step">
+                    <h3 class="method__title">One at a time</h3>
+                    <p class="method__body">
+                        Slow. But it keeps the vision intact all the way to the end.
+                    </p>
+                </div>
+            </div>
+
+            <div class="essay rise mt-6" data-scroll="rise">
+                <p>
+                    It's slow, and that's the trade. But it gets the job done — and if
+                    the work is good enough, there's no need to market it.
+                </p>
+
+                <p>
+                    SwiftMediaInfo came out of exactly that. As a remuxer I used the
+                    official MediaInfo app every single day — it's the best thing to
+                    happen to remuxers and media people, genuinely. I built mine for the
+                    small things: zoom, a compare mode that actually highlights the
+                    differences, sharing the output, an interface that feels like it
+                    belongs on macOS. If you're going to use something every day, it's
+                    worth pouring in far more than seems reasonable. Your brain notices.
+                    It changes how the whole thing feels.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Origin
+         ================================================================== -->
+
+    <section class="section" id="origin">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Why Undisclosed0369?</h2>
+            </div>
+
+            <div class="halves rise" data-scroll="rise">
+                <div class="half half--word">
+                    <p class="half__key">Undisclosed</p>
+                    <p>
+                        Honestly? I'm a very private person. I only open up to a certain
+                        few people, and that's just part of me.
+                    </p>
+                </div>
+
+                <div class="half half--number">
+                    <p class="half__key">0369</p>
+                    <p>
+                        The 0369 part might be unexpected. I was signing up for a
+                        website, the "undisclosed" username was already taken, and that
+                        sort of made me furious &mdash; <button class="peek" type="button"
+                        data-peek="assets/img/took-that-personally.webp"
+                        data-peek-alt="Michael Jordan in The Last Dance, captioned: and I took that personally."
+                        aria-haspopup="dialog">and I took that
+                        personally</button>. That was funny now that I think about it,
+                        lmao.
+                    </p>
+                    <p>
+                        Even though I studied management, I also have a deep interest in
+                        science, and I came across Nikola Tesla and read up on him many
+                        years ago. For some reason, his obsession with the numbers 3, 6
+                        and 9 stuck with me &mdash; and I just used 0369 to ever so
+                        slightly distinguish myself.
+                    </p>
+                </div>
+            </div>
+
+            <div class="essay rise mt-6" data-scroll="rise">
+                <p>
+                    Kinda cringe. But everybody's at least a little cringe if you think
+                    about it. You realise that more as you get older.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Support
+
+         A section rather than a page. One line of offer does not need its own
+         URL, and a studio page with a Donate item in its navigation is asking
+         on arrival rather than at the end.
+
+         Deliberately says nothing about what is being funded. Naming a project
+         would turn it into a pre-order for something that does not exist yet,
+         and hinting at an unannounced one would spend the surprise for a few
+         pounds. It is a thank-you box, and that is all it claims to be.
+         ================================================================== -->
+
+    <section class="section" id="support">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Donations.</h2>
+                <p class="section__lead">
+                    I do accept them, and there is exactly one way. Everything I put
+                    out is free and stays free — nothing is held back, and nothing
+                    arrives sooner for people who give.
+                </p>
+            </div>
+
+            <div class="offer rise" data-scroll="rise">
+                <p class="path__label path__label--strong">The only way</p>
+                <h3 class="path__title">Gifting from my Steam wishlist</h3>
+                <p class="path__body">
+                    Open the list, pick something, buy it. Steam lets you check out as
+                    a guest, so you do not need an account of your own.
+                </p>
+
+                <div class="btn-row">
+                    <a class="btn btn--primary" href="https://store.steampowered.com/wishlist/id/itstheendoftheworld/?sort=name&amp;st=13217376726609470" rel="noopener">
+                        Open the wishlist
+                    </a>
+                </div>
+
+                <p class="path__body">
+                    <strong>If the checkout will not let you</strong>, it is because
+                    Steam requires a gift to come from the same country as the
+                    recipient. That is worth knowing before you spend anything. If you
+                    still want to, a Steam gift card code sent to me on
+                    <a class="link-brand" href="#elsewhere">Discord</a> works from
+                    anywhere.
+                </p>
+
+                <p class="path__body path__body--last">
+                    There is no other way to send anything — no wallet addresses, no
+                    payment links, no accounts anywhere. If you find one asking for
+                    money in my name, it is not mine.
+                </p>
+            </div>
+
+            <div class="essay rise mt-6" data-scroll="rise">
+                <p class="essay__lead">Why only Steam?</p>
+
+                <p>
+                    Because it tells you nothing about me. Every other route —
+                    payment processors, bank details, anything with a form to fill in
+                    — ends with my real name sitting in somebody's database. I'm a
+                    private person and I intend to stay one. A gift from a wishlist
+                    needs nothing from me but a username.
+                </p>
+
+                <p>
+                    It also works, which is the part that surprised me. Games are
+                    what I spend money on anyway. So a gift is money I don't spend —
+                    and that goes straight into the AI subscriptions I build with,
+                    into refining what's already out, and into whatever comes next.
+                </p>
+
+                <p>
+                    None of that cost is ever passed on to anyone using what I make.
+                    That's the whole arrangement: the work stays free, and if you
+                    ever feel like buying me a game, it quietly pays for more of it.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Elsewhere
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim" id="elsewhere">
+        <div class="wrap">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">Elsewhere.</h2>
+            </div>
+
+            <div class="elsewhere rise" data-scroll="rise">
+
+                <a class="elsewhere__item" href="https://github.com/Undisclosed0369" rel="noopener">
+                    <span class="elsewhere__text">
+                        <span class="elsewhere__label">GitHub</span>
+                        <span class="elsewhere__value">Undisclosed0369</span>
+                    </span>
+                    <span class="elsewhere__action" aria-hidden="true">↗</span>
+                </a>
+
+                <!-- A Discord handle is not a link, so this is a button that
+                     copies it. Rendering it as a link would be a promise the
+                     browser cannot keep. -->
+                <button class="elsewhere__item" type="button"
+                        data-copy-text="flabbergastedindividual">
+                    <span class="elsewhere__text">
+                        <span class="elsewhere__label">Discord</span>
+                        <span class="elsewhere__value">flabbergastedindividual</span>
+                    </span>
+                    <span class="elsewhere__action">Copy</span>
+                </button>
+
+            </div>
+        </div>
+    </section>
+
+</main>
+
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <nav class="footer__links" aria-label="Footer">
+            <a href="#work">Work</a>
+            <a href="#about">About</a>
+            <a href="#process">Process</a>
+            <a href="#origin">Origin</a>
+            <a href="#support">Support</a>
+            <a href="swiftmediainfo/">SwiftMediaInfo</a>
+            <a href="https://github.com/Undisclosed0369">GitHub</a>
+        </nav>
+
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+</body>
 </html>

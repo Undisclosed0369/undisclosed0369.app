@@ -1,0 +1,58 @@
+name: Update changelog
+
+# WHEN THIS RUNS
+#
+# Daily, and on demand. Not on every push, because nothing about a push to this
+# repository changes what the app's releases are.
+#
+# A scheduled run means a new release can take up to a day to appear here. If
+# that ever becomes annoying, the app's repository can send a `repository_dispatch`
+# on publish and this workflow will pick it up immediately — that route needs a
+# personal access token, which is why it is not the default.
+
+on:
+  schedule:
+    # 06:00 UTC. Any time works; this one is chosen to be well away from the
+    # top of the hour, when GitHub's scheduler is busiest and jobs are delayed.
+    - cron: "23 6 * * *"
+
+  workflow_dispatch:
+
+  repository_dispatch:
+    types: [release-published]
+
+# The only write is to this repository's own contents. Nothing else is needed,
+# and anything else granted would be a permission waiting to be misused.
+permissions:
+  contents: write
+
+concurrency:
+  group: changelog
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the site
+        uses: actions/checkout@v4
+
+      - name: Regenerate the changelog
+        # The releases are public, so this reads them unauthenticated. There is
+        # no token here on purpose: nothing to configure, nothing to leak.
+        run: python3 tools/build-changelog.py
+
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet -- swiftmediainfo/changelog.html; then
+            echo "Changelog is already current."
+            exit 0
+          fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add swiftmediainfo/changelog.html
+          git commit -m "Update changelog from GitHub Releases"
+          git push
