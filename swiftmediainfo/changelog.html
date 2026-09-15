@@ -121,7 +121,13 @@
         <p class="toc__title">Releases</p>
         <ol class="toc__list">
                 <li>
-                    <a class="toc__link toc__link--latest" href="#release-v1-6">
+                    <a class="toc__link toc__link--latest" href="#release-v2-0">
+                        <span class="toc__name">SwiftMediaInfo v2.0</span>
+                        <span class="toc__date">Sep 2026</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="toc__link" href="#release-v1-6">
                         <span class="toc__name">SwiftMediaInfo v1.6</span>
                         <span class="toc__date">Jul 2026</span>
                     </a>
@@ -166,7 +172,111 @@
     </nav>
 
     <div class="releases">
-        <article class="release release--latest" id="release-v1-6">
+        <article class="release release--latest" id="release-v2-0">
+            <header class="release__head">
+                <h2 class="release__version">SwiftMediaInfo v2.0</h2>
+                <span class="release__date">15 September 2026</span>
+                <a class="release__link link-brand" href="https://github.com/Undisclosed0369/SwiftMediaInfo/releases/tag/v2.0" rel="noopener">On GitHub</a>
+            </header>
+            <div class="release__body">
+<h2>SwiftMediaInfo v2.0 – Latest Release</h2>
+<h3>Rebuilt from the engine up — settings, checksums, plain-language explanations, and an accessibility pass that reaches every control</h3>
+<p>The largest release since the app began. Almost every file was rewritten, and the parts you can see are the smaller half of it.</p>
+<p><strong><a href="https://undisclosed0369.app/swiftmediainfo/" rel="noopener">Website</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/features.html" rel="noopener">What&#x27;s in it</a></strong> · <strong><a href="https://rentry.org/SwiftMediaInfo-v2-FieldReference" rel="noopener">Field reference</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/faq.html" rel="noopener">FAQ</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/changelog.html" rel="noopener">Full changelog</a></strong></p>
+<hr class="release__rule">
+<h3>⭐ Highlights</h3>
+<p>| | |</p>
+<p>| --- | --- |</p>
+<p>| 🎛 <strong>A real settings window</strong> | Six panes. Everything the app used to decide for you is now yours to set |</p>
+<p>| 🔒 <strong>SHA-256 checksums</strong> | Computed on request, cached, and carried into exports |</p>
+<p>| 📖 <strong>Around 70 fields explained</strong> | Plain language, inline, for the ones nobody remembers |</p>
+<p>| 🎨 <strong>A background you own</strong> | Three modes, colours you pick, four ready-made palettes |</p>
+<p>| ♿ <strong>Full VoiceOver support</strong> | Built into the shared components rather than bolted on |</p>
+<p>| 🧱 <strong>A custom design system</strong> | Spacing, motion and colour defined once, on macOS 26&#x27;s Liquid Glass |</p>
+<hr class="release__rule">
+<h3>🌐 The app has a website now</h3>
+<p><strong><a href="https://undisclosed0369.app/swiftmediainfo/" rel="noopener">undisclosed0369.app/swiftmediainfo</a></strong></p>
+<p>Everything that used to live in a README now has room to breathe: what the app does, <a href="https://undisclosed0369.app/swiftmediainfo/features.html" rel="noopener">how it compares to MediaArea&#x27;s own Mac app</a> including the things theirs does better, <a href="https://undisclosed0369.app/swiftmediainfo/download.html" rel="noopener">what the first-launch warning actually means</a>, <a href="https://undisclosed0369.app/swiftmediainfo/privacy.html" rel="noopener">what leaves your machine and when</a>, and <a href="https://undisclosed0369.app/swiftmediainfo/changelog.html" rel="noopener">a changelog</a> that updates itself from these releases.</p>
+<p>The app links to it too — <code>⌘/</code> opens it, and so does the Help menu.</p>
+<p>It sits on <strong><a href="https://undisclosed0369.app" rel="noopener">undisclosed0369.app</a></strong>, which is where anything else I put out will live.</p>
+<hr class="release__rule">
+<h3>📚 Field reference</h3>
+<p><strong><a href="https://rentry.org/SwiftMediaInfo-v2-FieldReference" rel="noopener">The complete field reference →</a></strong></p>
+<p>Every field the app can explain, written out in one document — what it means, why it is there, and what a normal value looks like. The app shows these inline as you read a report; this is the same material in one place, for when you would rather have it all at once or want to read ahead.</p>
+<hr class="release__rule">
+<h3>🆕 New</h3>
+<h4>🎛 The settings window</h4>
+<p>The app had no settings window before. It has six panes now.</p>
+<ul><li><strong>General, Appearance, Analysis, MediaInfo, Privacy and Advanced</strong></li><li><strong>Interface scaling</strong> — zooms the whole settings layout, not just the text in it</li><li><strong>Restore Defaults</strong>, returning every preference at once</li><li><strong>Copy environment summary</strong> for bug reports: version, macOS, architecture, MediaInfo path and version, and your current settings</li><li><strong>MediaInfo installation moved here</strong> from the bottom bar, with four honest states — checking, missing, installing, failed — and a Retry that genuinely retries</li><li><strong>Re-detect</strong>, for straight after installing or upgrading MediaInfo</li></ul>
+<h4>🔒 Verification</h4>
+<ul><li><strong>SHA-256 checksums</strong> for any open file, included in exported reports — so an archive copy can be checked against the original years later</li><li><strong>Real progress while hashing</strong>, and cancelling stops the work immediately rather than only hiding it</li><li><strong>Results are cached</strong>, so the same file is never hashed twice</li><li><strong>Computed on request rather than automatically</strong>, because hashing means reading every byte of the file</li></ul>
+<h4>📖 Reading</h4>
+<ul><li><strong>Plain-language explanations for around 70 fields</strong>, inline — for anyone who has wondered what a chroma subsampling ratio actually is. The whole set is also written out as a <a href="https://rentry.org/SwiftMediaInfo-v2-FieldReference" rel="noopener">field reference</a></li><li><strong>Copy any single value</strong>, or a field and its value together, from a hover affordance or the context menu</li></ul>
+<h4>🎨 The background</h4>
+<p>1.6 had an animated background you could toggle. It is now something you own.</p>
+<ul><li><strong>Three modes</strong> — Off, Static and Animated</li><li><strong>Custom colours</strong> — three shades, with colour wells and hex fields</li><li><strong>Four palettes</strong> — Signature, Tide, Meadow and Ember</li><li><strong>A Liquid Glass toggle</strong>, for anyone who would rather have solid surfaces and the battery life that comes with them</li></ul>
+<h4>📂 Files</h4>
+<ul><li><strong>Five file actions</strong> from one menu: reveal in Finder, copy path, open in the default app, rename, and move to Trash</li></ul>
+<h4>🛡 Privacy</h4>
+<ul><li><strong>Review before sharing.</strong> A report is shown in full before it is uploaded, with the option to strip file paths first — a path often carries a username, and sometimes a good deal more</li></ul>
+<h4>🔗 Links out</h4>
+<ul><li><strong>Website links</strong> in the About window, the Help menu, and at <code>⌘/</code> — which now opens the website rather than GitHub</li><li><strong>Frequently Asked Questions</strong> in the Help menu, going straight to the page that answers the common ones</li><li><strong>Double-clicking the app icon</strong> in Settings opens the website</li><li><strong>A Donate button</strong> in the About and Settings windows, for anyone who wants to say thanks. Everything is free and stays free — nothing is locked, and nothing changes in the app either way</li></ul>
+<hr class="release__rule">
+<h3>⚡ Improved</h3>
+<h4>🛠 Finder integration</h4>
+<p>The extension existed. It now works properly.</p>
+<ul><li><strong>Works in every folder</strong>, not only some</li><li><strong>Select two files and compare them directly</strong> from the Finder menu</li></ul>
+<h4>⚖️ Comparison</h4>
+<ul><li>Differences are computed <strong>once and symmetrically</strong>, so the two sides can never disagree about what changed</li><li>A <strong>summary panel</strong> lists every difference, and clicking one jumps straight to that field</li><li><strong>Swap the two sides</strong> from a control on the divider</li><li><strong>Hold ⌥ while dragging</strong> a second file onto an open one to compare without leaving the window</li></ul>
+<h4>💬 The About and Shortcuts windows</h4>
+<p>Both existed. Both were rebuilt.</p>
+<ul><li>Redesigned on Liquid Glass to match the rest of the app</li><li>The shortcuts reference gains new entries and notes where a shortcut applies only to a single open file</li><li><strong>Escape closes both</strong>, and <code>⌘M</code> no longer minimises the About window — which had no business being minimisable</li></ul>
+<h4>🚀 Performance</h4>
+<ul><li>The animated background is <strong>rendered at quarter resolution</strong> and scaled up. It is a soft gradient; nothing is lost, and it costs a fraction as much to draw</li><li>It now also <strong>pauses in Low Power Mode</strong>, on top of the scroll, occlusion and background pausing from 1.6</li><li><strong>Row hover is instant.</strong> Sweeping the pointer down a list used to start dozens of overlapping animations at once</li><li><strong>Analysis results are cached</strong>, so reopening a file is immediate</li><li>A full pass over the codebase: dead code removed, duplicated logic consolidated, and a number of smaller efficiency improvements throughout</li></ul>
+<h4>🧩 Reliability</h4>
+<ul><li>The engine was rewritten with <strong>typed errors and safe cancellation</strong>. One format failing no longer takes the others down with it</li><li>Every interface state is <strong>named rather than inferred</strong> from whether a string happened to be empty</li><li>The default analysis timeout is <strong>60 seconds</strong> — long enough for any real file, short enough that a hang does not feel like a freeze</li></ul>
+<hr class="release__rule">
+<h3>♿ Accessibility</h3>
+<p>A full pass, made at the shared components so it applies everywhere rather than being added screen by screen.</p>
+<ul><li><strong>VoiceOver throughout</strong>, with meaningful labels, hints and states on every control</li><li><strong>Reduce Motion</strong> and <strong>Reduce Transparency</strong> honoured at the design-token level</li><li><strong>Complete keyboard control</strong></li></ul>
+<hr class="release__rule">
+<h3>⌨️ Changed</h3>
+<p>These alter habits, so they are listed plainly rather than buried.</p>
+<p>| | Before | Now |</p>
+<p>| --- | --- | --- |</p>
+<p>| <strong>⌘W</strong> | Closed the window | <strong>Closes the open file</strong> — and closes the window when nothing is open. <code>⌥⌘W</code> closes the window |</p>
+<p>| <strong>⌘B</strong> | Toggled the animated background | <strong>Cycles</strong> — Off → Static → Animated |</p>
+<p>| <strong>⌘/</strong> | Opened the GitHub page | <strong>Opens the website</strong> |</p>
+<p>| <strong>⌘I</strong> | — | <strong>About SwiftMediaInfo</strong> |</p>
+<p>| <strong>Checksums</strong> | — | <strong>Computed when you ask</strong>, not automatically |</p>
+<p>| <strong>Analysis timeout</strong> | — | <strong>60 seconds</strong> |</p>
+<hr class="release__rule">
+<h3>🐞 Fixed</h3>
+<ul><li><strong><code>⌘↩</code> in Compare Mode</strong> opened File A instead of offering a choice between File A and File B</li><li>The <strong>Finder extension</strong> did not work in every folder</li><li><strong><code>⌘M</code> minimised the About window</strong> instead of doing nothing</li><li>Several <strong>&quot;Publishing changes from within view updates&quot;</strong> warnings, from settings written during a view&#x27;s own render pass</li><li><strong>Escape</strong> now closes the About and Shortcuts windows</li></ul>
+<hr class="release__rule">
+<h3>🔧 Under the hood</h3>
+<p>Not user-facing, but it is why the rest of this list was possible.</p>
+<ul><li>A <strong>design-token system</strong> — spacing, radii, elevation, motion and colour, defined once and used everywhere</li><li><strong>Accessibility helpers built into the shared components</strong>, so a new control inherits correct behaviour instead of needing it added</li><li><strong>Export logic moved to its own file</strong>; <code>MediaStore</code> shrank by about 750 lines</li><li><strong>Every external address lives in one place</strong>, so a link can no longer rot in three files at once</li><li>Dead code removed, including several helpers nothing called any more</li></ul>
+<hr class="release__rule">
+<h3>⬆️ Upgrading from 1.6</h3>
+<p>Two one-time things, both expected:</p>
+<ul><li><strong>Your settings return to defaults.</strong> The app&#x27;s internal identifier changed in this release, so macOS looks for preferences under a new name and finds none. Nothing is lost from your files — the old preferences are simply ignored. Set your appearance and background once more and it will stick.</li><li><strong>The Finder extension may need re-enabling.</strong> For the same reason, macOS treats it as new. The app re-enables it on launch, but if the right-click menu is missing, look in <strong>System Settings → General → Login Items &amp; Extensions → Finder Extensions</strong>.</li></ul>
+<hr class="release__rule">
+<h3>📋 Requirements</h3>
+<ul><li><strong>macOS 26</strong> or later</li><li><strong>Apple silicon</strong></li><li><strong>MediaInfo</strong> — the app offers to install it if it cannot find one</li></ul>
+<hr class="release__rule">
+<h3>🤖 A note on how this was built</h3>
+<p>The code was written by Claude, under my direction and review.</p>
+<p>I say so plainly because the source is public — you do not have to take any of it on trust. Read it, build it yourself, or have someone you trust look at it.</p>
+<hr class="release__rule">
+<h3>🙏 Built on MediaInfo</h3>
+<p>Every number this app shows you was read by <a href="https://mediaarea.net/en/MediaInfo" rel="noopener">MediaInfo</a>, a separate project by <a href="https://mediaarea.net" rel="noopener">MediaArea</a>, maintained for two decades. They wrote the hard part. This is the window onto it.</p>
+<p>If you need Windows, Linux, a language other than English, or a signed application, <a href="https://mediaarea.net/en/MediaInfo/Download/Mac_OS" rel="noopener">their Mac app</a> is the better choice and you should use it.</p>
+<hr class="release__rule">
+<p><strong>Found a bug, or have an idea?</strong> <a href="https://github.com/Undisclosed0369/SwiftMediaInfo/issues/new/choose" rel="noopener">Open an issue</a> or use the <a href="https://forms.gle/ZoDwomdm5asgfj386" rel="noopener">feedback form</a>. Ideas are welcome; the <a href="https://github.com/Undisclosed0369/SwiftMediaInfo/blob/main/CONTRIBUTING.md" rel="noopener">contributing guide</a> explains what helps most.</p>
+            </div>
+        </article>
+        <article class="release" id="release-v1-6">
             <header class="release__head">
                 <h2 class="release__version">SwiftMediaInfo v1.6</h2>
                 <span class="release__date">21 July 2026</span>
