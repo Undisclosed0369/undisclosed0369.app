@@ -185,14 +185,18 @@
 <p><strong><a href="https://undisclosed0369.app/swiftmediainfo/" rel="noopener">Website</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/features.html" rel="noopener">What&#x27;s in it</a></strong> · <strong><a href="https://rentry.org/SwiftMediaInfo-v2-FieldReference" rel="noopener">Field reference</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/faq.html" rel="noopener">FAQ</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/changelog.html" rel="noopener">Full changelog</a></strong></p>
 <hr class="release__rule">
 <h3>⭐ Highlights</h3>
-<p>| | |</p>
-<p>| --- | --- |</p>
-<p>| 🎛 <strong>A real settings window</strong> | Six panes. Everything the app used to decide for you is now yours to set |</p>
-<p>| 🔒 <strong>SHA-256 checksums</strong> | Computed on request, cached, and carried into exports |</p>
-<p>| 📖 <strong>Around 70 fields explained</strong> | Plain language, inline, for the ones nobody remembers |</p>
-<p>| 🎨 <strong>A background you own</strong> | Three modes, colours you pick, four ready-made palettes |</p>
-<p>| ♿ <strong>Full VoiceOver support</strong> | Built into the shared components rather than bolted on |</p>
-<p>| 🧱 <strong>A custom design system</strong> | Spacing, motion and colour defined once, on macOS 26&#x27;s Liquid Glass |</p>
+<div class="compare-wrap">
+<table class="compare release__table">
+<tbody>
+<tr><th scope="row">🎛 <strong>A real settings window</strong></th><td>Six panes. Everything the app used to decide for you is now yours to set</td></tr>
+<tr><th scope="row">🔒 <strong>SHA-256 checksums</strong></th><td>Computed on request, cached, and carried into exports</td></tr>
+<tr><th scope="row">📖 <strong>Around 70 fields explained</strong></th><td>Plain language, inline, for the ones nobody remembers</td></tr>
+<tr><th scope="row">🎨 <strong>A background you own</strong></th><td>Three modes, colours you pick, four ready-made palettes</td></tr>
+<tr><th scope="row">♿ <strong>Full VoiceOver support</strong></th><td>Built into the shared components rather than bolted on</td></tr>
+<tr><th scope="row">🧱 <strong>A custom design system</strong></th><td>Spacing, motion and colour defined once, on macOS 26&#x27;s Liquid Glass</td></tr>
+</tbody>
+</table>
+</div>
 <hr class="release__rule">
 <h3>🌐 The app has a website now</h3>
 <p><strong><a href="https://undisclosed0369.app/swiftmediainfo/" rel="noopener">undisclosed0369.app/swiftmediainfo</a></strong></p>
@@ -242,14 +246,19 @@
 <hr class="release__rule">
 <h3>⌨️ Changed</h3>
 <p>These alter habits, so they are listed plainly rather than buried.</p>
-<p>| | Before | Now |</p>
-<p>| --- | --- | --- |</p>
-<p>| <strong>⌘W</strong> | Closed the window | <strong>Closes the open file</strong> — and closes the window when nothing is open. <code>⌥⌘W</code> closes the window |</p>
-<p>| <strong>⌘B</strong> | Toggled the animated background | <strong>Cycles</strong> — Off → Static → Animated |</p>
-<p>| <strong>⌘/</strong> | Opened the GitHub page | <strong>Opens the website</strong> |</p>
-<p>| <strong>⌘I</strong> | — | <strong>About SwiftMediaInfo</strong> |</p>
-<p>| <strong>Checksums</strong> | — | <strong>Computed when you ask</strong>, not automatically |</p>
-<p>| <strong>Analysis timeout</strong> | — | <strong>60 seconds</strong> |</p>
+<div class="compare-wrap">
+<table class="compare release__table">
+<thead><tr><th scope="col">&nbsp;</th><th scope="col">Before</th><th scope="col">Now</th></tr></thead>
+<tbody>
+<tr><th scope="row"><strong>⌘W</strong></th><td>Closed the window</td><td><strong>Closes the open file</strong> — and closes the window when nothing is open. <code>⌥⌘W</code> closes the window</td></tr>
+<tr><th scope="row"><strong>⌘B</strong></th><td>Toggled the animated background</td><td><strong>Cycles</strong> — Off → Static → Animated</td></tr>
+<tr><th scope="row"><strong>⌘/</strong></th><td>Opened the GitHub page</td><td><strong>Opens the website</strong></td></tr>
+<tr><th scope="row"><strong>⌘I</strong></th><td>—</td><td><strong>About SwiftMediaInfo</strong></td></tr>
+<tr><th scope="row"><strong>Checksums</strong></th><td>—</td><td><strong>Computed when you ask</strong>, not automatically</td></tr>
+<tr><th scope="row"><strong>Analysis timeout</strong></th><td>—</td><td><strong>60 seconds</strong></td></tr>
+</tbody>
+</table>
+</div>
 <hr class="release__rule">
 <h3>🐞 Fixed</h3>
 <ul><li><strong><code>⌘↩</code> in Compare Mode</strong> opened File A instead of offering a choice between File A and File B</li><li>The <strong>Finder extension</strong> did not work in every folder</li><li><strong><code>⌘M</code> minimised the About window</strong> instead of doing nothing</li><li>Several <strong>&quot;Publishing changes from within view updates&quot;</strong> warnings, from settings written during a view&#x27;s own render pass</li><li><strong>Escape</strong> now closes the About and Shortcuts windows</li></ul>
