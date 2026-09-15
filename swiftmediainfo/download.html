@@ -123,12 +123,27 @@
                         <p class="path__label">Recommended</p>
                         <h2 class="path__title">Homebrew</h2>
                         <p class="path__body">
-                            Three commands. The first points Homebrew at this
-                            project's repository, the second tells Homebrew you are
-                            willing to install from it, and the third installs. After
-                            that, updates arrive alongside everything else you keep
-                            current.
+                            Three commands, in this order. The first tells Homebrew
+                            you are willing to install from this project's repository,
+                            the second points it at that repository, and the third
+                            installs. After that, updates arrive alongside everything
+                            else you keep current.
                         </p>
+
+                        <!-- Trust comes FIRST, and the order is not cosmetic.
+                             Since Homebrew 6.0 a tap that is not official has to be
+                             trusted before Homebrew will read anything inside it, so
+                             tapping first leaves a clone it refuses to look at — and
+                             the error it prints for that says "invalid syntax in
+                             tap", which sends the reader hunting in the wrong place
+                             entirely. -->
+                        <div class="cmd">
+                            <code class="cmd__code" data-copy="brew trust undisclosed0369/swiftmediainfo">brew trust undisclosed0369/swiftmediainfo</code>
+                            <button class="cmd__copy" type="button">
+                                <span class="cmd__idle">Copy</span>
+                                <span class="cmd__done">Copied</span>
+                            </button>
+                        </div>
 
                         <div class="cmd">
                             <code class="cmd__code" data-copy="brew tap undisclosed0369/swiftmediainfo">brew tap undisclosed0369/swiftmediainfo</code>
@@ -138,20 +153,12 @@
                             </button>
                         </div>
 
-                        <!-- Homebrew will not install from a tap it has not been
-                             told to trust. Its error names this command, but by then
-                             the reader has already hit a wall — better to hand it over
-                             before that happens than to explain it afterwards. -->
+                        <!-- No --no-quarantine here. Homebrew removed that flag in
+                             4.7 and it is gone for good; the cask clears the
+                             quarantine attribute itself in a postflight step and
+                             prints a caveat saying so. -->
                         <div class="cmd">
-                            <code class="cmd__code" data-copy="brew trust undisclosed0369/swiftmediainfo/swiftmediainfo">brew trust undisclosed0369/swiftmediainfo/swiftmediainfo</code>
-                            <button class="cmd__copy" type="button">
-                                <span class="cmd__idle">Copy</span>
-                                <span class="cmd__done">Copied</span>
-                            </button>
-                        </div>
-
-                        <div class="cmd">
-                            <code class="cmd__code" data-copy="brew install --cask --no-quarantine swiftmediainfo">brew install --cask --no-quarantine swiftmediainfo</code>
+                            <code class="cmd__code" data-copy="brew install --cask swiftmediainfo">brew install --cask swiftmediainfo</code>
                             <button class="cmd__copy" type="button">
                                 <span class="cmd__idle">Copy</span>
                                 <span class="cmd__done">Copied</span>
@@ -324,10 +331,13 @@
             </div>
 
             <div class="note rise" data-scroll="rise">
-                <strong>Homebrew skips all of this.</strong> The
-                <code>--no-quarantine</code> flag means the flag is never applied, so
-                there is no warning and no Terminal. If either route suits you, take
-                that one.
+                <strong>Homebrew skips all of this.</strong> The cask runs that same
+                <code>xattr</code> command for you once the app is in place, and
+                prints a note saying it did — so there is no warning and no Terminal,
+                but nothing happens quietly either. Homebrew used to offer a
+                <code>--no-quarantine</code> flag for this; it was removed in 4.7,
+                which is why the work moved into the cask. If that route suits you,
+                take it.
             </div>
         </div>
     </section>
