@@ -37,9 +37,15 @@ END = "<!-- RELEASES:END -->"
 # ---------------------------------------------------------------------------
 # Markdown
 #
-# A deliberately small subset: headings, bullets, bold, italic, inline code and
-# links. Release notes are written by one person in a known style, so a full
-# parser would be several hundred lines to handle syntax that will never appear.
+# A deliberately small subset: headings, bullets, tables, bold, italic, inline
+# code and links. Release notes are written by one person in a known style, so a
+# full parser would be several hundred lines to handle syntax that will never
+# appear.
+#
+# Tables were added after the v2.0 notes shipped with two of them and the page
+# printed the raw pipes. They reuse the `.compare` styling from the features
+# page rather than introducing a second table style — the two are the same
+# object doing the same job, and one of them is already responsive.
 #
 # Everything is escaped BEFORE any markup is added, so a release note containing
 # a stray angle bracket cannot inject anything into the page. That ordering is
@@ -65,6 +71,68 @@ def inline(text):
     return text
 
 
+def is_table_row(line):
+    """A line that could be part of a table: it has a pipe and starts with one."""
+    return line.lstrip().startswith("|") and "|" in line.strip()[1:]
+
+
+def is_table_divider(line):
+    """The `| --- | --- |` line that turns the row above it into a header."""
+    stripped = line.strip()
+    if not stripped.startswith("|"):
+        return False
+    return bool(re.match(r"^\|[\s:|-]+\|?$", stripped)) and "-" in stripped
+
+
+def split_row(line):
+    """Cells from one table row, outer pipes discarded."""
+    stripped = line.strip()
+    if stripped.startswith("|"):
+        stripped = stripped[1:]
+    if stripped.endswith("|"):
+        stripped = stripped[:-1]
+    return [cell.strip() for cell in stripped.split("|")]
+
+
+def render_table(rows):
+    """
+    One table, wrapped so it can scroll sideways on a phone.
+
+    The first column becomes a row header rather than an ordinary cell. In
+    every table these notes contain it is the label — a shortcut, a feature
+    name — and the styling already treats that column as the thing you scan
+    down.
+
+    A header row of entirely empty cells is dropped. Markdown needs the row to
+    exist so the divider has something to sit under; rendering it would draw a
+    hairline under nothing.
+    """
+    header = rows[0]
+    body = rows[1:]
+
+    out = ['<div class="compare-wrap">', '<table class="compare release__table">']
+
+    if any(cell for cell in header):
+        cells = "".join(
+            f'<th scope="col">{inline(cell) if cell else "&nbsp;"}</th>'
+            for cell in header
+        )
+        out.append(f"<thead><tr>{cells}</tr></thead>")
+
+    out.append("<tbody>")
+    for row in body:
+        if not row:
+            continue
+        first = f'<th scope="row">{inline(row[0])}</th>'
+        rest = "".join(f"<td>{inline(cell)}</td>" for cell in row[1:])
+        out.append(f"<tr>{first}{rest}</tr>")
+    out.append("</tbody>")
+
+    out.append("</table>")
+    out.append("</div>")
+    return "\n".join(out)
+
+
 def to_html(markdown):
     out = []
     bullets = []
@@ -74,7 +142,18 @@ def to_html(markdown):
             out.append("<ul>" + "".join(f"<li>{b}</li>" for b in bullets) + "</ul>")
             bullets.clear()
 
-    for raw in (markdown or "").replace("\r\n", "\n").split("\n"):
+    lines = (markdown or "").replace("\r\n", "\n").split("\n")
+
+    # An index rather than a plain loop, because a table can only be
+    # recognised by looking at the line AFTER the one in hand: a row of pipes
+    # is only a table if a divider follows it. Everything else here is still
+    # decided one line at a time.
+    i = -1
+    while True:
+        i += 1
+        if i >= len(lines):
+            break
+        raw = lines[i]
         line = raw.rstrip()
 
         if not line.strip():
@@ -90,6 +169,19 @@ def to_html(markdown):
         if re.match(r"^\s*([-*_])\s*(\1\s*){2,}$", line):
             flush()
             out.append('<hr class="release__rule">')
+            continue
+
+        # A table. Recognised only when a divider follows the first row, which
+        # is what stops a sentence containing a pipe from becoming one.
+        if is_table_row(line) and i + 1 < len(lines) and is_table_divider(lines[i + 1]):
+            flush()
+            rows = [split_row(line)]
+            i += 2
+            while i < len(lines) and is_table_row(lines[i]):
+                rows.append(split_row(lines[i]))
+                i += 1
+            i -= 1
+            out.append(render_table(rows))
             continue
 
         heading = re.match(r"^(#{1,6})\s+(.*)$", line)
