@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>MediaInfo in your browser — SwiftMediaInfo</title>
+
+<meta name="description" content="Read the metadata of any media file in your browser. Nothing is uploaded — the file never leaves your machine. Text, HTML, XML and JSON output.">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="SwiftMediaInfo — MediaInfo in your browser">
+<meta property="og:description" content="Drop a file in. Read its metadata. Nothing is uploaded — the analysis happens on your own machine.">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/online.html">
+<meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
+<meta name="twitter:card" content="summary">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/online.html">
+
+<link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+
+<link rel="stylesheet" href="../assets/css/site.css">
+<link rel="stylesheet" href="../assets/css/online.css">
+<script src="../assets/js/site.js"></script>
+</head>
+
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<nav class="nav" aria-label="Primary">
+    <div class="wrap wrap--wide nav__inner">
+        <a class="nav__brand" href="./">
+            <img class="nav__logo" src="../assets/img/icon-64.png" alt="" width="20" height="20">
+            <span class="nav__brand-text">SwiftMediaInfo</span>
+            <span class="visually-hidden">SwiftMediaInfo home</span>
+        </a>
+
+        <a class="nav__link" href="./">Overview</a>
+        <a class="nav__link nav__link--more" href="features.html">Features</a>
+        <a class="nav__link" href="download.html">Download</a>
+        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="online.html">Online</a>
+        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+
+        <div class="pill theme" role="group" aria-label="Colour theme">
+            <span class="pill__thumb" aria-hidden="true"></span>
+
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="system" aria-pressed="true" title="Match system">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <rect x="1.5" y="2.5" width="13" height="9" rx="1.5"/>
+                    <path d="M5 13.5h6"/>
+                </svg>
+                <span class="visually-hidden">Match system</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <circle cx="8" cy="8" r="3.1"/>
+                    <path d="M8 1v1.6M8 13.4V15M15 8h-1.6M2.6 8H1M12.9 3.1l-1.1 1.1M4.2 11.8l-1.1 1.1M12.9 12.9l-1.1-1.1M4.2 4.2L3.1 3.1"/>
+                </svg>
+                <span class="visually-hidden">Light</span>
+            </button>
+            <button class="pill__btn theme__btn" type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+                <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+                    <path d="M13.2 9.6A5.6 5.6 0 0 1 6.4 2.8a5.6 5.6 0 1 0 6.8 6.8z"/>
+                </svg>
+                <span class="visually-hidden">Dark</span>
+            </button>
+        </div>
+
+        <button class="nav__menu" type="button" aria-expanded="false" aria-controls="nav-more" aria-label="More pages">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+
+    <div class="nav__panel" id="nav-more">
+        <a href="features.html">Features</a>
+        <a href="faq.html">FAQ</a>
+        <a aria-current="page" href="online.html">Online</a>
+        <a href="changelog.html">Changelog</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="donate.html">Donate</a>
+        <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+    </div>
+</nav>
+
+<main id="main">
+
+    <header class="section section--tight center">
+        <div class="wrap">
+            <h1 class="display hero__name">MediaInfo, in your browser.</h1>
+            <p class="tagline hero__tagline">
+                Drop a file in. Read what is inside it. Nothing is uploaded.
+            </p>
+        </div>
+    </header>
+
+
+    <!-- ==================================================================
+         The tool
+
+         First thing on the page, above every word of explanation. Someone
+         arriving here wants to read a file, not read about reading files.
+         The reassurance underneath matters, but it matters second.
+         ================================================================== -->
+
+    <section class="section section--tight">
+        <div class="wrap">
+
+            <div class="drop" id="drop" role="button" tabindex="0"
+                 aria-describedby="drop-hint">
+                <svg class="drop__icon" viewBox="0 0 48 48" fill="none"
+                     stroke="currentColor" stroke-width="2"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M24 32V10"/>
+                    <path d="M15 19l9-9 9 9"/>
+                    <path d="M8 32v4a4 4 0 0 0 4 4h24a4 4 0 0 0 4-4v-4"/>
+                </svg>
+
+                <span class="drop__title">Drop a media file here</span>
+                <span class="drop__hint" id="drop-hint">
+                    Or click to choose one. Any format MediaInfo understands —
+                    video, audio, images, subtitles.
+                </span>
+
+                <input class="drop__input" id="file-input" type="file">
+            </div>
+
+            <!-- A live region, so a screen reader is told what happened
+                 without the focus moving anywhere. -->
+            <p class="status" id="status" role="status" aria-live="polite">
+                <span class="status__dot" aria-hidden="true"></span>
+                <span id="status-text">No file yet.</span>
+            </p>
+
+            <div class="result" id="result" hidden>
+                <div class="result__bar">
+
+                    <!-- The moving indicator is one element behind the labels
+                         rather than a background on each button: one thing
+                         sliding reads as a single control; four things fading
+                         reads as four separate ones. -->
+                    <div class="formats" id="formats" role="tablist" aria-label="Output format">
+                        <span class="formats__thumb" id="formats-thumb" aria-hidden="true"></span>
+                        <button class="formats__btn" type="button" role="tab"
+                                data-format="text" aria-selected="true">Text</button>
+                        <button class="formats__btn" type="button" role="tab"
+                                data-format="HTML" aria-selected="false">HTML</button>
+                        <button class="formats__btn" type="button" role="tab"
+                                data-format="XML" aria-selected="false">XML</button>
+                        <button class="formats__btn" type="button" role="tab"
+                                data-format="JSON" aria-selected="false">JSON</button>
+                    </div>
+
+                    <div class="result__actions">
+                        <button class="btn-act btn-act--copy" type="button" id="copy-btn">
+                            <svg class="btn-act__icon" viewBox="0 0 16 16" fill="none"
+                                 stroke="currentColor" stroke-width="1.5"
+                                 stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <rect x="5.6" y="5.6" width="8" height="8.8" rx="1.6"/>
+                                <path d="M10.4 5.6v-2a1.6 1.6 0 0 0-1.6-1.6H4a1.6 1.6 0 0 0-1.6 1.6v7A1.6 1.6 0 0 0 4 12.2h1.6"/>
+                            </svg>
+                            <span class="btn-act__label">Copy</span>
+                        </button>
+
+                        <div class="menu" id="download-menu">
+                            <button class="btn-act btn-act--download" type="button"
+                                    id="download-btn" aria-haspopup="true" aria-expanded="false">
+                                <svg class="btn-act__icon" viewBox="0 0 16 16" fill="none"
+                                     stroke="currentColor" stroke-width="1.5"
+                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M8 2v8"/>
+                                    <path d="M4.8 7.2 8 10.4l3.2-3.2"/>
+                                    <path d="M2.5 11.5v1a1.5 1.5 0 0 0 1.5 1.5h8a1.5 1.5 0 0 0 1.5-1.5v-1"/>
+                                </svg>
+                                <span class="btn-act__label">Download</span>
+                                <svg class="btn-act__chev" viewBox="0 0 10 10" fill="none"
+                                     stroke="currentColor" stroke-width="1.6"
+                                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M2.4 4l2.6 2.6L7.6 4"/>
+                                </svg>
+                            </button>
+
+                            <div class="menu__panel" id="download-panel" role="menu" hidden>
+                                <button class="menu__item" type="button" role="menuitem" data-download="text">
+                                    <span class="menu__name">Text</span>
+                                    <span class="menu__ext">.txt</span>
+                                </button>
+                                <button class="menu__item" type="button" role="menuitem" data-download="HTML">
+                                    <span class="menu__name">HTML</span>
+                                    <span class="menu__ext">.html</span>
+                                </button>
+                                <button class="menu__item" type="button" role="menuitem" data-download="XML">
+                                    <span class="menu__name">XML</span>
+                                    <span class="menu__ext">.xml</span>
+                                </button>
+                                <button class="menu__item" type="button" role="menuitem" data-download="JSON">
+                                    <span class="menu__name">JSON</span>
+                                    <span class="menu__ext">.json</span>
+                                </button>
+                                <div class="menu__rule" role="separator"></div>
+                                <button class="menu__item" type="button" role="menuitem" data-download="all">
+                                    <span class="menu__name">All four</span>
+                                    <span class="menu__ext">.zip</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Two panes, one at a time. Text, XML and JSON are text and
+                     belong in a <pre>. HTML is a document and is rendered as
+                     one — inside a sandboxed frame with scripting switched
+                     off, because rendering generated markup directly in the
+                     page would be a needless risk for no gain. -->
+                <div class="pane" id="pane-text">
+                    <pre class="output" id="output" tabindex="0" aria-label="MediaInfo report"></pre>
+                </div>
+
+                <div class="pane" id="pane-html" hidden>
+                    <iframe class="render" id="render" title="MediaInfo report"
+                            sandbox referrerpolicy="no-referrer"></iframe>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Where the file goes
+
+         Which is nowhere. This is the claim people are most entitled to
+         doubt about a website that reads their files, so it is answered
+         directly, and in a way that can be checked rather than believed.
+         ================================================================== -->
+
+    <section class="section section--tight section--scrim">
+        <div class="wrap">
+
+            <div class="assure assure--lead rise" data-scroll="rise">
+                <div class="assure__card assure__card--ours">
+                    <h2 class="assure__head">Where your file goes</h2>
+                    <p class="assure__body">
+                        Nowhere. MediaInfo is compiled to WebAssembly and runs inside
+                        this page, on your own machine. Your file is read by the
+                        browser and handed straight to it.
+                    </p>
+                </div>
+
+                <div class="assure__card assure__card--apple">
+                    <h2 class="assure__head">How to check</h2>
+                    <p class="assure__body">
+                        Open your browser's network tab and drop a file in. You will
+                        see the analyser load once, and nothing after it. There is no
+                        server here to upload to — this site is static files.
+                    </p>
+                </div>
+            </div>
+
+            <p class="section__lead mt-6 rise" data-scroll="rise">
+                The analyser is about 2.5&nbsp;MB and is fetched only when you pick a
+                file, from this domain rather than someone else's. Large files are
+                read in pieces rather than loaded whole, so a 40&nbsp;GB disc image
+                is no more trouble than a ringtone.
+            </p>
+
+            <!-- The credit runs on from the paragraph above rather than
+                 sitting in a box. It is the same subject — what is doing the
+                 reading, and whose work it is — and a bordered panel would
+                 announce it as an aside when it is nothing of the sort. -->
+            <p class="section__lead mt-3 rise" data-scroll="rise">
+                And it is MediaInfo itself, not an imitation of it. Every number you
+                see was read by
+                <a class="link-brand" href="https://mediaarea.net/en/MediaInfo">MediaInfo</a>,
+                an open-source project by
+                <a class="link-brand" href="https://mediaarea.net">MediaArea</a>,
+                compiled to WebAssembly by the
+                <a class="link-brand" href="https://github.com/buzz/mediainfo.js">mediainfo.js</a>
+                project. They run
+                <a class="link-brand" href="https://mediaarea.net/MediaInfoOnline">a browser
+                version of their own</a> as well, with more output formats than the
+                four here — and if any of this proves useful, they are the people who
+                <a class="link-brand" href="https://mediaarea.net/en/MediaInfo/Donate">deserve
+                supporting</a>.
+            </p>
+
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         What this is not
+
+         The honest limits. A browser tab doing one file in four formats is
+         not the app, and pretending otherwise would be found out in about
+         ninety seconds.
+         ================================================================== -->
+
+    <section class="section">
+        <div class="wrap">
+
+            <h2 class="heading rise" data-scroll="rise">What this page cannot do</h2>
+
+            <p class="section__lead rise" data-scroll="rise">
+                One file, four formats, in a browser tab. The Mac app is a different
+                proposition.
+            </p>
+
+            <div class="groups mt-6">
+                <div class="group group--violet rise" data-scroll="rise">
+                    <h3 class="group__head"><span class="group__dot"></span>Compare two files</h3>
+                    <ul class="group__list">
+                        <li>Side by side, with every difference marked</li>
+                        <li>A summary panel listing what changed</li>
+                        <li>Per-track difference counts</li>
+                    </ul>
+                </div>
+
+                <div class="group group--blue rise" data-scroll="rise">
+                    <h3 class="group__head"><span class="group__dot"></span>Explain the fields</h3>
+                    <ul class="group__list">
+                        <li>Around 70 fields in plain language, inline</li>
+                        <li>Hover any field name to read what it means</li>
+                    </ul>
+                </div>
+
+                <div class="group group--green rise" data-scroll="rise">
+                    <h3 class="group__head"><span class="group__dot"></span>Verify a file</h3>
+                    <ul class="group__list">
+                        <li>SHA-256 checksums, cached and included in exports</li>
+                        <li>Real progress, and cancellation that stops the work</li>
+                    </ul>
+                </div>
+
+                <div class="group group--teal rise" data-scroll="rise">
+                    <h3 class="group__head"><span class="group__dot"></span>Fit your workflow</h3>
+                    <ul class="group__list">
+                        <li>Right-click any file in Finder to open it</li>
+                        <li>Six export formats, separately or as a ZIP</li>
+                        <li>Search across every field, and a background you choose</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="section cta">
+        <div class="wrap">
+            <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
+            <p class="tagline">Beyond the File.</p>
+            <div class="btn-row">
+                <a class="btn btn--primary" href="download.html">Get the Mac app</a>
+                <a class="btn btn--blue" href="features.html">See everything it does</a>
+            </div>
+        </div>
+    </section>
+
+
+</main>
+
+<footer class="footer">
+    <div class="wrap wrap--wide">
+        <div class="identity">
+            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__handle">
+                <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
+            </span>
+        </div>
+
+        <nav class="footer__links" aria-label="Footer">
+            <a href="./">Overview</a>
+            <a href="features.html">Features</a>
+            <a href="download.html">Download</a>
+            <a href="faq.html">FAQ</a>
+            <a aria-current="page" href="online.html">Online</a>
+            <a href="changelog.html">Changelog</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="donate.html">Donate</a>
+            <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
+            <a href="../">Undisclosed</a>
+        </nav>
+
+        <p class="footer__note">
+            SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
+            MediaArea. It is not affiliated with or endorsed by MediaArea.
+        </p>
+        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+    </div>
+</footer>
+
+<script src="../assets/js/online.js"></script>
+
+</body>
+</html>

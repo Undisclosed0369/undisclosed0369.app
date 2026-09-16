@@ -48,6 +48,7 @@
         <a class="nav__link nav__link--more" href="features.html">Features</a>
         <a class="nav__link" href="download.html">Download</a>
         <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
+        <a class="nav__link nav__link--more" href="online.html">Online</a>
         <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
         <a class="nav__link nav__link--more" aria-current="page" href="privacy.html">Privacy</a>
         <a class="nav__link nav__link--more" href="donate.html">Donate</a>
@@ -86,6 +87,7 @@
     <div class="nav__panel" id="nav-more">
         <a href="features.html">Features</a>
         <a href="faq.html">FAQ</a>
+        <a href="online.html">Online</a>
         <a href="changelog.html">Changelog</a>
         <a aria-current="page" href="privacy.html">Privacy</a>
         <a href="donate.html">Donate</a>
@@ -309,6 +311,67 @@
 
 
     <!-- ==================================================================
+         The browser tool
+
+         Added when the Online page shipped. It belongs here rather than
+         as a footnote on that page: this is the page someone reads when
+         they are deciding whether to trust any of it, and a tool that
+         reads your files without uploading them is the strongest thing
+         this site can say — but only if the page about privacy says it.
+         ================================================================== -->
+
+    <section class="section">
+        <div class="wrap">
+            <div class="rise" data-scroll="rise">
+                <h2 class="title">Reading a file in the browser.</h2>
+
+                <p class="section__lead">
+                    The <a class="link-brand" href="online.html">Online page</a> reads
+                    media files without the app installed. It does not upload them.
+                </p>
+
+                <p class="prose mt-3">
+                    MediaInfo is compiled to WebAssembly and runs inside the page, on
+                    your own machine. Your browser reads the file and hands it to the
+                    analyser directly. There is no server involved because there is no
+                    server to involve — this site is static files, with nothing running
+                    on it that could receive an upload even if the page tried.
+                </p>
+
+                <p class="prose mt-1">
+                    One thing is fetched: the analyser itself, about 2.5&nbsp;MB, the
+                    first time you pick a file. It is served from this domain rather
+                    than a content network, so no third party learns that you visited,
+                    and nothing about your file is included in the request — it is the
+                    same file for everybody.
+                </p>
+
+                <p class="prose mt-1">
+                    Large files are read in pieces rather than loaded whole, so nothing
+                    is copied anywhere, not even into memory. The filename shown in the
+                    report is put there by the page from what your browser reports;
+                    your file's location on disk is never available to the page and is
+                    never in the report.
+                </p>
+
+                <p class="prose mt-1">
+                    Copying and downloading a report happen entirely in your browser.
+                    Nothing on that page has a Share button, and nothing on it can
+                    reach the paste services the app uses.
+                </p>
+
+                <div class="note mt-3">
+                    <strong>This one is easy to check.</strong> Open your browser's
+                    network tab, drop a file in, and watch. You will see the analyser
+                    load once and nothing afterwards — no request carrying your file,
+                    because there is nowhere for it to go.
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
          Verification
 
          The closing argument, and the one that distinguishes this page from
@@ -370,6 +433,7 @@
             <a href="features.html">Features</a>
             <a href="download.html">Download</a>
             <a href="faq.html">FAQ</a>
+            <a href="online.html">Online</a>
             <a href="changelog.html">Changelog</a>
             <a href="privacy.html">Privacy</a>
             <a href="donate.html">Donate</a>

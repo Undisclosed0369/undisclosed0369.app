@@ -1,0 +1,603 @@
+/* ===================================================================
+   online.css — the browser MediaInfo tool
+
+   A separate stylesheet rather than more of site.css, for one reason:
+   everything here is used on exactly one page. site.css is 127 KB that
+   every page pays for; there is no sense adding a drop zone and an
+   output pane to it so that eight pages can download rules they will
+   never apply.
+
+   It loads after site.css and uses its tokens throughout — no colours,
+   spacing or motion values are invented here.
+   =================================================================== */
+
+
+/* -------------------------------------------------------------------
+   The drop zone
+
+   Sized so it is obviously a target without dominating the page. The
+   dashed border is the one place on this site where a dashed line is
+   right: it is the universal shorthand for "put something here", and
+   inventing a subtler signal would be cleverness at the reader's
+   expense.
+   ------------------------------------------------------------------- */
+
+.drop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    min-height: 260px;
+    padding: 3rem 1.75rem;
+    border-radius: var(--radius-panel);
+    border: 2px dashed color-mix(in oklab, var(--violet) 38%, transparent);
+    background: color-mix(in oklab, var(--surface-alt) 55%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .28s var(--ease),
+                background-color .28s var(--ease),
+                transform .28s var(--ease);
+}
+
+.drop:hover,
+.drop:focus-visible {
+    border-color: color-mix(in oklab, var(--violet) 62%, transparent);
+    background: color-mix(in oklab, var(--surface-alt) 75%, transparent);
+}
+
+.drop:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 3px;
+}
+
+/* Applied while a file is over the window. Deliberately stronger than
+   hover — the question "will it accept this?" should be answered before
+   the pointer is released, not after. */
+.drop.is-over {
+    border-color: var(--violet);
+    border-style: solid;
+    background: color-mix(in oklab, var(--violet) 12%, var(--surface-alt));
+    transform: scale(1.01);
+}
+
+.drop__icon {
+    width: 46px;
+    height: 46px;
+    color: var(--violet);
+    opacity: .85;
+}
+
+.drop__title {
+    font-size: var(--t-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.drop__hint {
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+    max-width: 44ch;
+}
+
+.drop__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .drop,
+    .drop.is-over {
+        transition: none;
+        transform: none;
+    }
+}
+
+
+/* -------------------------------------------------------------------
+   The status line
+
+   One row, three states — working, done, failed. It is a live region,
+   so it is also what a screen reader announces; the wording is written
+   to be heard as much as read.
+   ------------------------------------------------------------------- */
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+    min-height: 34px;
+    margin-top: 1.25rem;
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+}
+
+.status__dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex: none;
+    background: var(--ink-faint);
+}
+
+.status.is-working .status__dot {
+    background: var(--violet);
+    animation: status-pulse 1.1s var(--ease) infinite;
+}
+
+.status.is-done .status__dot { background: var(--green); }
+.status.is-error .status__dot { background: var(--pink); }
+
+.status.is-error { color: var(--pink); }
+
+@keyframes status-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: .25; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .status.is-working .status__dot { animation: none; }
+}
+
+/* The name and size of the file in hand. Not a path — the browser does
+   not give one, and this page would not print it if it did. */
+.status__file {
+    color: var(--ink);
+    font-weight: 500;
+}
+
+
+/* -------------------------------------------------------------------
+   The result panel
+   ------------------------------------------------------------------- */
+
+.result {
+    margin-top: 1.75rem;
+}
+
+.result[hidden] { display: none; }
+
+.result__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+/* Format tabs. Same shape as the pill controls elsewhere on the site so
+   the page does not introduce a third kind of segmented control. */
+.formats {
+    display: inline-flex;
+    gap: 2px;
+    padding: 3px;
+    border-radius: 999px;
+    background: var(--glass-fill);
+    border: 1px solid var(--glass-line);
+    box-shadow: inset 0 1px 0 var(--glass-edge);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+}
+
+.formats__btn {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    color: var(--ink-soft);
+    font: inherit;
+    font-size: var(--t-small);
+    font-weight: 500;
+    padding: .45rem 1.1rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color .18s var(--ease),
+                background-color .18s var(--ease);
+}
+
+.formats__btn:hover { color: var(--ink); }
+
+.formats__btn[aria-selected="true"] {
+    color: var(--ink);
+    background: var(--surface);
+    box-shadow: var(--glass-shadow);
+}
+
+.formats__btn:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 2px;
+}
+
+.result__actions {
+    display: flex;
+    gap: .65rem;
+}
+
+/* The output itself. Monospace, scrollable in both directions, capped
+   in height so the page below it stays reachable — a 400-line report
+   should not bury the rest of the page. */
+.output {
+    margin: 0;
+    padding: 1.25rem;
+    max-height: 60vh;
+    overflow: auto;
+    border-radius: var(--radius-shot);
+    border: 1px solid var(--hairline);
+    background: color-mix(in oklab, var(--surface-alt) 70%, transparent);
+    font-family: var(--mono);
+    font-size: .82rem;
+    line-height: 1.65;
+    white-space: pre;
+    tab-size: 4;
+    color: var(--ink);
+}
+
+.output:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+    .output {
+        font-size: .76rem;
+        padding: 1rem;
+        max-height: 50vh;
+    }
+
+    .result__bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .formats { width: 100%; justify-content: space-between; }
+    .formats__btn { flex: 1; padding: .45rem .5rem; }
+    .result__actions { justify-content: stretch; }
+    .result__actions .btn { flex: 1; }
+}
+
+
+/* -------------------------------------------------------------------
+   The sliding indicator on the format tabs
+
+   Position and width are set from JavaScript against the selected
+   button, so the tabs can be any width and the thumb still lands on
+   them exactly. Everything else — the easing, the shadow — is CSS.
+   ------------------------------------------------------------------- */
+
+.formats {
+    position: relative;
+}
+
+/* The thumb is glass tinted with whichever format is selected. The tint
+   itself (--thumb-c) is set from JavaScript, because the colour belongs
+   to the button and the element that has to wear it is a sibling. */
+.formats__thumb {
+    position: absolute;
+    top: 3px;
+    bottom: 3px;
+    left: 0;
+    width: 0;
+    border-radius: 999px;
+    background:
+        linear-gradient(
+            180deg,
+            color-mix(in oklab, var(--thumb-c, var(--violet)) 26%, var(--glass-fill)),
+            color-mix(in oklab, var(--thumb-c, var(--violet)) 14%, var(--glass-fill))
+        );
+    border: 1px solid color-mix(in oklab, var(--thumb-c, var(--violet)) 42%, transparent);
+    box-shadow:
+        var(--glass-shadow),
+        inset 0 1px 0 var(--glass-edge),
+        0 0 18px color-mix(in oklab, var(--thumb-c, var(--violet)) 22%, transparent);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+    transition: transform .34s var(--ease),
+                width .34s var(--ease),
+                background-color .34s var(--ease),
+                border-color .34s var(--ease),
+                box-shadow .34s var(--ease);
+    pointer-events: none;
+}
+
+/* Until the first measurement the thumb has no width, so there is
+   nothing to see sliding in from the left on load. */
+.formats__thumb.is-ready {
+    width: var(--thumb-w, 0px);
+    transform: translateX(var(--thumb-x, 0px));
+}
+
+/* The selected label no longer paints its own background — the thumb
+   is behind it now. */
+.formats__btn[aria-selected="true"] {
+    background: transparent;
+    box-shadow: none;
+}
+
+.formats__btn {
+    position: relative;
+    z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .formats__thumb { transition: none; }
+}
+
+
+/* -------------------------------------------------------------------
+   Panes
+
+   Swapping formats fades the new content in rather than replacing it
+   between frames. Short — 180ms — because this happens on every tab
+   press and anything longer would start to feel like waiting.
+   ------------------------------------------------------------------- */
+
+.pane[hidden] { display: none; }
+
+.pane {
+    animation: pane-in .18s var(--ease) both;
+}
+
+@keyframes pane-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .pane { animation: none; }
+}
+
+
+/* -------------------------------------------------------------------
+   The rendered HTML report
+
+   A sandboxed frame. Height is fixed rather than fitted to content:
+   with scripting off inside the frame there is no way to measure the
+   document, and a fixed pane that scrolls internally is better than a
+   guess that clips.
+   ------------------------------------------------------------------- */
+
+.render {
+    display: block;
+    width: 100%;
+    height: 60vh;
+    min-height: 320px;
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-shot);
+    background: color-mix(in oklab, var(--surface-alt) 70%, transparent);
+}
+
+@media (max-width: 640px) {
+    .render { height: 55vh; min-height: 260px; }
+}
+
+
+/* -------------------------------------------------------------------
+   Copy and Download
+
+   Coloured, because they are the two things on this page you are meant
+   to do with a report, and a grey button says "available" rather than
+   "go on then". Violet for copy, blue for download — both already in
+   the palette, and kept apart so the two actions are never confused at
+   a glance.
+   ------------------------------------------------------------------- */
+
+.btn-act {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: .5rem 1.1rem;
+    height: 38px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font: inherit;
+    font-size: var(--t-small);
+    font-weight: 550;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform .16s var(--ease),
+                background-color .18s var(--ease),
+                border-color .18s var(--ease),
+                box-shadow .18s var(--ease);
+}
+
+.btn-act__icon {
+    width: 15px;
+    height: 15px;
+    flex: none;
+}
+
+.btn-act__chev {
+    width: 10px;
+    height: 10px;
+    flex: none;
+    opacity: .7;
+    transition: transform .22s var(--ease);
+}
+
+.btn-act--copy {
+    color: var(--violet);
+    background: color-mix(in oklab, var(--violet) 12%, transparent);
+    border-color: color-mix(in oklab, var(--violet) 30%, transparent);
+}
+
+.btn-act--copy:hover {
+    background: color-mix(in oklab, var(--violet) 20%, transparent);
+    border-color: color-mix(in oklab, var(--violet) 48%, transparent);
+}
+
+.btn-act--download {
+    color: var(--blue);
+    background: color-mix(in oklab, var(--blue) 12%, transparent);
+    border-color: color-mix(in oklab, var(--blue) 30%, transparent);
+}
+
+.btn-act--download:hover {
+    background: color-mix(in oklab, var(--blue) 20%, transparent);
+    border-color: color-mix(in oklab, var(--blue) 48%, transparent);
+}
+
+.btn-act:active { transform: scale(.96); }
+
+.btn-act:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+.btn-act[aria-expanded="true"] .btn-act__chev {
+    transform: rotate(180deg);
+}
+
+/* Confirmation. The button turns green and the label swaps for about a
+   second and a half — long enough to be seen, short enough that it is
+   back to normal before the next press. */
+.btn-act.is-done {
+    color: var(--green);
+    background: color-mix(in oklab, var(--green) 16%, transparent);
+    border-color: color-mix(in oklab, var(--green) 40%, transparent);
+    animation: act-pop .34s var(--ease);
+}
+
+@keyframes act-pop {
+    0%   { transform: scale(.94); }
+    55%  { transform: scale(1.04); }
+    100% { transform: scale(1); }
+}
+
+.btn-act.is-failed {
+    color: var(--pink);
+    background: color-mix(in oklab, var(--pink) 14%, transparent);
+    border-color: color-mix(in oklab, var(--pink) 40%, transparent);
+    animation: act-shake .34s var(--ease);
+}
+
+@keyframes act-shake {
+    0%, 100% { transform: translateX(0); }
+    25%      { transform: translateX(-3px); }
+    75%      { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-act,
+    .btn-act.is-done,
+    .btn-act.is-failed {
+        transition: none;
+        animation: none;
+    }
+    .btn-act:active { transform: none; }
+}
+
+
+/* -------------------------------------------------------------------
+   The download menu
+   ------------------------------------------------------------------- */
+
+.menu {
+    position: relative;
+}
+
+.menu__panel {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 8px);
+    z-index: 40;
+    min-width: 190px;
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--glass-shadow);
+    animation: menu-in .18s var(--ease) both;
+}
+
+.menu__panel[hidden] { display: none; }
+
+@keyframes menu-in {
+    from { opacity: 0; transform: translateY(-6px) scale(.98); }
+    to   { opacity: 1; transform: none; }
+}
+
+.menu__item {
+    appearance: none;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: .5rem .75rem;
+    border: 0;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-size: var(--t-small);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .14s var(--ease);
+}
+
+.menu__item:hover {
+    background: color-mix(in oklab, var(--blue) 14%, transparent);
+}
+
+.menu__item:focus-visible {
+    outline: 2px solid var(--blue);
+    outline-offset: -2px;
+}
+
+.menu__ext {
+    font-family: var(--mono);
+    font-size: var(--t-micro);
+    color: var(--ink-faint);
+}
+
+.menu__rule {
+    height: 1px;
+    margin: 5px .75rem;
+    background: var(--hairline);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menu__panel { animation: none; }
+}
+
+@media (max-width: 640px) {
+    .result__actions .btn-act { flex: 1; justify-content: center; }
+    .menu { flex: 1; }
+    .menu__panel { left: 0; right: 0; min-width: 0; }
+}
+
+
+/* -------------------------------------------------------------------
+   A colour per format
+
+   Four formats, four of the brand's colours, in the order they appear
+   in the palette. It is decoration with a job: after a few visits the
+   colour tells you which tab you are on before the label does.
+   ------------------------------------------------------------------- */
+
+.formats__btn[data-format="text"] { --format-c: var(--violet); }
+.formats__btn[data-format="HTML"] { --format-c: var(--pink); }
+.formats__btn[data-format="XML"]  { --format-c: var(--blue); }
+.formats__btn[data-format="JSON"] { --format-c: var(--teal); }
+
+.formats__btn[aria-selected="true"] {
+    color: color-mix(in oklab, var(--format-c) 82%, var(--ink));
+    font-weight: 600;
+}
+
+.formats__btn:hover {
+    color: color-mix(in oklab, var(--format-c) 65%, var(--ink));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .formats__thumb { transition: none; }
+}
