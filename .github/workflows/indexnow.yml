@@ -1,0 +1,74 @@
+name: Notify search engines
+
+# WHEN THIS RUNS
+#
+# On every push to main that changes a page, announcing only the pages that
+# changed. And after the changelog workflow, because that one has to be
+# handled separately — see below.
+#
+# Manually, from the Actions tab, to announce every page in the sitemap.
+# That is the button to press once after first setting this up, and any time
+# you want Bing to take a fresh look at everything.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "**.html"
+
+  # The changelog workflow commits `changelog.html` using the built-in
+  # GITHUB_TOKEN, and GitHub deliberately does not let a push made with that
+  # token trigger other workflows — otherwise two workflows could set each
+  # other off forever. So the push above never sees those commits. This
+  # catches them instead.
+  workflow_run:
+    workflows: ["Update changelog"]
+    types: [completed]
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    # After the changelog workflow, only when it succeeded — a failed run
+    # changed nothing worth announcing.
+    if: >
+      github.event_name != 'workflow_run' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      # GitHub Pages takes a minute or so to publish a push. Announcing
+      # before it has would send Bing to look at the old page.
+      - name: Wait for GitHub Pages to publish
+        run: sleep 90
+
+      - name: Announce changed pages
+        run: |
+          case "${{ github.event_name }}" in
+            workflow_dispatch)
+              python3 tools/indexnow.py
+              ;;
+            workflow_run)
+              python3 tools/indexnow.py swiftmediainfo/changelog.html
+              ;;
+            push)
+              changed=$(git diff --name-only HEAD~1 HEAD -- '*.html' || true)
+              if [ -z "$changed" ]; then
+                echo "No pages changed."
+                exit 0
+              fi
+              python3 tools/indexnow.py $changed
+              ;;
+          esac
