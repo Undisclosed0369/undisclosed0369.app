@@ -9,11 +9,11 @@
 <!-- The plain descriptor, not the subtitle. This is the machine-facing
      string: it exists to be findable, and it is deliberately never shown on
      the page alongside the tagline. -->
-<meta name="description" content="Native macOS front-end for MediaInfo, with side-by-side comparison and powerful new features.">
+<meta name="description" content="Native macOS front-end for MediaInfo: tabs, side-by-side comparison, Media Health, previews, on-device Siri AI, and reports as PDF or Markdown.">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="SwiftMediaInfo">
-<meta property="og:description" content="Native macOS front-end for MediaInfo, with side-by-side comparison and powerful new features.">
+<meta property="og:description" content="Native macOS front-end for MediaInfo: tabs, side-by-side comparison, Media Health, previews, on-device Siri AI, and reports as PDF or Markdown.">
 <meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/">
 <meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
 <meta name="twitter:card" content="summary">
@@ -44,17 +44,17 @@
   "@id": "https://undisclosed0369.app/swiftmediainfo/#app",
   "name": "SwiftMediaInfo",
   "alternateName": "Swift MediaInfo",
-  "description": "A native macOS front-end for MediaInfo. Read the metadata inside any media file, compare two files side by side with every difference marked, compute SHA-256 checksums, and read plain-language explanations of around 70 fields.",
+  "description": "A native macOS front-end for MediaInfo. Open files in tabs, read the metadata inside any media file with a one-glance overview, compare two files side by side with every difference marked, check a file's health, preview it, ask Siri AI about it on your Mac, and export reports as PDF, Markdown and six other formats.",
   "url": "https://undisclosed0369.app/swiftmediainfo/",
   "applicationCategory": "MultimediaApplication",
   "applicationSubCategory": "Media metadata viewer",
   "operatingSystem": "macOS 26 or later",
   "processorRequirements": "Apple silicon",
-  "softwareVersion": "2.0",
-  "softwareRequirements": "MediaInfo command-line tool (installed automatically through Homebrew)",
+  "softwareVersion": "2.1",
+  "softwareRequirements": "MediaInfo command-line tool (installed automatically through Homebrew); ffmpeg optional, for previews",
   "downloadUrl": "https://github.com/Undisclosed0369/SwiftMediaInfo/releases/latest",
-  "installUrl": "https://undisclosed0369.app/swiftmediainfo/download.html",
-  "releaseNotes": "https://undisclosed0369.app/swiftmediainfo/changelog.html",
+  "installUrl": "https://undisclosed0369.app/swiftmediainfo/download",
+  "releaseNotes": "https://undisclosed0369.app/swiftmediainfo/changelog",
   "screenshot": "https://undisclosed0369.app/assets/img/hero-easy-view-dark.webp",
   "image": "https://undisclosed0369.app/assets/img/icon-512.png",
   "license": "https://github.com/Undisclosed0369/SwiftMediaInfo/blob/main/LICENSE",
@@ -66,7 +66,7 @@
   },
   "author": {
     "@type": "Person",
-    "name": "Undisclosed / Data Lass",
+    "name": "Undisclosed0369",
     "url": "https://undisclosed0369.app/",
     "sameAs": [
       "https://github.com/Undisclosed0369"
@@ -74,12 +74,17 @@
   },
   "inLanguage": "en",
   "featureList": [
+    "Tabs, including folder tabs",
     "Six views: structured, text, raw text, HTML, XML and JSON",
+    "A one-glance overview of every file",
     "Side-by-side comparison with differences marked",
+    "Media Health checks",
+    "Previews, including MKV",
+    "Siri AI, on device",
     "SHA-256 checksums",
-    "Plain-language explanations for around 70 fields",
+    "Plain-language explanations for 70 fields",
     "Finder integration",
-    "Export in six formats, or all of them as a ZIP"
+    "Export in eight formats, including PDF and Markdown, or all of them as a ZIP"
   ],
   "sameAs": [
     "https://github.com/Undisclosed0369/SwiftMediaInfo"
@@ -110,13 +115,13 @@
         </a>
 
         <a class="nav__link" aria-current="page" href="./">Overview</a>
-        <a class="nav__link nav__link--more" href="features.html">Features</a>
-        <a class="nav__link" href="download.html">Download</a>
-        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
-        <a class="nav__link nav__link--more" href="online.html">Online</a>
-        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
-        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
-        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="features">Features</a>
+        <a class="nav__link" href="download">Download</a>
+        <a class="nav__link nav__link--more" href="faq">FAQ</a>
+        <a class="nav__link nav__link--more" href="online">Online</a>
+        <a class="nav__link nav__link--more" href="changelog">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate">Donate</a>
         <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
 
         <div class="pill theme" role="group" aria-label="Colour theme">
@@ -153,12 +158,12 @@
     </div>
 
     <div class="nav__panel" id="nav-more">
-        <a href="features.html">Features</a>
-        <a href="faq.html">FAQ</a>
-        <a href="online.html">Online</a>
-        <a href="changelog.html">Changelog</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="donate.html">Donate</a>
+        <a href="features">Features</a>
+        <a href="faq">FAQ</a>
+        <a href="online">Online</a>
+        <a href="changelog">Changelog</a>
+        <a href="privacy">Privacy</a>
+        <a href="donate">Donate</a>
         <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
     </div>
 </nav>
@@ -187,7 +192,7 @@
             <p class="tagline hero__tagline">Beyond the File.</p>
 
             <div class="btn-row hero__actions">
-                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--primary" href="download">Download for macOS</a>
                 <a class="btn btn--quiet" href="https://github.com/Undisclosed0369/SwiftMediaInfo">View source</a>
             </div>
         </div>
@@ -195,13 +200,13 @@
         <div class="wrap wrap--wide mt-6">
             <img class="shot shot__variant--light zoom" data-scroll="zoom"
                  src="../assets/img/hero-easy-view-light.webp"
-                 alt="SwiftMediaInfo showing a video file in Easy View, fields grouped by track."
-                 width="1586" height="917"
+                 alt="SwiftMediaInfo showing a 4K Dolby Vision film in Easy View, with the Overview card summing up its video, main audio and subtitles."
+                 width="1644" height="990"
                  loading="lazy" fetchpriority="high" decoding="async" data-peek-self>
             <img class="shot shot__variant--dark zoom" data-scroll="zoom"
                  src="../assets/img/hero-easy-view-dark.webp"
-                 alt="SwiftMediaInfo showing a video file in Easy View, fields grouped by track."
-                 width="1586" height="917"
+                 alt="SwiftMediaInfo showing a 4K Dolby Vision film in Easy View, with the Overview card summing up its video, main audio and subtitles."
+                 width="1644" height="990"
                  loading="lazy" fetchpriority="high" decoding="async" data-peek-self>
         </div>
     </header>
@@ -217,31 +222,33 @@
                 <h2 class="title">Every field, readable.</h2>
                 <p class="section__lead">
                     MediaInfo reports hundreds of fields per file. SwiftMediaInfo
-                    groups them by track, aligns the values in a monospaced column,
-                    and explains the ones nobody remembers.
+                    sums the file up at the top, groups the rest by track, aligns
+                    the values in a monospaced column, and explains the ones nobody
+                    remembers.
                 </p>
             </div>
 
             <div class="feature__shot breakout rise" data-scroll="rise">
                 <img class="shot shot__variant--light" src="../assets/img/easy-view-glossary-light.webp"
-                             alt="An Easy View field with its plain-language explanation open." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="An Easy View field with its plain-language explanation open." width="1663" height="990" loading="lazy" decoding="async" data-peek-self>
                         <img class="shot shot__variant--dark" src="../assets/img/easy-view-glossary-dark.webp"
-                             alt="An Easy View field with its plain-language explanation open." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="An Easy View field with its plain-language explanation open." width="1663" height="990" loading="lazy" decoding="async" data-peek-self>
             </div>
 
             <div class="points points--three rise" data-scroll="rise">
                 <div class="point point--tinted" style="--tint: var(--blue)">
-                    <h3 class="point__title">Grouped by track</h3>
+                    <h3 class="point__title">Summed up, then grouped</h3>
                     <p class="point__body">
-                        General, video, audio, subtitles and menus, each in its own
-                        card, collapsible when you want the rest out of the way.
+                        An Overview card gives the video, main audio and subtitles
+                        at a glance. Below it, every track has its own card,
+                        collapsible when you want the rest out of the way.
                     </p>
                 </div>
                 <div class="point point--tinted" style="--tint: var(--violet)">
                     <h3 class="point__title">Plain-language notes</h3>
                     <p class="point__body">
-                        Around seventy fields carry an explanation. Hover the marker
-                        for a quick read, or click to keep it open.
+                        Seventy fields carry an explanation. Hover the marker for a
+                        quick read, or click to keep it open.
                     </p>
                 </div>
                 <div class="point point--tinted" style="--tint: var(--pink)">
@@ -250,6 +257,82 @@
                         Easy View, Text, Raw Text, HTML, XML and JSON. The same
                         analysis, in whichever form you need.
                     </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         New in 2.1
+
+         Text only, in the features page's own group style. The headline
+         features get pictures of their own further down; this is the list
+         someone who used 2.0 wants first — what is different — and it links
+         on to the full detail rather than repeating it.
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--wide">
+            <div class="feature__head rise" data-scroll="rise">
+                <h2 class="title">New in 2.1</h2>
+                <p class="section__lead">
+                    The biggest update so far. These are the headlines; the
+                    <a class="link-brand" href="features">features page</a>
+                    has everything, and the
+                    <a class="link-brand" href="changelog">changelog</a>
+                    has every change.
+                </p>
+            </div>
+
+            <div class="groups rise" data-scroll="rise">
+                <div class="group group--blue">
+                    <h3 class="group__head"><span class="group__dot"></span>Tabs</h3>
+                    <ul class="group__list">
+                        <li>Every file in a tab of its own, Safari-style</li>
+                        <li>A folder opens as one tab, with its media files listed beside the report</li>
+                        <li>Star a tab to keep it in Favorites</li>
+                    </ul>
+                </div>
+                <div class="group group--pink">
+                    <h3 class="group__head"><span class="group__dot"></span>Compare, rebuilt</h3>
+                    <ul class="group__list">
+                        <li>File A and File B are two of your open tabs</li>
+                        <li>⌘-click a tab, or right-click it and choose Compare With</li>
+                        <li>Drop two files at once and they open side by side</li>
+                    </ul>
+                </div>
+                <div class="group group--green">
+                    <h3 class="group__head"><span class="group__dot"></span>Media Health</h3>
+                    <ul class="group__list">
+                        <li>One click checks a file for common problems</li>
+                        <li>Missing streams, duplicate track IDs, variable frame rate, HDR metadata, language tags and duration mismatches</li>
+                        <li>Every warning says what it means and what to do</li>
+                    </ul>
+                </div>
+                <div class="group group--teal">
+                    <h3 class="group__head"><span class="group__dot"></span>Preview</h3>
+                    <ul class="group__list">
+                        <li>Press Space to preview the file, as in Finder</li>
+                        <li>MKV and other formats macOS can't play open as clips, with every subtitle track — Blu-ray PGS included</li>
+                        <li>A filmstrip of the whole file to jump around in</li>
+                    </ul>
+                </div>
+                <div class="group group--violet">
+                    <h3 class="group__head"><span class="group__dot"></span>Siri AI</h3>
+                    <ul class="group__list">
+                        <li>Ask what a file is, whether it is healthy, or which of two copies is better</li>
+                        <li>Answered on your Mac by Apple's on-device model — nothing is sent anywhere</li>
+                        <li>On Macs with Apple Intelligence, running macOS 27 or later</li>
+                    </ul>
+                </div>
+                <div class="group group--amber">
+                    <h3 class="group__head"><span class="group__dot"></span>Reports</h3>
+                    <ul class="group__list">
+                        <li>New PDF and Markdown exports, eight formats in all</li>
+                        <li>Share an HTML or PDF report as a web page</li>
+                        <li>You decide whether file paths and the checksum go with them</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -304,8 +387,8 @@
                             <h2 class="title">Take the result with you.</h2>
                             <p class="section__lead">
                                 Export either file's report, or both together, in any of
-                                the six formats — including a single archive containing
-                                all of them.
+                                the eight formats — PDF and Markdown among them — or as a
+                                single archive containing all of them.
                             </p>
                         </div>
                     </div>
@@ -325,6 +408,7 @@
                     <figure class="shot sequence"
                             data-sequence
                             data-count="145"
+                            data-lead="55"
                             data-ext=".webp"
                             data-desktop="../assets/frames/"
                             data-mobile="../assets/frames-mobile/"
@@ -336,13 +420,13 @@
                              invisible. -->
                         <img class="sequence__poster" src="../assets/frames-mobile/0001.webp"
                              alt="SwiftMediaInfo entering Compare Mode, with two files side by side."
-                             width="1200" height="760">
+                             width="1200" height="734">
 
                         <!-- These dimensions are a starting point only. The
                              script re-sizes the canvas from the first frame
                              that decodes, so re-encoding at another resolution
                              does not require editing them. -->
-                        <canvas class="sequence__canvas" width="1900" height="1204" aria-hidden="true"></canvas>
+                        <canvas class="sequence__canvas" width="1800" height="1100" aria-hidden="true"></canvas>
 
                         <div class="sequence__loading" aria-hidden="true">
                             <span class="sequence__bar"><span class="sequence__fill"></span></span>
@@ -365,18 +449,225 @@
                 <div>
                     <h2 class="title">Start from Finder.</h2>
                     <p class="section__lead">
-                        Right-click any media file and open it straight into
-                        SwiftMediaInfo. No launching the app first, no dragging
-                        anything anywhere.
+                        Right-click a media file, a folder, or several files at
+                        once and open them straight into SwiftMediaInfo — each in
+                        a tab of its own, a folder as one tab. Select two files and
+                        compare them from the same menu.
+                    </p>
+                    <p class="prose mt-1">
+                        The menu is switched on the first time the app opens, so
+                        there is no trip to System Settings. Turn it off in the
+                        app's settings and it stays off.
                     </p>
                 </div>
                 <div class="split__media">
                     <img class="shot shot__variant--light" src="../assets/img/finder-extension-light.webp"
-                             alt="The Finder right-click menu with the SwiftMediaInfo entry."
-                             width="1122" height="821" loading="lazy" decoding="async" data-peek-self>
+                             alt="The Finder right-click menu with two files selected, offering Open 2 Items in SwiftMediaInfo and Compare in SwiftMediaInfo."
+                             width="1047" height="741" loading="lazy" decoding="async" data-peek-self>
                         <img class="shot shot__variant--dark" src="../assets/img/finder-extension-dark.webp"
-                             alt="The Finder right-click menu with the SwiftMediaInfo entry."
-                             width="1120" height="814" loading="lazy" decoding="async" data-peek-self>
+                             alt="The Finder right-click menu with two files selected, offering Open 2 Items in SwiftMediaInfo and Compare in SwiftMediaInfo."
+                             width="1080" height="765" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Tabs
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split split--reverse split--media rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">One window, every file.</h2>
+                    <p class="section__lead">
+                        Each file opens in a tab of its own, and a folder opens as one
+                        tab, with its media files listed beside the report. Only the
+                        file you are looking at is read, so a folder of hundreds opens
+                        as quickly as one.
+                    </p>
+                    <p class="prose mt-1">
+                        Drag a tab to reorder it, or onto another app to open the file
+                        there. Star the ones you come back to, and they stay a click
+                        away.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/tabs-light.webp"
+                         alt="SwiftMediaInfo with four tabs open, one of them a folder tab listing the media files inside it."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
+                    <img class="shot shot__variant--dark" src="../assets/img/tabs-dark.webp"
+                         alt="SwiftMediaInfo with four tabs open, one of them a folder tab listing the media files inside it."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Media Health
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">A second opinion.</h2>
+                    <p class="section__lead">
+                        Media Health reads the report the way someone experienced would:
+                        missing streams, duplicate track IDs, a variable frame rate,
+                        missing HDR metadata, untagged languages, video and audio that
+                        end at different times.
+                    </p>
+                    <p class="prose mt-1">
+                        Every check is marked, and every warning says what it means and
+                        what to do about it. It knows what is normal, too — a song
+                        without video is not a problem.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/media-health-light.webp"
+                         alt="The Media Health window over a report: nine checks, eight passed, and one warning about an untagged audio track."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
+                    <img class="shot shot__variant--dark" src="../assets/img/media-health-dark.webp"
+                         alt="The Media Health window over a report: nine checks, eight passed, and one warning about an untagged audio track."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Preview
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split split--reverse split--media rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">Press Space.</h2>
+                    <p class="section__lead">
+                        The file you are looking at, playing. What macOS can play opens
+                        in Quick Look; MKV and the rest open in SwiftMediaInfo's own
+                        preview, as short clips played by macOS's player — 4K, HDR and
+                        Dolby Vision included.
+                    </p>
+                    <p class="prose mt-1">
+                        Every subtitle track is there, Blu-ray PGS drawn exactly as on
+                        the disc, and a filmstrip of the whole file lets you jump
+                        anywhere. Your file is never changed: the clips are temporary,
+                        and gone the moment the preview closes.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/preview-light.webp"
+                         alt="The SwiftMediaInfo preview playing a 4K film with its subtitles on screen and a filmstrip of the whole file beneath."
+                         width="1645" height="991" loading="lazy" decoding="async" data-peek-self>
+                    <img class="shot shot__variant--dark" src="../assets/img/preview-dark.webp"
+                         alt="The SwiftMediaInfo preview playing a 4K film with its subtitles on screen and a filmstrip of the whole file beneath."
+                         width="1649" height="992" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Siri AI
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">Ask about it.</h2>
+                    <p class="section__lead">
+                        Not sure what a field means, or which of two copies is the better
+                        one? Ask Siri AI. It reads the report — never the file — and
+                        answers on your Mac, with Apple's on-device model.
+                    </p>
+                    <p class="prose mt-1">
+                        Follow-up questions work the way they should, and nothing is
+                        sent anywhere. Siri AI appears on Macs that support Apple
+                        Intelligence, running macOS 27 or later.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/siri-ai-light.webp"
+                         alt="The Siri AI window explaining a video file in plain language, with suggested follow-up questions."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
+                    <img class="shot shot__variant--dark" src="../assets/img/siri-ai-dark.webp"
+                         alt="The Siri AI window explaining a video file in plain language, with suggested follow-up questions."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Reports
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split split--reverse split--media rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">A report worth sending.</h2>
+                    <p class="section__lead">
+                        Export a designed PDF, with the overview and a table for every
+                        track, or Markdown ready to paste into the pastebin of your choice — alongside Text,
+                        Raw Text, HTML, CSV, JSON and XML.
+                    </p>
+                    <p class="prose mt-1">
+                        Share an HTML or PDF report as a web page, with one link. Before
+                        anything leaves your Mac you see what goes with it, and file
+                        paths and the checksum stay out unless you want them in.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/report-pdf-light.webp"
+                         alt="The first page of a SwiftMediaInfo PDF report: the app's header, the file's name and highlights, and its Overview."
+                         width="1785" height="1850" loading="lazy" decoding="async" data-peek-self>
+                    <img class="shot shot__variant--dark" src="../assets/img/report-pdf-dark.webp"
+                         alt="The first page of a SwiftMediaInfo PDF report: the app's header, the file's name and highlights, and its Overview."
+                         width="1785" height="1850" loading="lazy" decoding="async" data-peek-self>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ==================================================================
+         Start screen
+         ================================================================== -->
+
+    <section class="section section--scrim">
+        <div class="wrap wrap--xwide">
+            <div class="split rise" data-scroll="rise">
+                <div>
+                    <h2 class="title">Pick up where you left off.</h2>
+                    <p class="section__lead">
+                        With nothing open, SwiftMediaInfo shows your favorites and recent
+                        files, a click from open — and how long you have spent in the
+                        app, with a fact to put it in perspective.
+                    </p>
+                    <p class="prose mt-1">
+                        Rather not have either on screen? Both can be hidden in
+                        Settings.
+                    </p>
+                </div>
+                <div class="split__media">
+                    <img class="shot shot__variant--light" src="../assets/img/start-screen-light.webp"
+                         alt="The start screen, with favorites, recent files and the time spent in SwiftMediaInfo."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
+                    <img class="shot shot__variant--dark" src="../assets/img/start-screen-dark.webp"
+                         alt="The start screen, with favorites, recent files and the time spent in SwiftMediaInfo."
+                         width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
                 </div>
             </div>
         </div>
@@ -403,12 +694,17 @@
                         shows is the work itself, and cancelling stops that work
                         immediately.
                     </p>
+                    <p class="prose mt-1">
+                        A checksum can identify a file, so you decide whether it goes
+                        into what you copy, export or share: always, never, or ask
+                        each time.
+                    </p>
                 </div>
                 <div class="split__media">
                     <img class="shot shot__variant--light" src="../assets/img/checksum-light.webp"
-                             alt="A SHA-256 checksum being computed, with progress shown." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="A SHA-256 checksum being calculated, with its progress shown above the report." width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
                         <img class="shot shot__variant--dark" src="../assets/img/checksum-dark.webp"
-                             alt="A SHA-256 checksum being computed, with progress shown." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="A SHA-256 checksum being calculated, with its progress shown above the report." width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
                 </div>
             </div>
         </div>
@@ -505,16 +801,16 @@
 
                     <div class="showcase__panel" id="panel-off" role="tabpanel" aria-labelledby="tab-off">
                         <img class="shot shot__variant--light" src="../assets/img/bg-off-light.webp"
-                             alt="SwiftMediaInfo with the background wash switched off." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="SwiftMediaInfo with the background wash switched off." width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
                         <img class="shot shot__variant--dark" src="../assets/img/bg-off-dark.webp"
-                             alt="SwiftMediaInfo with the background wash switched off." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="SwiftMediaInfo with the background wash switched off." width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
                     </div>
 
                     <div class="showcase__panel is-active" id="panel-static" role="tabpanel" aria-labelledby="tab-static">
                         <img class="shot shot__variant--light" src="../assets/img/bg-static-light.webp"
-                             alt="SwiftMediaInfo with the static background wash." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="SwiftMediaInfo with the static background wash." width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
                         <img class="shot shot__variant--dark" src="../assets/img/bg-static-dark.webp"
-                             alt="SwiftMediaInfo with the static background wash." width="1586" height="917" loading="lazy" decoding="async" data-peek-self>
+                             alt="SwiftMediaInfo with the static background wash." width="1644" height="990" loading="lazy" decoding="async" data-peek-self>
                     </div>
 
                     <!-- Video, muted and inline: the only combination iOS will
@@ -534,13 +830,13 @@
                              recording of any length loops on its own. -->
                         <video class="shot shot__variant--light" muted loop playsinline preload="none"
                                poster="../assets/img/bg-animated-light-poster.webp"
-                               width="2480" height="1418"
+                               width="1646" height="990"
                                aria-label="The background wash drifting slowly, in light mode.">
                             <source src="../assets/img/bg-animated-light.mp4" type="video/mp4">
                         </video>
                         <video class="shot shot__variant--dark" muted loop playsinline preload="none"
                                poster="../assets/img/bg-animated-dark-poster.webp"
-                               width="2480" height="1418"
+                               width="1648" height="992"
                                aria-label="The background wash drifting slowly, in dark mode.">
                             <source src="../assets/img/bg-animated-dark.mp4" type="video/mp4">
                         </video>
@@ -580,9 +876,9 @@
                         <div class="point point--tinted" style="--tint: var(--green)">
                             <h3 class="point__title">Nothing leaves your Mac</h3>
                             <p class="point__body">
-                                Analysis happens locally. A report is only uploaded if you
-                                choose to share it, and you see exactly what is removed
-                                before it goes.
+                                Analysis happens locally, and so does Siri AI. A report is
+                                only uploaded if you choose to share it, and you see
+                                exactly what is removed before it goes.
                             </p>
                         </div>
                         <div class="point point--tinted" style="--tint: var(--teal)">
@@ -601,7 +897,7 @@
                         </div>
                     </div>
 
-                    <p class="prose mt-6"><a class="link-brand" href="privacy.html">Read the full privacy note</a></p>
+                    <p class="prose mt-6"><a class="link-brand" href="privacy">Read the full privacy note</a></p>
                 </div>
             </div>
         </div>
@@ -635,6 +931,14 @@
                         <dd class="fact__value">mediainfo (installed for you)</dd>
                     </div>
                     <div class="fact">
+                        <dt class="fact__key">Optional</dt>
+                        <dd class="fact__value">ffmpeg, for previews (installed for you)</dd>
+                    </div>
+                    <div class="fact">
+                        <dt class="fact__key">Siri AI</dt>
+                        <dd class="fact__value">Apple Intelligence, macOS 27 or later</dd>
+                    </div>
+                    <div class="fact">
                         <dt class="fact__key">Licence</dt>
                         <dd class="fact__value">MIT</dd>
                     </div>
@@ -658,7 +962,7 @@
             <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
             <p class="tagline">The Power of MediaInfo, Beautifully Reimagined for macOS</p>
             <div class="btn-row">
-                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--primary" href="download">Download for macOS</a>
             </div>
         </div>
     </section>
@@ -670,19 +974,19 @@
     <div class="wrap wrap--wide">
         <nav class="footer__links" aria-label="Footer">
             <a href="./">Overview</a>
-            <a href="features.html">Features</a>
-            <a href="download.html">Download</a>
-            <a href="faq.html">FAQ</a>
-            <a href="online.html">Online</a>
-            <a href="changelog.html">Changelog</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="donate.html">Donate</a>
+            <a href="features">Features</a>
+            <a href="download">Download</a>
+            <a href="faq">FAQ</a>
+            <a href="online">Online</a>
+            <a href="changelog">Changelog</a>
+            <a href="privacy">Privacy</a>
+            <a href="donate">Donate</a>
             <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
             <a href="../">Undisclosed</a>
         </nav>
 
         <div class="identity">
-            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__name">Undisclosed0369</span>
             <span class="identity__handle">
                 <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
             </span>
@@ -692,7 +996,7 @@
             SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
             MediaArea. It is not affiliated with or endorsed by MediaArea.
         </p>
-        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+        <p class="footer__note">© 2026 Undisclosed0369</p>
     </div>
 </footer>
 

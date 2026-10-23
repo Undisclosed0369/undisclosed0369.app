@@ -6,19 +6,19 @@
 
 <title>MediaInfo in your browser — SwiftMediaInfo</title>
 
-<meta name="description" content="Read the metadata of any media file in your browser. Nothing is uploaded — the file never leaves your machine. Text, HTML, XML and JSON output.">
+<meta name="description" content="Read the metadata of any media file in your browser. Your file stays in your browser: no uploads, no accounts, no server-side processing. Text, HTML, XML and JSON output.">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="SwiftMediaInfo — MediaInfo in your browser">
 <meta property="og:description" content="Drop a file in. Read its metadata. Nothing is uploaded — the analysis happens on your own machine.">
-<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/online.html">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/online">
 <meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
 <meta name="twitter:card" content="summary">
 
 <meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
 
-<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/online.html">
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/online">
 
 <link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
@@ -35,7 +35,7 @@
   "@type": "WebApplication",
   "name": "MediaInfo in your browser",
   "description": "Read the metadata of any media file in the browser. MediaInfo runs locally as WebAssembly, so the file is never uploaded. Output as text, HTML, XML or JSON.",
-  "url": "https://undisclosed0369.app/swiftmediainfo/online.html",
+  "url": "https://undisclosed0369.app/swiftmediainfo/online",
   "applicationCategory": "MultimediaApplication",
   "operatingSystem": "Any modern web browser",
   "browserRequirements": "Requires WebAssembly",
@@ -47,7 +47,7 @@
   },
   "author": {
     "@type": "Person",
-    "name": "Undisclosed / Data Lass",
+    "name": "Undisclosed0369",
     "url": "https://undisclosed0369.app/",
     "sameAs": [
       "https://github.com/Undisclosed0369"
@@ -78,13 +78,13 @@
         </a>
 
         <a class="nav__link" href="./">Overview</a>
-        <a class="nav__link nav__link--more" href="features.html">Features</a>
-        <a class="nav__link" href="download.html">Download</a>
-        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
-        <a class="nav__link nav__link--more" aria-current="page" href="online.html">Online</a>
-        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
-        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
-        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="features">Features</a>
+        <a class="nav__link" href="download">Download</a>
+        <a class="nav__link nav__link--more" href="faq">FAQ</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="online">Online</a>
+        <a class="nav__link nav__link--more" href="changelog">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate">Donate</a>
         <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
 
         <div class="pill theme" role="group" aria-label="Colour theme">
@@ -118,12 +118,12 @@
     </div>
 
     <div class="nav__panel" id="nav-more">
-        <a href="features.html">Features</a>
-        <a href="faq.html">FAQ</a>
-        <a aria-current="page" href="online.html">Online</a>
-        <a href="changelog.html">Changelog</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="donate.html">Donate</a>
+        <a href="features">Features</a>
+        <a href="faq">FAQ</a>
+        <a aria-current="page" href="online">Online</a>
+        <a href="changelog">Changelog</a>
+        <a href="privacy">Privacy</a>
+        <a href="donate">Donate</a>
         <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
     </div>
 </nav>
@@ -151,6 +151,26 @@
     <section class="section section--tight">
         <div class="wrap">
 
+            <!-- The promise, before the tool. The question everyone has about
+                 a page that reads their files is answered in one line and three
+                 numbers, where it cannot be missed; the full explanation, and
+                 how to check it, stays further down. -->
+            <div class="trust" role="note" aria-labelledby="trust-lead">
+                <p class="trust__lead" id="trust-lead">
+                    <span class="trust__icon" aria-hidden="true">🔒</span>
+                    Your file stays in your browser.
+                </p>
+                <ul class="trust__facts">
+                    <li><strong>0</strong> uploads</li>
+                    <li><strong>0</strong> accounts</li>
+                    <li><strong>0</strong> server-side processing</li>
+                </ul>
+                <p class="trust__note">
+                    MediaInfo runs inside this page, on your own machine.
+                    <a class="link-brand" href="#where">How to check</a>
+                </p>
+            </div>
+
             <div class="drop" id="drop" role="button" tabindex="0"
                  aria-describedby="drop-hint">
                 <svg class="drop__icon" viewBox="0 0 48 48" fill="none"
@@ -167,7 +187,7 @@
                     video, audio, images, subtitles.
                 </span>
 
-                <input class="drop__input" id="file-input" type="file">
+                <input class="drop__input" id="file-input" type="file" tabindex="-1" aria-label="Choose a media file">
             </div>
 
             <!-- A live region, so a screen reader is told what happened
@@ -265,7 +285,34 @@
                     <iframe class="render" id="render" title="MediaInfo report"
                             sandbox referrerpolicy="no-referrer"></iframe>
                 </div>
+
+                <!-- The hand-off to the Mac app. The page cannot tell the
+                     app where the file is — a browser never learns that — so
+                     it sends the file's name, size and date, and the app
+                     finds the file itself. Nothing leaves this machine. -->
+                <div class="handoff">
+                    <p class="handoff__text">
+                        The whole picture — an overview, Media Health, a preview
+                        and more — is in the Mac app.
+                    </p>
+                    <button class="btn btn--primary" type="button" id="app-btn">
+                        Open in SwiftMediaInfo
+                    </button>
+                </div>
             </div>
+
+            <!-- Shown when the app did not open, or on a device that cannot
+                 run it. A native <dialog>: focus moves into it, Escape closes
+                 it, and the page behind is inert while it is open. -->
+            <dialog class="app-prompt" id="app-prompt" aria-labelledby="app-prompt-title">
+                <img class="app-prompt__icon" src="../assets/img/icon-128.png" alt="" width="64" height="64">
+                <h2 class="app-prompt__title" id="app-prompt-title"></h2>
+                <p class="app-prompt__body" id="app-prompt-body"></p>
+                <div class="app-prompt__actions">
+                    <a class="btn btn--primary" id="app-prompt-go" href="download">Download for macOS</a>
+                    <button class="btn btn--quiet" type="button" id="app-prompt-close">Not now</button>
+                </div>
+            </dialog>
 
         </div>
     </section>
@@ -279,7 +326,7 @@
          directly, and in a way that can be checked rather than believed.
          ================================================================== -->
 
-    <section class="section section--tight section--scrim">
+    <section class="section section--tight section--scrim" id="where">
         <div class="wrap">
 
             <div class="assure assure--lead rise" data-scroll="rise">
@@ -357,47 +404,33 @@
                     <ul class="group__list">
                         <li>Side by side, with every difference marked</li>
                         <li>A summary panel listing what changed</li>
-                        <li>Per-track difference counts</li>
+                        <li>Any two of your open tabs, in one click</li>
                     </ul>
                 </div>
-
                 <div class="group group--blue rise" data-scroll="rise">
-                    <h3 class="group__head"><span class="group__dot"></span>Explain the fields</h3>
+                    <h3 class="group__head"><span class="group__dot"></span>Explain what you see</h3>
                     <ul class="group__list">
-                        <li>Around 70 fields in plain language, inline</li>
-                        <li>Hover any field name to read what it means</li>
+                        <li>An Overview card that sums the file up first</li>
+                        <li>70 fields explained in plain language, inline</li>
+                        <li>Siri AI answers questions about a file, on your Mac</li>
                     </ul>
                 </div>
-
                 <div class="group group--green rise" data-scroll="rise">
-                    <h3 class="group__head"><span class="group__dot"></span>Verify a file</h3>
+                    <h3 class="group__head"><span class="group__dot"></span>Check a file</h3>
                     <ul class="group__list">
-                        <li>SHA-256 checksums, cached and included in exports</li>
-                        <li>Real progress, and cancellation that stops the work</li>
+                        <li>Media Health finds common problems and explains them</li>
+                        <li>SHA-256 checksums, cached and included in reports when you want them</li>
                     </ul>
                 </div>
-
                 <div class="group group--teal rise" data-scroll="rise">
                     <h3 class="group__head"><span class="group__dot"></span>Fit your workflow</h3>
                     <ul class="group__list">
-                        <li>Right-click any file in Finder to open it</li>
-                        <li>Six export formats, separately or as a ZIP</li>
-                        <li>Search across every field, and a background you choose</li>
+                        <li>Tabs, folders as one tab, and Favorites</li>
+                        <li>Space to preview, MKV included</li>
+                        <li>Right-click files or folders in Finder to open them</li>
+                        <li>Eight export formats, PDF and Markdown among them</li>
                     </ul>
                 </div>
-            </div>
-
-        </div>
-    </section>
-
-
-    <section class="section cta">
-        <div class="wrap">
-            <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
-            <p class="tagline">Beyond the File.</p>
-            <div class="btn-row">
-                <a class="btn btn--primary" href="download.html">Get the Mac app</a>
-                <a class="btn btn--blue" href="features.html">See everything it does</a>
             </div>
         </div>
     </section>
@@ -408,7 +441,7 @@
 <footer class="footer">
     <div class="wrap wrap--wide">
         <div class="identity">
-            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__name">Undisclosed0369</span>
             <span class="identity__handle">
                 <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
             </span>
@@ -416,13 +449,13 @@
 
         <nav class="footer__links" aria-label="Footer">
             <a href="./">Overview</a>
-            <a href="features.html">Features</a>
-            <a href="download.html">Download</a>
-            <a href="faq.html">FAQ</a>
-            <a aria-current="page" href="online.html">Online</a>
-            <a href="changelog.html">Changelog</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="donate.html">Donate</a>
+            <a href="features">Features</a>
+            <a href="download">Download</a>
+            <a href="faq">FAQ</a>
+            <a aria-current="page" href="online">Online</a>
+            <a href="changelog">Changelog</a>
+            <a href="privacy">Privacy</a>
+            <a href="donate">Donate</a>
             <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
             <a href="../">Undisclosed</a>
         </nav>
@@ -431,7 +464,7 @@
             SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
             MediaArea. It is not affiliated with or endorsed by MediaArea.
         </p>
-        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+        <p class="footer__note">© 2026 Undisclosed0369</p>
     </div>
 </footer>
 

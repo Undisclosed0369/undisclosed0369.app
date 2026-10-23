@@ -56,8 +56,9 @@ def url_for(path):
     The public URL for a file in the repository, or None if it is not a
     page anyone visits.
 
-    Matches how GitHub Pages serves the site: `index.html` is reached at
-    its folder, everything else at its own name. The 404 page is skipped
+    Matches how GitHub Pages serves the site and how the site links to it:
+    `index.html` is reached at its folder, everything else at its name without
+    the extension (faq.html is /faq). The 404 page is skipped
     deliberately — announcing it would invite Bing to index an error page.
     """
     path = path.strip().lstrip("./")
@@ -69,7 +70,7 @@ def url_for(path):
         return "https://%s/" % HOST
     if path.endswith("/index.html"):
         return "https://%s/%s" % (HOST, path[: -len("index.html")])
-    return "https://%s/%s" % (HOST, path)
+    return "https://%s/%s" % (HOST, path[: -len(".html")])
 
 
 def submit(urls):

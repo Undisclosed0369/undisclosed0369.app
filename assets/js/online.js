@@ -287,7 +287,9 @@
 
     function nameIntoHtml(report, name) {
         var safe = xmlEscape(name);
-        var row = '<tr><td>Complete name</td><td>' + safe + '</td></tr>';
+        // In MediaInfo's own row format — the `Prefix` class and the " :"
+        // after the name — so it reads like every row beneath it.
+        var row = '<tr><td class="Prefix">Complete name :</td><td>' + safe + '</td></tr>';
 
         // MediaInfo's HTML puts the "General" heading OUTSIDE the table of
         // fields, not in a row of it. Inserting after the first <table>
@@ -367,7 +369,10 @@
         var accent      = dark ? '#c4b5fd' : '#7c3aed';
         var valueFg     = dark ? '#f8f8ff' : '#111128';
         var tableBg     = dark ? 'rgba(30,30,50,0.95)'    : '#ffffff';
-        var pageBg      = dark ? '#16161c' : '#fbfbfd';
+        // The app's own page colours (ReportHTML.swift), so the report
+        // reads the same here as in SwiftMediaInfo's HTML view. The fields
+        // match too: both are MediaInfo's standard HTML output, not --Full.
+        var pageBg      = dark ? '#16161f' : '#f6f6fa';
         var shadow      = dark
             ? '0 2px 8px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.05)'
             : '0 1px 4px rgba(0,0,0,0.06)';
@@ -938,5 +943,112 @@
             closeMenu();
             downloadBtn.focus();
         }
+    });
+
+    // ---------------------------------------------------------------
+    // Open in SwiftMediaInfo
+    //
+    // A browser never tells a page where a file lives, so the app cannot
+    // simply be handed a path. What the page does know — the file's name,
+    // size and modification date — goes in a swiftmediainfo://find link,
+    // and the app looks the file up on this Mac (Spotlight, then the usual
+    // download folders). One match opens; none or several, and the app
+    // shows its Open dialog. The link goes from this tab to the app and
+    // nowhere else.
+    //
+    // A page also cannot ask whether an app is installed. Asking the
+    // browser to open the link makes it hand over to the app, which takes
+    // focus away from this window; if nothing has taken it after a couple
+    // of seconds, the app is most likely not there, and the prompt says
+    // so. If focus goes later after all — a slow "Allow" in the browser's
+    // own confirmation — the prompt closes itself.
+    // ---------------------------------------------------------------
+
+    var appBtn = document.getElementById('app-btn');
+    var prompt = document.getElementById('app-prompt');
+    var promptTitle = document.getElementById('app-prompt-title');
+    var promptBody = document.getElementById('app-prompt-body');
+    var promptGo = document.getElementById('app-prompt-go');
+    var promptClose = document.getElementById('app-prompt-close');
+
+    function isMac() {
+        var platform = (navigator.userAgentData && navigator.userAgentData.platform) ||
+                       navigator.platform || '';
+        // iPads report themselves as Macs; a touch screen gives them away.
+        return /mac/i.test(platform) && navigator.maxTouchPoints < 2;
+    }
+
+    function showPrompt(kind) {
+        if (kind === 'other-device') {
+            promptTitle.textContent = 'SwiftMediaInfo is a Mac app';
+            promptBody.textContent = 'It runs on macOS 26 or later, so it cannot open files on this device. This page keeps working here.';
+            promptGo.textContent = 'See what it does';
+            promptGo.setAttribute('href', './');
+        } else {
+            promptTitle.textContent = 'SwiftMediaInfo did not open';
+            promptBody.textContent = 'It may not be installed on this Mac. It is free — download it, then press Open in SwiftMediaInfo again.';
+            promptGo.textContent = 'Download for macOS';
+            promptGo.setAttribute('href', 'download');
+        }
+        if (typeof prompt.showModal === 'function' && !prompt.open) {
+            prompt.showModal();
+        }
+    }
+
+    function hidePrompt() {
+        if (prompt.open) { prompt.close(); }
+    }
+
+    promptClose.addEventListener('click', hidePrompt);
+
+    // A click on the dimmed area outside the box closes it too.
+    prompt.addEventListener('click', function (event) {
+        if (event.target === prompt) { hidePrompt(); }
+    });
+
+    function findLink(file) {
+        return 'swiftmediainfo://find' +
+            '?name=' + encodeURIComponent(file.name) +
+            '&size=' + encodeURIComponent(String(file.size)) +
+            '&modified=' + encodeURIComponent(String(file.lastModified || ''));
+    }
+
+    appBtn.addEventListener('click', function () {
+        if (!currentFile) { return; }
+        if (!isMac()) {
+            showPrompt('other-device');
+            return;
+        }
+
+        var handedOver = false;
+
+        function onLeave() {
+            if (document.visibilityState === 'hidden' || !document.hasFocus()) {
+                handedOver = true;
+                hidePrompt();
+            }
+        }
+
+        window.addEventListener('blur', onLeave);
+        document.addEventListener('visibilitychange', onLeave);
+
+        // A hidden frame rather than navigating this tab: if no app claims
+        // the link, some browsers replace the page with an error, and the
+        // report on it would be lost.
+        var frame = document.createElement('iframe');
+        frame.hidden = true;
+        frame.setAttribute('aria-hidden', 'true');
+        frame.src = findLink(currentFile);
+        document.body.appendChild(frame);
+
+        setTimeout(function () {
+            if (!handedOver) { showPrompt('missing'); }
+        }, 2000);
+
+        setTimeout(function () {
+            frame.remove();
+            window.removeEventListener('blur', onLeave);
+            document.removeEventListener('visibilitychange', onLeave);
+        }, 15000);
     });
 }());

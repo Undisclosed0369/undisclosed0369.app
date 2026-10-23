@@ -601,3 +601,132 @@
 @media (prefers-reduced-motion: reduce) {
     .formats__thumb { transition: none; }
 }
+
+
+/* ==========================================================================
+   The promise, above the drop zone
+   --------------------------------------------------------------------------
+   One line and three numbers, in green — the colour this site uses for
+   "this is safe". The numbers stay in the ink colour rather than green:
+   large green digits on the light theme fall short of contrast, and the
+   tinted panel already says which colour this is.
+   ========================================================================== */
+
+.trust {
+    margin: 0 auto 1.25rem;
+    padding: 1rem 1.25rem 1.05rem;
+    border-radius: var(--radius-panel);
+    border: 1px solid color-mix(in oklab, var(--green) 38%, transparent);
+    background: color-mix(in oklab, var(--green) 9%, transparent);
+    text-align: center;
+}
+
+.trust__lead {
+    font-size: var(--t-lead);
+    font-weight: 650;
+    letter-spacing: -.01em;
+    color: var(--ink);
+}
+
+.trust__icon { margin-right: .2em; }
+
+.trust__facts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .35rem 1.6rem;
+    margin: .55rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.trust__facts li {
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+}
+
+.trust__facts strong {
+    margin-right: .3em;
+    font-size: 1.3em;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+}
+
+.trust__note {
+    margin-top: .45rem;
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+}
+
+
+/* ==========================================================================
+   Open in SwiftMediaInfo
+   --------------------------------------------------------------------------
+   A quiet strip under the report: the page has done its job, and this is
+   where the Mac app is offered — after, not instead.
+   ========================================================================== */
+
+.handoff {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem 1.25rem;
+    margin-top: 1rem;
+    padding: .9rem 1rem .9rem 1.25rem;
+    border-radius: var(--radius-panel);
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+}
+
+.handoff__text {
+    font-size: var(--t-small);
+    color: var(--ink-soft);
+    max-width: 38rem;
+}
+
+@media (max-width: 640px) {
+    .handoff { flex-direction: column; align-items: stretch; text-align: center; }
+}
+
+/* The prompt. Drawn in the site's own glass, centred, over a dimmed and
+   blurred page. */
+.app-prompt {
+    width: min(26rem, calc(100vw - 2rem));
+    padding: 1.75rem 1.5rem 1.4rem;
+    border: 1px solid var(--glass-line);
+    border-radius: var(--radius-panel);
+    background: var(--surface);
+    color: var(--ink);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
+    text-align: center;
+}
+
+.app-prompt::backdrop {
+    background: rgba(10, 10, 16, .45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+}
+
+.app-prompt[open] { animation: app-prompt-in .22s var(--ease); }
+
+@keyframes app-prompt-in {
+    from { opacity: 0; transform: translateY(8px) scale(.98); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .app-prompt[open] { animation: none; }
+}
+
+.app-prompt__icon { width: 64px; height: 64px; margin: 0 auto .75rem; display: block; }
+.app-prompt__title { font-size: var(--t-lead); font-weight: 650; letter-spacing: -.01em; }
+.app-prompt__body { margin-top: .5rem; font-size: var(--t-small); color: var(--ink-soft); }
+
+.app-prompt__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .6rem;
+    margin-top: 1.25rem;
+}

@@ -6,19 +6,19 @@
 
 <title>FAQ — SwiftMediaInfo</title>
 
-<meta name="description" content="Answers about SwiftMediaInfo: why macOS warns on first launch, why MediaInfo is needed, what happens to your files, and how the app was built.">
+<meta name="description" content="Answers about SwiftMediaInfo: why macOS warns on first launch, why MediaInfo and ffmpeg are needed, what happens to your files, what Siri AI can see, and how the app was built.">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="SwiftMediaInfo — FAQ">
 <meta property="og:description" content="Why macOS warns on first launch, why MediaInfo is needed, and what happens to your files.">
-<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/faq.html">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/faq">
 <meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
 <meta name="twitter:card" content="summary">
 
 <meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
 
-<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/faq.html">
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/faq">
 
 <link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
@@ -45,13 +45,13 @@
         </a>
 
         <a class="nav__link" href="./">Overview</a>
-        <a class="nav__link nav__link--more" href="features.html">Features</a>
-        <a class="nav__link" href="download.html">Download</a>
-        <a class="nav__link nav__link--more" aria-current="page" href="faq.html">FAQ</a>
-        <a class="nav__link nav__link--more" href="online.html">Online</a>
-        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
-        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
-        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="features">Features</a>
+        <a class="nav__link" href="download">Download</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="faq">FAQ</a>
+        <a class="nav__link nav__link--more" href="online">Online</a>
+        <a class="nav__link nav__link--more" href="changelog">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate">Donate</a>
         <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
 
         <div class="pill theme" role="group" aria-label="Colour theme">
@@ -85,12 +85,12 @@
     </div>
 
     <div class="nav__panel" id="nav-more">
-        <a href="features.html">Features</a>
-        <a aria-current="page" href="faq.html">FAQ</a>
-        <a href="online.html">Online</a>
-        <a href="changelog.html">Changelog</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="donate.html">Donate</a>
+        <a href="features">Features</a>
+        <a aria-current="page" href="faq">FAQ</a>
+        <a href="online">Online</a>
+        <a href="changelog">Changelog</a>
+        <a href="privacy">Privacy</a>
+        <a href="donate">Donate</a>
         <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
     </div>
 </nav>
@@ -135,7 +135,7 @@
                         </p>
                         <p>
                             The fix is one command, and the
-                            <a class="link-brand" href="download.html">download page</a>
+                            <a class="link-brand" href="download">download page</a>
                             walks through it. Installing with Homebrew avoids the
                             warning entirely — three commands there, because Homebrew
                             asks you to trust a third-party repository before it will
@@ -193,6 +193,32 @@
                             would mean maintaining a second, worse-looking version of
                             every screen.
                         </p>
+                        <p>
+                            Siri AI is the one exception: it needs macOS 27 and a Mac
+                            that supports Apple Intelligence. Everywhere else it simply
+                            stays out of the way, and the rest of the app is the same.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        What is ffmpeg for? Do I need it?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            Only for previews. Pressing Space previews the file you are
+                            looking at: Quick Look handles what macOS can play, and for MKV
+                            and the other formats it cannot, SwiftMediaInfo cuts a short clip
+                            with ffmpeg and plays that.
+                        </p>
+                        <p>
+                            The first time you need it, the app offers to install it through
+                            Homebrew and shows you the command first. Everything else works
+                            without it, and your file is never changed — the clips are
+                            temporary and deleted as soon as the preview closes.
+                        </p>
                     </div>
                 </details>
 
@@ -233,14 +259,17 @@
                     </summary>
                     <div class="faq__a">
                         <p>
-                            Not unless you press Share. Analysis happens on your Mac.
-                            There is no account, no telemetry, and no analytics.
+                            Not unless you press Share. Analysis happens on your Mac, and
+                            so does Siri AI. There is no account, no telemetry, and no
+                            analytics.
                         </p>
                         <p>
                             If you do share a report, the app shows you exactly what it
-                            is about to upload and offers to strip file paths first —
-                            because a path often contains a username, and sometimes a
-                            good deal more.
+                            is about to upload, and whether file paths and the SHA-256
+                            checksum go with it — because a path often contains a
+                            username, and sometimes a good deal more. The
+                            <a class="link-brand" href="privacy">privacy page</a>
+                            lists where each kind of report goes.
                         </p>
                     </div>
                 </details>
@@ -256,6 +285,40 @@
                             MKV, MP4, MOV, AVI, FLAC, MP3, WAV and a long list beyond
                             them. Since the reading is MediaInfo's work, support arrives
                             as they add it.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        Does Siri AI see my files?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            No. Siri AI reads the same text report you can see in the Text
+                            view — never the file itself — with file paths taken out, and
+                            the answer comes from Apple's model running on your Mac.
+                        </p>
+                        <p>
+                            It does not use Apple's Private Cloud Compute, so nothing is
+                            sent anywhere, even for long reports; very long ones are
+                            shortened to fit, and Siri AI says so when it happens.
+                        </p>
+                    </div>
+                </details>
+
+                <details class="faq__item">
+                    <summary class="faq__q">
+                        <span class="faq__chev" aria-hidden="true"></span>
+                        How do I turn the Finder menu on or off?
+                    </summary>
+                    <div class="faq__a">
+                        <p>
+                            It switches itself on the first time you open the app. To turn
+                            it off, use Settings › General › Finder in SwiftMediaInfo, or
+                            System Settings › General › Login Items &amp; Extensions — they
+                            are the same switch, and once it is off it stays off.
                         </p>
                     </div>
                 </details>
@@ -310,7 +373,7 @@
                         <p>
                             If you want the official one, it is on the App Store and it
                             is a good app. The
-                            <a class="link-brand" href="features.html">comparison</a>
+                            <a class="link-brand" href="features">comparison</a>
                             lays out where each is stronger.
                         </p>
                     </div>
@@ -335,7 +398,7 @@
                         </p>
                         <p>
                             If you would like to support the work anyway, there is
-                            <a class="link-brand" href="donate.html">one way to</a> —
+                            <a class="link-brand" href="donate">one way to</a> —
                             and it buys nothing you would otherwise be charged for.
                         </p>
                     </div>
@@ -387,7 +450,7 @@
             <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
             <p class="tagline">Beyond the File.</p>
             <div class="btn-row">
-                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--primary" href="download">Download for macOS</a>
                 <a class="btn btn--blue" href="./">See what it does</a>
             </div>
         </div>
@@ -399,7 +462,7 @@
 <footer class="footer">
     <div class="wrap wrap--wide">
         <div class="identity">
-            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__name">Undisclosed0369</span>
             <span class="identity__handle">
                 <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
             </span>
@@ -407,13 +470,13 @@
 
         <nav class="footer__links" aria-label="Footer">
             <a href="./">Overview</a>
-            <a href="features.html">Features</a>
-            <a href="download.html">Download</a>
-            <a href="faq.html">FAQ</a>
-            <a href="online.html">Online</a>
-            <a href="changelog.html">Changelog</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="donate.html">Donate</a>
+            <a href="features">Features</a>
+            <a href="download">Download</a>
+            <a href="faq">FAQ</a>
+            <a href="online">Online</a>
+            <a href="changelog">Changelog</a>
+            <a href="privacy">Privacy</a>
+            <a href="donate">Donate</a>
             <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
             <a href="../">Undisclosed</a>
         </nav>
@@ -422,7 +485,7 @@
             SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
             MediaArea. It is not affiliated with or endorsed by MediaArea.
         </p>
-        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+        <p class="footer__note">© 2026 Undisclosed0369</p>
     </div>
 </footer>
 

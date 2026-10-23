@@ -4,6 +4,33 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+<!-- Case-insensitive addresses.
+
+     GitHub Pages matches paths exactly and has no server-side redirects, so
+     /SwiftMediaInfo or /swiftmediainfo/FAQ.html land here. Every page on the
+     site lives at a lowercase address, so the fix is to try the lowercase
+     form of the same path — query and #fragment kept as they were, since
+     fragments name element ids and are not paths.
+
+     `replace` rather than an assignment: the mistyped address is not left in
+     the back history, and the lowercase one is what the address bar shows.
+
+     No list of pages to keep in step. If the lowercase address does not exist
+     either, it comes back here with a path that is already lowercase, the
+     check fails, and the ordinary 404 below is shown — one hop, never a loop.
+
+     It runs first, before the stylesheets, so a mistyped address goes
+     straight on without the error page flashing up in between. -->
+<script>
+(function () {
+    var path = window.location.pathname;
+    var lower = path.toLowerCase();
+    if (lower !== path) {
+        window.location.replace(lower + window.location.search + window.location.hash);
+    }
+}());
+</script>
+
 <title>Not found — Undisclosed</title>
 
 <!-- Search engines should not index an error page, but they should follow the
@@ -29,6 +56,8 @@
 </head>
 
 <body>
+
+<a class="skip" href="#main">Skip to content</a>
 
 <div class="page-bg" aria-hidden="true">
     <span></span><span></span><span></span><span></span>
@@ -92,7 +121,7 @@
 
 <footer class="footer">
     <div class="wrap wrap--wide">
-        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+        <p class="footer__note">© 2026 Undisclosed0369</p>
     </div>
 </footer>
 

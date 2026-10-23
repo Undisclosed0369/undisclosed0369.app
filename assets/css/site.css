@@ -202,6 +202,11 @@ body {
     overflow-x: hidden;
 }
 
+/* Except in headings. A heading never lines up numbers in a column, and at
+   display sizes a tabular "1" sits in a slot as wide as an "8", which shows
+   as a gap — "2. 1" rather than "2.1". */
+h1, h2, h3, h4 { font-variant-numeric: proportional-nums; }
+
 img, svg, canvas { display: block; max-width: 100%; height: auto; }
 h1, h2, h3, p, ul, ol, dl, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
@@ -844,7 +849,7 @@ html[data-theme="dark"] .shot { box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 28px 70p
        screenshot fills its proper proportion and only gets trimmed on short
        screens where there is genuinely no room. */
     /* `:not(.sequence)` matters. The frame sequence is a <figure> too, and it
-       is 1900 × 1204, not 16:10. Forcing the wrong ratio on it while its
+       is 1800 × 1100, not 16:10. Forcing the wrong ratio on it while its
        canvas is set to `cover` meant every frame was cropped — which is
        exactly what landscape looked like. */
     .pinned__grid > figure:not(.sequence) {
@@ -869,7 +874,12 @@ html[data-theme="dark"] .shot { box-shadow: 0 1px 2px rgba(0,0,0,.5), 0 28px 70p
    and all three panels showed at once. A landscape phone is short but WIDE,
    which is the ideal shape for this section, not the wrong one. It now keeps
    the pinning and switches to two columns instead. */
-@media (max-height: 24rem) {
+/* 24rem caught every phone held sideways — a landscape iPhone is about 20rem
+   tall once Safari's bars are counted — and unpinned it, so the panels all
+   showed at once and the frames never moved. Landscape phones now pin, cross-
+   fade and scrub exactly as desktops do (see "Pinned section on short
+   viewports"); only a window too short to hold the picture at all stacks. */
+@media (max-height: 15rem) {
     .pinned { min-height: 0 !important; }
     .pinned__inner { position: static; min-height: 0; }
     .pinned__panels { min-height: 0; display: grid; gap: 1.75rem; }
@@ -1572,13 +1582,13 @@ html[data-theme="dark"] .shot__variant--dark { display: block; }
 /* The sequence keeps an explicit ratio — a <canvas> has no intrinsic size, so
    without one the section would collapse before the first frame decodes.
    
-   1900 × 1204 is the shape of the frames themselves, not a rounded 16:9. A
+   1800 × 1100 is the shape of the frames themselves, not a rounded 16:9. A
    ratio that disagreed with the source by even a little would letterbox every
    frame or crop it, and on 145 of them that edge would be impossible to miss. */
 .sequence {
     position: relative;
     background: var(--surface-alt);
-    aspect-ratio: 1900 / 1204;
+    aspect-ratio: 1800 / 1100;
     width: 100%;
 }
 
@@ -1788,7 +1798,7 @@ html:not(.js) .cmd__code { padding-right: 1rem; }
    neither. */
 
 /* Inline code inside prose, as distinct from a full command block. */
-.prose code, .path__body code, .note code {
+.prose code, .path__body code, .note code:not(.cmd__code) {
     font-family: var(--mono);
     font-size: .875em;
     padding: .1em .35em;
@@ -1888,11 +1898,12 @@ html:not(.js) .cmd__code { padding-right: 1rem; }
    ========================================================================== */
 
 .dialog {
-    max-width: 22rem;
+    position: relative;
+    max-width: 20rem;
     margin-inline: auto;
-    padding: 1.75rem 1.5rem 1.25rem;
-    border-radius: 18px;
-    text-align: center;
+    padding: 1.5rem 1.25rem 1.25rem;
+    border-radius: 22px;
+    text-align: left;
     background: var(--glass-fill);
     backdrop-filter: blur(28px) saturate(180%);
     -webkit-backdrop-filter: blur(28px) saturate(180%);
@@ -1903,12 +1914,43 @@ html:not(.js) .cmd__code { padding-right: 1rem; }
         0 24px 60px rgba(0,0,0,.18);
 }
 
+/* The app's own icon, with the warning triangle macOS puts on it. */
+.dialog__badge-wrap {
+    position: relative;
+    display: block;
+    width: 58px;
+    height: 58px;
+    margin-bottom: .9rem;
+}
 .dialog__icon {
-    width: 54px;
-    height: 54px;
-    margin: 0 auto .9rem;
+    width: 58px;
+    height: 58px;
     border-radius: 24%;
     display: block;
+}
+.dialog__badge {
+    position: absolute;
+    right: -7px;
+    bottom: -4px;
+    width: 26px;
+    height: 24px;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,.35));
+}
+
+/* The help button in the corner. */
+.dialog__help {
+    position: absolute;
+    top: .9rem;
+    right: .9rem;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: .8125rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
 }
 
 .dialog__title {
@@ -1932,7 +1974,8 @@ html:not(.js) .cmd__code { padding-right: 1rem; }
 }
 
 .dialog__btn {
-    border-radius: 9px;
+    text-align: center;
+    border-radius: 999px;
     padding: .5rem .9rem;
     font-size: var(--t-small);
     font-weight: 500;
@@ -2709,10 +2752,10 @@ html[data-theme="dark"] .cursor-glow.is-visible { opacity: .5; }
 
 .pinned .sequence {
     --seq-h: calc(100svh - var(--nav-h) - 8rem);
-    aspect-ratio: 1900 / 1204;
+    aspect-ratio: 1800 / 1100;
     width: 100%;
     height: auto;
-    max-width: calc(var(--seq-h) * 1900 / 1204);
+    max-width: calc(var(--seq-h) * 1800 / 1100);
     max-height: none;
     margin-inline: auto;
 }
@@ -3309,4 +3352,139 @@ img.shot[data-peek-self] { cursor: zoom-in; }
    or appear stuck after a tap. They get the full view only. */
 @media (hover: none) {
     .peek-hover { display: none; }
+}
+
+/* ==========================================================================
+   Try in Browser — the download page's quick-look card
+   --------------------------------------------------------------------------
+   Under the two routes, full width but plainer than they are: no tinted edge
+   and a blue glass button rather than the filled violet one, so it never
+   competes with the Mac app's downloads. The
+   two short lists put what the browser does next to what only the app does.
+   ========================================================================== */
+
+.try__body { display: grid; gap: 2rem; }
+@media (min-width: 54rem) {
+    .try__body { grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); align-items: start; }
+}
+
+.try__label { color: var(--blue); }
+.try__intro .btn-row { margin-top: 1.5rem; }
+/* Stacked on a phone, the button sits centred under the text. */
+@media (max-width: 53.99rem) { .try__intro .btn-row { justify-content: center; } }
+
+.try__cols { display: grid; gap: 1.5rem; }
+@media (min-width: 34rem) { .try__cols { grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); } }
+
+.try__head {
+    margin: 0 0 .6rem;
+    font-size: var(--t-small);
+    font-weight: 700;
+    color: var(--blue);
+}
+.try__col--app .try__head { color: var(--violet); }
+
+.try__list { margin: 0; padding: 0; list-style: none; }
+.try__list li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: var(--t-small);
+    color: var(--ink-body);
+    font-weight: 470;
+    line-height: 1.45;
+}
+.try__list li + li { margin-top: .4rem; }
+.try__list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .55em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--blue);
+}
+.try__col--app .try__list li::before { background: var(--violet); }
+
+/* ==========================================================================
+   Pinned panels — stacked in a grid
+   --------------------------------------------------------------------------
+   The panels were absolutely positioned over the whole box, rail included,
+   so every heading sat directly on the progress rail, and a box sized by a
+   fixed min-height let the longest panel run out of the bottom of it on a
+   phone. Stacked in one grid cell instead, the panels sit under the rail and
+   the box is always as tall as the tallest of them, so nothing moves when
+   they change. The crossfade is unchanged.
+   ========================================================================== */
+
+.pinned__panels {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    min-height: 0;
+}
+.pinned__panels > .rail { grid-row: 1; }
+.pinned__panels > .panel {
+    position: relative;
+    inset: auto;
+    grid-row: 2;
+    grid-column: 1;
+}
+
+/* Very short screens stack all three panels in a column, as before. */
+@media (max-height: 15rem) {
+    .pinned__panels { grid-template-rows: none; gap: 1.75rem; }
+    .pinned__panels > .panel { grid-row: auto; }
+}
+
+/* ==========================================================================
+   Navigation — the menu button up to 66rem
+   --------------------------------------------------------------------------
+   The full row of links needs about 1030px. The menu button used to take over
+   only below 46rem, so a phone held sideways (812–932px) got the whole row
+   and the theme switch ran off the right edge. Between 46rem and 66rem the
+   secondary links now move into the menu, as on a phone in portrait; the
+   wordmark and type size stay as they are, since there is room for them.
+   ========================================================================== */
+
+@media (max-width: 65.99rem) {
+    .nav__menu { display: block; }
+    .nav__link--more { display: none; }
+}
+
+/* The Homebrew card: the one-line install, then a short line saying what
+   each half of it does. */
+
+/* A note that carries a command is wide enough for the command to sit on
+   one line on a desktop, rather than wrapping mid-path. */
+.note--wide { max-width: 44rem; }
+.cmd + .path__explain { margin-top: 1rem; }
+
+/* ==========================================================================
+   Command blocks on phones
+   --------------------------------------------------------------------------
+   The Copy button floats over the top-right corner of the command, which is
+   fine while the command fits. On a phone most of them don't, so they
+   scrolled sideways underneath the button and the end of the line hid
+   behind it. Below 46rem the button moves to its own row under the command,
+   and the command wraps instead of scrolling — nobody types these on a
+   phone, they read them or copy them, and Copy always takes the exact
+   single-line command. Lines that wrap are indented under the first, so a
+   wrapped command still reads as one.
+   ========================================================================== */
+
+@media (max-width: 46rem) {
+    .cmd { display: flex; flex-direction: column; }
+    .cmd__code {
+        padding: .9rem .75rem .4rem 1.75rem;
+        text-indent: -.875rem;
+        font-size: .75rem;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+        overflow-x: visible;
+    }
+    .cmd__copy {
+        position: static;
+        align-self: flex-end;
+        margin: 0 .5rem .5rem;
+    }
 }

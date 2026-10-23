@@ -57,6 +57,28 @@
 })();
 
 
+/* --------------------------------------------------------------------------
+   Clean addresses — runs immediately
+
+   GitHub Pages serves every page without its extension (/swiftmediainfo/faq
+   is faq.html), and every link on the site uses that form. An old link or a
+   bookmark can still arrive at faq.html; the address bar is tidied to the
+   short form in place — no reload, no redirect, nothing added to history.
+   index.html becomes its folder, as the canonical address has it.
+   -------------------------------------------------------------------------- */
+
+(function () {
+    var loc = window.location;
+    if (!/^https?:$/.test(loc.protocol) || !window.history.replaceState) return;
+    if (!/\.html$/i.test(loc.pathname)) return;
+
+    var clean = loc.pathname.replace(/\/index\.html$/i, "/").replace(/\.html$/i, "");
+    try {
+        window.history.replaceState(window.history.state, "", clean + loc.search + loc.hash);
+    } catch (e) { /* a sandboxed frame may refuse; the page is fine as it is */ }
+})();
+
+
 (function () {
     "use strict";
 
@@ -280,7 +302,7 @@
 
        WHY IT DOES NOT LOAD ON PAGE LOAD
 
-       The desktop set is around 17 MB. Fetching that before the reader has
+       The desktop set is around 37 MB. Fetching that before the reader has
        scrolled anywhere near it would be indefensible on a phone. Loading
        starts only when the section is within two screens, and the poster
        carries the section until it is ready.
@@ -339,6 +361,9 @@
         var started = false;
         var ready = false;
         var lastDrawn = -1;
+        var target = 0;      /* the frame the scroll position asks for */
+        var shown = null;    /* where the eased playhead is, in fractional frames */
+        var easing = false;
 
         function pad(n) {
             var out = String(n);
@@ -433,9 +458,44 @@
                resolves to a negative step and clamps to frame zero, so the
                first frame simply stays up until the hold is spent. */
             var steps = count + lead;
-            var step = Math.round(p * (steps - 1));
-            var index = Math.min(count - 1, Math.max(0, step - lead));
+            var step = p * (steps - 1);
+            target = Math.min(count - 1, Math.max(0, step - lead));
 
+            /* The first frame drawn lands exactly where the scroll is; there
+               is nothing yet to ease from. */
+            if (shown === null) {
+                shown = target;
+                paint(Math.round(shown));
+                return;
+            }
+            if (!easing) {
+                easing = true;
+                window.requestAnimationFrame(ease);
+            }
+        }
+
+        /* The playhead trails the scroll slightly and catches up, the same
+           plain lerp as the cursor glow. Pinned to the scroll exactly, the
+           picture stops dead the instant a trackpad flick ends and steps with
+           every notch of a mouse wheel; trailing it, the motion settles
+           instead, and a wheel's steps blend into one movement.
+
+           0.14 is the whole feel: lower and the picture visibly lags the copy
+           beside it, higher and it is pinned again. */
+        function ease() {
+            shown += (target - shown) * 0.14;
+            if (Math.abs(target - shown) < 0.5) shown = target;
+            paint(Math.round(shown));
+
+            /* Stops once it has arrived, so nothing runs behind a still page. */
+            if (shown === target) {
+                easing = false;
+                return;
+            }
+            window.requestAnimationFrame(ease);
+        }
+
+        function paint(index) {
             if (index === lastDrawn) return;
 
             var img = images[index];
@@ -722,6 +782,24 @@
         var panels = Array.prototype.slice.call(root.querySelectorAll(".showcase__panel"));
         var note = root.querySelector(".showcase__note");
 
+        /* The note under the tabs is a different length for each mode, and
+           on a phone the longest wraps to two more lines than the shortest —
+           so switching tabs moved the pictures below it up and down. The note
+           is held at the height of the longest one instead, measured at the
+           current width, so the pictures stay put. */
+        function reserveNoteHeight() {
+            if (!note) return;
+            var shown = note.textContent;
+            note.style.minHeight = "";
+            var tallest = 0;
+            tabs.forEach(function (tab) {
+                note.textContent = tab.getAttribute("data-note") || "";
+                tallest = Math.max(tallest, note.offsetHeight);
+            });
+            note.textContent = shown;
+            note.style.minHeight = tallest + "px";
+        }
+
         function select(index) {
             tabs.forEach(function (tab, i) {
                 tab.setAttribute("aria-selected", i === index ? "true" : "false");
@@ -785,6 +863,7 @@
         });
 
         select(1);
+        reserveNoteHeight();
 
         /* Switching appearance swaps which of the two videos is on screen, and
            the newly revealed one is sitting paused on its poster. Re-running
@@ -804,7 +883,12 @@
                 return t.getAttribute("aria-selected") === "true";
             });
             moveThumb(root.querySelector(".showcase__tabs"), tabs[current < 0 ? 0 : current]);
+            reserveNoteHeight();
         }, { passive: true });
+
+        /* Web fonts can arrive after the first measurement and change how the
+           lines wrap. */
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserveNoteHeight);
     }
 
     /* ----------------------------------------------------------------------

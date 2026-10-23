@@ -11,14 +11,14 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="SwiftMediaInfo — Privacy">
 <meta property="og:description" content="What the app does with your files, what it sends, and what it never sends.">
-<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/privacy.html">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/privacy">
 <meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
 <meta name="twitter:card" content="summary">
 
 <meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
 
-<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/privacy.html">
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/privacy">
 
 <link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
@@ -45,13 +45,13 @@
         </a>
 
         <a class="nav__link" href="./">Overview</a>
-        <a class="nav__link nav__link--more" href="features.html">Features</a>
-        <a class="nav__link" href="download.html">Download</a>
-        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
-        <a class="nav__link nav__link--more" href="online.html">Online</a>
-        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
-        <a class="nav__link nav__link--more" aria-current="page" href="privacy.html">Privacy</a>
-        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" href="features">Features</a>
+        <a class="nav__link" href="download">Download</a>
+        <a class="nav__link nav__link--more" href="faq">FAQ</a>
+        <a class="nav__link nav__link--more" href="online">Online</a>
+        <a class="nav__link nav__link--more" href="changelog">Changelog</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="privacy">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate">Donate</a>
         <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
 
         <div class="pill theme" role="group" aria-label="Colour theme">
@@ -85,12 +85,12 @@
     </div>
 
     <div class="nav__panel" id="nav-more">
-        <a href="features.html">Features</a>
-        <a href="faq.html">FAQ</a>
-        <a href="online.html">Online</a>
-        <a href="changelog.html">Changelog</a>
-        <a aria-current="page" href="privacy.html">Privacy</a>
-        <a href="donate.html">Donate</a>
+        <a href="features">Features</a>
+        <a href="faq">FAQ</a>
+        <a href="online">Online</a>
+        <a href="changelog">Changelog</a>
+        <a aria-current="page" href="privacy">Privacy</a>
+        <a href="donate">Donate</a>
         <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
     </div>
 </nav>
@@ -120,8 +120,8 @@
                 <div class="assure__card assure__card--ours">
                     <h2 class="assure__head">What is sent</h2>
                     <p class="assure__body">
-                        A report, to a paste service, only when you press Share and
-                        confirm — and you see the exact text first. Nothing else,
+                        A report, to a sharing service, only when you press Share and
+                        confirm — and you see what goes with it first. Nothing else,
                         ever.
                     </p>
                 </div>
@@ -129,9 +129,10 @@
                 <div class="assure__card assure__card--apple">
                     <h2 class="assure__head">What is never sent</h2>
                     <p class="assure__body">
-                        Your media files. Your file names or paths. Anything about
-                        you, your Mac, or how you use the app. There is no account,
-                        no telemetry and no analytics of any kind.
+                        Your media files. Your folders and paths, unless you choose to
+                        keep them in a report you share. Anything about you, your Mac,
+                        or how you use the app. There is no account, no telemetry and
+                        no analytics of any kind.
                     </p>
                 </div>
             </div>
@@ -173,27 +174,31 @@
                 <div class="step">
                     <h3 class="step__title">You are shown what will go</h3>
                     <p class="step__body">
-                        The full text of the report, before it is sent. If it contains
-                        file paths — and a path often carries your username, sometimes
-                        a good deal more — the app offers to strip them and shows you
-                        the result with them gone.
+                        Before anything is sent, the app shows what the report contains
+                        and what will be removed. If it carries file paths — and a path
+                        often holds your username, sometimes a good deal more — they
+                        can be stripped, and the SHA-256 checksum, which can identify
+                        the file, is left out unless you choose otherwise.
                     </p>
                 </div>
 
                 <div class="step">
                     <h3 class="step__title">It is uploaded, and you get a link</h3>
                     <p class="step__body">
-                        Reports go to <code>pb.plz.ac</code>, or to <code>up.sb</code>
-                        when the report is large enough to need an archive. Both are
-                        third-party paste services: once a report is there, its
-                        retention and its terms are theirs, not mine.
+                        Where it goes depends on the format. HTML and PDF reports go to
+                        <code>ship.page</code> as a web page; Markdown to
+                        <code>markdown.page</code>, rendered; Text, CSV, JSON and XML to
+                        <code>pb.plz.ac</code>; a ZIP of every format to
+                        <code>up.sb</code>. All four are third-party services: once a
+                        report is there, its retention and its terms are theirs, not
+                        mine.
                     </p>
                 </div>
             </div>
 
             <div class="note rise" data-scroll="rise">
                 <strong>Anyone with the link can read it.</strong> These are public
-                paste services, not private storage — the link is unguessable but it
+                services, not private storage — the link is unguessable but it
                 is not protected. Share reports the way you would share any link, and
                 strip the paths if there is anything in them you would not put in a
                 message.
@@ -228,8 +233,10 @@
                     <ul class="group__list">
                         <li>A cache of analysis results, so reopening a file is instant</li>
                         <li>Computed checksums, so a file is never hashed twice</li>
-                        <li>Your recent files list, your settings and your colours</li>
-                        <li>All of it inside the app's own preferences, all of it local</li>
+                        <li>Your recent files, favorites, settings and colours</li>
+                        <li>The time you have spent in the app, counted only while it is in front and in use</li>
+                        <li>Preview clips, only while a preview is open, deleted the moment it closes</li>
+                        <li>All of it in the app's own preferences and its folder in Application Support, all of it local</li>
                     </ul>
                 </div>
 
@@ -239,6 +246,7 @@
                         <li>No account and no sign-in</li>
                         <li>No usage tracking, crash reporting or analytics</li>
                         <li>No update check that phones home</li>
+                        <li>No cloud AI — Siri AI runs entirely on your Mac</li>
                         <li>No advertising, and nothing sold to anyone</li>
                     </ul>
                 </div>
@@ -248,7 +256,7 @@
             <p class="prose mt-6 rise" data-scroll="rise">
                 Deleting the app with <code>--zap</code>, or dragging it to the Trash
                 and removing its preferences, leaves nothing behind. The
-                <a class="link-brand" href="download.html">download page</a> has both
+                <a class="link-brand" href="download">download page</a> has both
                 commands.
             </p>
         </div>
@@ -288,11 +296,11 @@
                         </tr>
                         <tr>
                             <th scope="row">Homebrew</th>
-                            <td>Only if you install through it, or let the app install MediaInfo for you. Their servers see a download request, as any package manager would.</td>
+                            <td>Only if you install through it, or let the app install MediaInfo or ffmpeg for you. Their servers see a download request, as any package manager would.</td>
                         </tr>
                         <tr>
-                            <th scope="row">pb.plz.ac and up.sb</th>
-                            <td>Only when you share a report. They receive the text you were shown and nothing else.</td>
+                            <th scope="row">ship.page, markdown.page, pb.plz.ac and up.sb</th>
+                            <td>Only when you share a report, and only the one that report goes to. They receive the report you reviewed and nothing else.</td>
                         </tr>
                         <tr>
                             <th scope="row">GitHub</th>
@@ -326,7 +334,7 @@
                 <h2 class="title">Reading a file in the browser.</h2>
 
                 <p class="section__lead">
-                    The <a class="link-brand" href="online.html">Online page</a> reads
+                    The <a class="link-brand" href="online">Online page</a> reads
                     media files without the app installed. It does not upload them.
                 </p>
 
@@ -358,6 +366,15 @@
                     Copying and downloading a report happen entirely in your browser.
                     Nothing on that page has a Share button, and nothing on it can
                     reach the paste services the app uses.
+                </p>
+                <p class="prose mt-1">
+                    The Open in SwiftMediaInfo button hands the Mac app the file's
+                    name, size and date — not the file, and not its location, which
+                    the page never knows. The app finds the file on your Mac itself,
+                    with Spotlight, in the folders you have opened files from
+                    before, and in Downloads, Desktop, Movies and Documents — and
+                    asks you to pick it if it cannot be sure. That
+                    hand-off goes from your browser to the app and nowhere else.
                 </p>
 
                 <div class="note mt-3">
@@ -398,7 +415,7 @@
 
                 <div class="btn-row">
                     <a class="btn btn--primary" href="https://github.com/Undisclosed0369/SwiftMediaInfo">Read the source</a>
-                    <a class="btn btn--blue" href="faq.html">More questions</a>
+                    <a class="btn btn--blue" href="faq">More questions</a>
                 </div>
             </div>
         </div>
@@ -410,7 +427,7 @@
             <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
             <p class="tagline">Beyond the File.</p>
             <div class="btn-row">
-                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--primary" href="download">Download for macOS</a>
                 <a class="btn btn--blue" href="./">See what it does</a>
             </div>
         </div>
@@ -422,7 +439,7 @@
 <footer class="footer">
     <div class="wrap wrap--wide">
         <div class="identity">
-            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__name">Undisclosed0369</span>
             <span class="identity__handle">
                 <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
             </span>
@@ -430,13 +447,13 @@
 
         <nav class="footer__links" aria-label="Footer">
             <a href="./">Overview</a>
-            <a href="features.html">Features</a>
-            <a href="download.html">Download</a>
-            <a href="faq.html">FAQ</a>
-            <a href="online.html">Online</a>
-            <a href="changelog.html">Changelog</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="donate.html">Donate</a>
+            <a href="features">Features</a>
+            <a href="download">Download</a>
+            <a href="faq">FAQ</a>
+            <a href="online">Online</a>
+            <a href="changelog">Changelog</a>
+            <a href="privacy">Privacy</a>
+            <a href="donate">Donate</a>
             <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
             <a href="../">Undisclosed</a>
         </nav>
@@ -445,7 +462,7 @@
             SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
             MediaArea. It is not affiliated with or endorsed by MediaArea.
         </p>
-        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+        <p class="footer__note">© 2026 Undisclosed0369</p>
     </div>
 </footer>
 

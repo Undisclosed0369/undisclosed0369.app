@@ -6,19 +6,19 @@
 
 <title>Features — SwiftMediaInfo</title>
 
-<meta name="description" content="Everything SwiftMediaInfo does: six views, side-by-side comparison, SHA-256 checksums, Finder integration, six export formats, and a field glossary.">
+<meta name="description" content="Everything SwiftMediaInfo does: tabs, six views, an overview of every file, side-by-side comparison, Media Health, previews, on-device Siri AI, checksums, Finder integration and eight export formats.">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="SwiftMediaInfo features">
-<meta property="og:description" content="Six views, side-by-side comparison, checksums, Finder integration and six export formats.">
-<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/features.html">
+<meta property="og:description" content="Tabs, six views, side-by-side comparison, Media Health, previews, Siri AI, checksums and eight export formats.">
+<meta property="og:url" content="https://undisclosed0369.app/swiftmediainfo/features">
 <meta property="og:image" content="https://undisclosed0369.app/assets/img/icon-512.png">
 <meta name="twitter:card" content="summary">
 
 <meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
 
-<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/features.html">
+<link rel="canonical" href="https://undisclosed0369.app/swiftmediainfo/features">
 
 <link rel="icon" href="../assets/img/icon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="../assets/img/icon-16.png" sizes="16x16" type="image/png">
@@ -45,13 +45,13 @@
         </a>
 
         <a class="nav__link" href="./">Overview</a>
-        <a class="nav__link nav__link--more" aria-current="page" href="features.html">Features</a>
-        <a class="nav__link" href="download.html">Download</a>
-        <a class="nav__link nav__link--more" href="faq.html">FAQ</a>
-        <a class="nav__link nav__link--more" href="online.html">Online</a>
-        <a class="nav__link nav__link--more" href="changelog.html">Changelog</a>
-        <a class="nav__link nav__link--more" href="privacy.html">Privacy</a>
-        <a class="nav__link nav__link--more" href="donate.html">Donate</a>
+        <a class="nav__link nav__link--more" aria-current="page" href="features">Features</a>
+        <a class="nav__link" href="download">Download</a>
+        <a class="nav__link nav__link--more" href="faq">FAQ</a>
+        <a class="nav__link nav__link--more" href="online">Online</a>
+        <a class="nav__link nav__link--more" href="changelog">Changelog</a>
+        <a class="nav__link nav__link--more" href="privacy">Privacy</a>
+        <a class="nav__link nav__link--more" href="donate">Donate</a>
         <a class="nav__link nav__link--more" href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
 
         <div class="pill theme" role="group" aria-label="Colour theme">
@@ -85,12 +85,12 @@
     </div>
 
     <div class="nav__panel" id="nav-more">
-        <a aria-current="page" href="features.html">Features</a>
-        <a href="faq.html">FAQ</a>
-        <a href="online.html">Online</a>
-        <a href="changelog.html">Changelog</a>
-        <a href="privacy.html">Privacy</a>
-        <a href="donate.html">Donate</a>
+        <a aria-current="page" href="features">Features</a>
+        <a href="faq">FAQ</a>
+        <a href="online">Online</a>
+        <a href="changelog">Changelog</a>
+        <a href="privacy">Privacy</a>
+        <a href="donate">Donate</a>
         <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
     </div>
 </nav>
@@ -101,6 +101,19 @@
         <div class="wrap">
             <h1 class="display hero__name">Everything it does.</h1>
             <p class="tagline hero__tagline">In one page, with nothing held back for later.</p>
+        </div>
+
+        <div class="wrap wrap--wide mt-6">
+            <img class="shot shot__variant--light zoom" data-scroll="zoom"
+                 src="../assets/img/compare-light.webp"
+                 alt="Compare Mode: two trailers side by side, with every field that differs highlighted and a summary of seventeen differences."
+                 width="1644" height="990"
+                 loading="lazy" decoding="async" data-peek-self>
+            <img class="shot shot__variant--dark zoom" data-scroll="zoom"
+                 src="../assets/img/compare-dark.webp"
+                 alt="Compare Mode: two trailers side by side, with every field that differs highlighted and a summary of seventeen differences."
+                 width="1644" height="990"
+                 loading="lazy" decoding="async" data-peek-self>
         </div>
     </header>
 
@@ -118,63 +131,100 @@
                     <h2 class="group__head"><span class="group__dot"></span>Reading</h2>
                     <ul class="group__list">
                         <li>Every field MediaInfo reports, grouped by track</li>
-                        <li>General, video, audio, subtitle and menu tracks, each collapsible</li>
-                        <li>Six views: Easy View, Text, Raw Text, HTML, XML and JSON</li>
+                        <li>An Overview card first: video, main audio and subtitles at a glance, with colour-coded highlights</li>
+                        <li>Six views: Easy View, Text, Raw Text, HTML, XML and JSON — JSON and XML with syntax highlighting</li>
                         <li>Values aligned in a monospaced column, so they can be scanned</li>
-                        <li>Around seventy fields carry a plain-language explanation</li>
+                        <li>Seventy fields carry a plain-language explanation</li>
                         <li>Search and filter across every field at once</li>
+                    </ul>
+                </div>
+
+                <div class="group group--violet">
+                    <h2 class="group__head"><span class="group__dot"></span>Tabs and files</h2>
+                    <ul class="group__list">
+                        <li>Every file in a tab of its own; drag to reorder, or drag a tab onto another app to open the file there</li>
+                        <li>A folder opens as one tab, with its media files listed beside the report</li>
+                        <li>Drop one file for a tab, two to compare them, three or more for a tab each</li>
+                        <li>Favorites: star a tab, then find it on the start screen, in File › Favorites and in every Compare list</li>
+                        <li>A start screen with your favorites, recent files and the time you have spent in the app</li>
                     </ul>
                 </div>
 
                 <div class="group group--pink">
                     <h2 class="group__head"><span class="group__dot"></span>Comparing</h2>
                     <ul class="group__list">
-                        <li>Two files side by side, every differing field marked</li>
-                        <li>A summary panel listing the differences, click to jump to one</li>
+                        <li>File A and File B are two of your open tabs</li>
+                        <li>⌘-click a tab, right-click it and choose Compare With, or use the Compare button</li>
+                        <li>Every differing field marked, and a summary listing the differences</li>
                         <li>Hold Option while dragging to open a second file as the comparison</li>
                         <li>Swap the two sides from a control on the divider</li>
-                        <li>Export either file's report, or both together</li>
+                        <li>Export or share either file's report, or both together</li>
                     </ul>
                 </div>
 
                 <div class="group group--green">
-                    <h2 class="group__head"><span class="group__dot"></span>Verifying</h2>
+                    <h2 class="group__head"><span class="group__dot"></span>Checking</h2>
                     <ul class="group__list">
-                        <li>SHA-256 checksums, included in the exported report</li>
+                        <li>Media Health checks a file for common problems and explains every warning</li>
+                        <li>Missing streams, duplicate track IDs, variable frame rate, HDR metadata, language tags, duration mismatches</li>
+                        <li>SHA-256 checksums, computed on request because it means reading every byte</li>
                         <li>Real progress, and cancelling stops the work immediately</li>
-                        <li>Computed on request, because it means reading every byte</li>
                         <li>Results cached, so the same file is never hashed twice</li>
                     </ul>
                 </div>
 
                 <div class="group group--teal">
-                    <h2 class="group__head"><span class="group__dot"></span>Exporting</h2>
+                    <h2 class="group__head"><span class="group__dot"></span>Previewing</h2>
                     <ul class="group__list">
-                        <li>Text, Raw Text, HTML, XML, JSON and CSV</li>
-                        <li>All six at once, as a single archive</li>
-                        <li>Copy any single value, or a field and its value together</li>
-                        <li>Share a report online and get a link back, if you choose to</li>
+                        <li>Space previews the file, as in Finder</li>
+                        <li>Quick Look for what macOS plays; for MKV and the rest, clips played by macOS's own player — 4K, HDR and Dolby Vision included</li>
+                        <li>Every subtitle track, Blu-ray PGS included, and subtitles transcribed by macOS 27</li>
+                        <li>A filmstrip of the whole file; volume, speed and zoom remembered</li>
+                        <li>Uses ffmpeg, which the app offers to install</li>
                     </ul>
                 </div>
 
                 <div class="group group--violet">
+                    <h2 class="group__head"><span class="group__dot"></span>Siri AI</h2>
+                    <ul class="group__list">
+                        <li>Ask what a file is, whether it is healthy, or for an overview</li>
+                        <li>In Compare Mode, ask which of the two is the better copy</li>
+                        <li>Follow-up questions in the same window</li>
+                        <li>On-device only: Siri AI reads the report text, never the file, with paths removed</li>
+                        <li>On Macs with Apple Intelligence, running macOS 27 or later</li>
+                    </ul>
+                </div>
+
+                <div class="group group--teal">
+                    <h2 class="group__head"><span class="group__dot"></span>Exporting and sharing</h2>
+                    <ul class="group__list">
+                        <li>Eight formats: Text, Raw Text, HTML, PDF and Markdown to read; CSV, JSON and XML for other tools</li>
+                        <li>All eight at once, or bundled as a single ZIP</li>
+                        <li>A designed PDF report, and Markdown ready for the pastebin of your choice</li>
+                        <li>Copy a value, a field and its value, a track or the Overview — as text or as Markdown</li>
+                        <li>Share a report online: HTML and PDF as a web page, Markdown rendered, the rest as text</li>
+                    </ul>
+                </div>
+
+                <div class="group group--blue">
                     <h2 class="group__head"><span class="group__dot"></span>Fitting in</h2>
                     <ul class="group__list">
-                        <li>Right-click any media file in Finder to open it here</li>
+                        <li>Right-click files or folders in Finder to open them, or two files to compare</li>
                         <li>Reveal in Finder, copy path, rename, move to Trash</li>
                         <li>Light, dark or system appearance</li>
                         <li>Background wash: off, static or animated, in colours you choose</li>
                         <li>Zoom in and out of the report</li>
-                        <li>Full keyboard control, and VoiceOver throughout</li>
+                        <li>Full keyboard control with a shortcuts reference, and VoiceOver throughout</li>
                     </ul>
                 </div>
 
                 <div class="group group--amber">
                     <h2 class="group__head"><span class="group__dot"></span>Privacy</h2>
                     <ul class="group__list">
-                        <li>Analysis happens on your Mac and nowhere else</li>
+                        <li>Analysis happens on your Mac and nowhere else — Siri AI included</li>
                         <li>Reading metadata never alters a file</li>
                         <li>Sharing is opt-in, and shows exactly what is removed first</li>
+                        <li>You decide whether file paths and the checksum go into copies, exports and shares</li>
                         <li>No account, no telemetry, no network calls you did not ask for</li>
                         <li>Open source under the MIT licence</li>
                     </ul>
@@ -246,12 +296,32 @@
                         </tr>
                         <tr>
                             <th scope="row">Field explanations</th>
-                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Around 70 fields</td>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">70 fields</td>
                             <td class="compare__none" data-label="MediaInfo">—</td>
                         </tr>
                         <tr>
                             <th scope="row">SHA-256 checksums</th>
                             <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Yes</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Tabs</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Every file in a tab, folders as a single tab</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Media health checks</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Common problems found and explained</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Preview</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Space to preview, MKV included, with subtitles</td>
+                            <td class="compare__none" data-label="MediaInfo">—</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">AI explanations</th>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Siri AI, on device</td>
                             <td class="compare__none" data-label="MediaInfo">—</td>
                         </tr>
                         <tr>
@@ -276,12 +346,12 @@
                         </tr>
                         <tr>
                             <th scope="row">Finder integration</th>
-                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Context menu, drag-and-drop, and ⌥-drag to compare directly</td>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">Context menu for files, folders and several files at once, Compare from the menu, drag-and-drop, and ⌥-drag to compare directly</td>
                             <td class="" data-label="MediaInfo">Context menu and drag-and-drop</td>
                         </tr>
                         <tr>
                             <th scope="row">Export formats</th>
-                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">TXT, Raw TXT, CSV, HTML, JSON and XML — one at a time, all six separately, or bundled as a ZIP</td>
+                            <td class="compare__mine compare__yes" data-label="SwiftMediaInfo">TXT, Raw TXT, HTML, PDF, Markdown, CSV, JSON and XML — one at a time, all eight separately, or bundled as a ZIP</td>
                             <td class="" data-label="MediaInfo">Text, XML, JSON, EBUCore and more</td>
                         </tr>
                         <tr>
@@ -342,7 +412,7 @@
             <h2 class="display"><span class="gradient-text">SwiftMediaInfo</span></h2>
             <p class="tagline">Beyond the File.</p>
             <div class="btn-row">
-                <a class="btn btn--primary" href="download.html">Download for macOS</a>
+                <a class="btn btn--primary" href="download">Download for macOS</a>
                 <a class="btn btn--blue" href="./">See what it does</a>
             </div>
         </div>
@@ -354,7 +424,7 @@
 <footer class="footer">
     <div class="wrap wrap--wide">
         <div class="identity">
-            <span class="identity__name">Undisclosed / Data Lass</span>
+            <span class="identity__name">Undisclosed0369</span>
             <span class="identity__handle">
                 <a href="https://github.com/Undisclosed0369">@Undisclosed0369</a>
             </span>
@@ -362,13 +432,13 @@
 
         <nav class="footer__links" aria-label="Footer">
             <a href="./">Overview</a>
-            <a href="features.html">Features</a>
-            <a href="download.html">Download</a>
-            <a href="faq.html">FAQ</a>
-            <a href="online.html">Online</a>
-            <a href="changelog.html">Changelog</a>
-            <a href="privacy.html">Privacy</a>
-            <a href="donate.html">Donate</a>
+            <a href="features">Features</a>
+            <a href="download">Download</a>
+            <a href="faq">FAQ</a>
+            <a href="online">Online</a>
+            <a href="changelog">Changelog</a>
+            <a href="privacy">Privacy</a>
+            <a href="donate">Donate</a>
             <a href="https://github.com/Undisclosed0369/SwiftMediaInfo">GitHub</a>
             <a href="../">Undisclosed</a>
         </nav>
@@ -377,7 +447,7 @@
             SwiftMediaInfo is a front-end for MediaInfo, an open-source project by
             MediaArea. It is not affiliated with or endorsed by MediaArea.
         </p>
-        <p class="footer__note">© 2026 Undisclosed / Data Lass</p>
+        <p class="footer__note">© 2026 Undisclosed0369</p>
     </div>
 </footer>
 
