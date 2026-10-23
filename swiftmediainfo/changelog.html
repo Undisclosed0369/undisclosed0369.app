@@ -123,7 +123,13 @@
         <p class="toc__title">Releases</p>
         <ol class="toc__list">
                 <li>
-                    <a class="toc__link toc__link--latest" href="#release-v2-0">
+                    <a class="toc__link toc__link--latest" href="#release-v2-1">
+                        <span class="toc__name">SwiftMediaInfo v2.1</span>
+                        <span class="toc__date">Oct 2026</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="toc__link" href="#release-v2-0">
                         <span class="toc__name">SwiftMediaInfo v2.0</span>
                         <span class="toc__date">Sep 2026</span>
                     </a>
@@ -174,7 +180,132 @@
     </nav>
 
     <div class="releases">
-        <article class="release release--latest" id="release-v2-0">
+        <article class="release release--latest" id="release-v2-1">
+            <header class="release__head">
+                <h2 class="release__version">SwiftMediaInfo v2.1</h2>
+                <span class="release__date">23 October 2026</span>
+                <a class="release__link link-brand" href="https://github.com/Undisclosed0369/SwiftMediaInfo/releases/tag/v2.1" rel="noopener">On GitHub</a>
+            </header>
+            <div class="release__body">
+<h2>SwiftMediaInfo v2.1 – Latest Release</h2>
+<h3>Tabs, a rebuilt Compare Mode, Media Health, previews with Space, and Siri AI — and the whole app made faster and lighter without changing how it looks</h3>
+<p>The biggest update since 2.0. Files open in tabs now, comparing two of them takes one click, and the app can tell you what a file is, whether anything is wrong with it, and show it to you — MKV included.</p>
+<p><strong><a href="https://undisclosed0369.app/swiftmediainfo/" rel="noopener">Website</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/features" rel="noopener">What&#x27;s in it</a></strong> · <strong><a href="https://rentry.org/SwiftMediaInfo-v2-FieldReference" rel="noopener">Field reference</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/faq" rel="noopener">FAQ</a></strong> · <strong><a href="https://undisclosed0369.app/swiftmediainfo/changelog" rel="noopener">Full changelog</a></strong></p>
+<hr class="release__rule">
+<h3>⭐ Highlights</h3>
+<div class="compare-wrap">
+<table class="compare release__table">
+<tbody>
+<tr><th scope="row">🗂 <strong>Tabs</strong></th><td>Every file in its own tab, Safari-style — and a folder as one tab, with its media files beside the report</td></tr>
+<tr><th scope="row">⚖️ <strong>Compare Mode, rebuilt around tabs</strong></th><td>File A and File B are just two of your open tabs. <code>⌘</code>-click any tab to compare</td></tr>
+<tr><th scope="row">🔎 <strong>An Overview of every file</strong></th><td>Video, main audio and subtitles at a glance, with colour-coded highlights</td></tr>
+<tr><th scope="row">🩺 <strong>Media Health</strong></th><td>One click (<code>⇧⌘H</code>) checks a file for common problems and explains what to do about each one</td></tr>
+<tr><th scope="row">▶️ <strong>Preview with Space</strong></th><td>Quick Look for what macOS can play, and a new preview for MKV and everything it can&#x27;t — every subtitle track included</td></tr>
+<tr><th scope="row">✨ <strong>Siri AI</strong></th><td>Ask what a file is, whether it is healthy, or which of two copies is better — answered on your Mac</td></tr>
+<tr><th scope="row">📄 <strong>PDF and Markdown reports</strong></th><td>A designed PDF, and Markdown ready for the pastebin of your choice</td></tr>
+<tr><th scope="row">⚡ <strong>Faster and lighter</strong></th><td>A steady smooth scroll, using less of the GPU, CPU and memory — with the same look</td></tr>
+</tbody>
+</table>
+</div>
+<hr class="release__rule">
+<h3>🌐 New on the website</h3>
+<p><strong><a href="https://undisclosed0369.app/swiftmediainfo/" rel="noopener">undisclosed0369.app/swiftmediainfo</a></strong> is up to date for 2.1, with new screenshots throughout.</p>
+<ul><li><strong><a href="https://undisclosed0369.app/swiftmediainfo/online" rel="noopener">Open in SwiftMediaInfo</a></strong> — read a file on the Online page, then open the same file in the app with one button. The page never learns where the file is; it sends the app the file&#x27;s name, size and date, and the app finds it on your Mac</li><li><strong><a href="https://undisclosed0369.app/swiftmediainfo/download" rel="noopener">Try in Browser</a></strong> — for a quick look on a computer without the app. One file, nothing to install, and the file never leaves your browser</li><li><strong><a href="https://undisclosed0369.app/swiftmediainfo/download" rel="noopener">Install in one command</a></strong> with Homebrew, plus how to update and the current macOS steps for the disk image</li><li>Addresses are shorter and forgiving: no <code>.html</code> at the end, and any capitalisation lands on the right page</li></ul>
+<hr class="release__rule">
+<h3>🆕 New</h3>
+<h4>🗂 Tabs</h4>
+<p>Every open file lives in a tab, and the tab bar is always there.</p>
+<ul><li><strong>New Tab (<code>⌘T</code>)</strong> opens an empty tab with the start screen; opening a file fills it</li><li><strong>Drag to reorder</strong>, or drag a tab out onto the Dock or another app to open the original file there</li><li><strong>Long names scroll</strong> on the selected, hovered or compared tab; the others are shortened in the middle</li><li>A <strong>tab menu</strong> with Close Tab, Close Tabs to the Right/Left, Close Other Tabs, New Tab to the Right, Compare With and Add to Favorites</li><li>The <strong>+</strong> button: click for a New Tab, right-click for Favorites, Recent Files and Choose a File…</li><li><strong>Middle-click</strong> a tab to close it, or a recent file to open it in a background tab</li><li>Opening a file that is already open <strong>switches to its tab</strong> instead of opening it twice</li><li>The tab you are looking at <strong>loads first</strong>; the others load in the background</li></ul>
+<h4>📁 Folder tabs</h4>
+<ul><li>Drop or open a folder to get <strong>one tab named after it</strong>, with a sidebar of its media files — subfolders included</li><li>Only the file you select is analysed. Step through them with <code>⌥⌘↓</code> / <code>⌥⌘↑</code></li></ul>
+<h4>📥 Opening files</h4>
+<ul><li><strong>Drag-and-drop that does what you mean</strong> — onto the window, the panes or the Dock icon: one file opens a tab, two open a comparison, three or more open a tab each, a folder opens a folder tab</li><li>The <strong>Open dialog</strong> accepts several files and folders at once</li><li><strong>Finder</strong> gains &quot;Open Folder in SwiftMediaInfo&quot;, &quot;Open N Items in SwiftMediaInfo&quot;, and opening the folder you are viewing by right-clicking empty space</li><li>The <strong>Finder menu switches itself on</strong> the first time the app opens — no trip to System Settings. Turn it off in <strong>Settings › General › Finder</strong> (or System Settings) and it stays off</li><li><strong>From the website</strong> — <strong>Open in SwiftMediaInfo</strong> on the Online page opens the same file in the app, found with Spotlight and in the folders you have opened files from, external and network drives included</li></ul>
+<h4>⚖️ Compare Mode</h4>
+<p>Rebuilt around tabs, so comparing never re-reads a file.</p>
+<ul><li><strong>File A is the selected tab and File B is another open tab</strong></li><li>Compare by <strong><code>⌘</code>-clicking a tab</strong>, by right-clicking → <strong>Compare With</strong> (open tabs, favorites, recent files, or a file), or with the Compare button</li><li><strong>Blue &quot;A&quot; and pink &quot;B&quot;</strong> badges and outlines on the tabs, matching the panes and the status bar</li><li>Close either side from its pane header; an empty pane offers your open tabs, favorites and recent files</li><li>Click File B&#x27;s tab to <strong>swap the sides</strong></li></ul>
+<h4>⭐ Favorites</h4>
+<ul><li><strong>A star on every tab</strong></li><li><strong>File › Favorites</strong> to open one, compare it with the current file, remove it, or clear them all</li><li>Favorites appear on the start screen above Recent Files, and wherever you pick a file to compare</li><li>Folders can be favorites, renamed files keep their star, and missing files are marked</li><li>Long lists in menus show the first five, with the rest under <strong>&quot;N More&quot;</strong></li></ul>
+<h4>🏠 The start screen</h4>
+<ul><li><strong>Total time spent</strong> in the app — counted only while it is in front and in use, and carried over across updates</li><li><strong>50 fun facts</strong> about that time, rotating every 14 seconds, with ← / → to flip through them</li><li>Favorites, Recent Files and the time card can each be hidden in <strong>Settings › Privacy</strong></li></ul>
+<h4>🔎 Easy View</h4>
+<ul><li>An <strong>Overview card</strong> at the top of every report:</li><li><strong>Video</strong> — codec with profile, level and tier, resolution, frame rate, bit rate and bit depth, colour and HDR</li><li><strong>Main audio</strong> — language, codec, channels (2.0 (Stereo), 5.1…), sampling, bit rate and track count</li><li><strong>Subtitles</strong> — every track as &quot;Title (Format)&quot;, and a summary such as &quot;46 PGS, 11 SRT&quot;</li><li>Audio files get Audio and Tags; images get an Image block</li><li><strong>Colour-coded highlight chips</strong> — video blue, audio violet, subtitles green, images teal — that stay visible when the card is folded</li><li>Right-click to <strong>Copy Overview</strong>, or <strong>Copy Overview as Markdown</strong></li><li><strong>Copy Track as Markdown</strong>, in Easy View and in Compare</li><li><strong>HDR Format</strong> is one combined row, e.g. &quot;Dolby Vision Profile 8.1 / HDR10+ Profile B, HDR10 Compatible&quot;</li><li><strong>Chapters</strong> read as a clean list — &quot;00:02:09.379 — Ground Zero&quot;</li></ul>
+<h4>🩺 Media Health (<code>⇧⌘H</code>)</h4>
+<ul><li>Checks that the <strong>container is readable and complete</strong>, that the <strong>format matches</strong> (including an extension that does not match the contents), the <strong>video and audio streams</strong>, <strong>unique track IDs</strong>, <strong>variable frame rate</strong>, <strong>HDR metadata</strong>, <strong>language tags</strong>, and that <strong>video and audio durations agree</strong></li><li>A plain verdict — &quot;This file looks healthy&quot; or &quot;3 things to look at&quot; — every check marked ✓ / ⚠ / –, and <strong>what each problem means and what to do about it</strong></li><li><strong>Knows what is normal</strong>: a song without video, or an untagged music file, is not flagged</li><li>Copy the report as text or Markdown. In Compare Mode, switch between File A and File B</li></ul>
+<h4>▶️ Preview with Space</h4>
+<p><strong>Space</strong> previews the current file, as in Finder. Space or Escape closes it.</p>
+<ul><li>Files macOS can play open in <strong>Quick Look</strong>, which follows you as you switch tabs</li><li><strong>MKV, AVI, WebM, TS, MKA and the rest</strong> open in the new <strong>SwiftMediaInfo preview</strong>:</li><li><strong>20-second clips</strong> cut from the original and played by macOS&#x27;s own player — 4K, HDR and Dolby Vision included. Audio macOS cannot play, such as DTS and TrueHD, is converted to stereo for the preview</li><li><strong>Every subtitle track.</strong> Text subtitles play in macOS&#x27;s player; picture subtitles — <strong>Blu-ray PGS</strong>, DVD, DVB — are drawn over the video exactly as on the disc, in full screen too. Your choice is remembered for each file</li><li>Files without subtitles can show <strong>subtitles transcribed by macOS</strong> from the clip&#x27;s speech (macOS 27)</li><li>A <strong>filmstrip timeline</strong> of the whole file — hover for a time, click or drag to play from anywhere</li><li><strong>±10 s</strong> buttons, or ← / →, and <strong>Open with</strong> your default player from the title bar</li><li><strong>Volume, mute, speed and zoom</strong> are remembered from clip to clip, file to file and launch to launch</li><li>The window opens <strong>at the shape of the video</strong>, so the whole picture fits with no extra black</li><li><strong>Your file is never changed.</strong> Temporary clips are deleted as you go and the moment the preview closes</li><li>The SwiftMediaInfo preview uses <strong>ffmpeg</strong>, which is optional. If it is missing, the app installs it in one click</li></ul>
+<h4>✨ Siri AI</h4>
+<ul><li><strong>Ask Siri</strong> in the toolbar, <strong>File › Ask Siri AI…</strong> (<code>⇧⌘I</code>) or File Actions</li><li>It starts with &quot;Can you tell me what this is?&quot;, answers from the file&#x27;s report, and takes follow-up questions — with suggestions such as &quot;Explain in simple terms&quot;</li><li>Ask about <strong>health</strong> and it uses Media Health&#x27;s own results; ask for an <strong>overview</strong> and it uses the app&#x27;s Overview</li><li>In <strong>Compare Mode</strong> it compares File A and File B and says which is the better copy</li><li><strong>Stop</strong> an answer with the Stop button or Esc, and <code>⌘R</code> asks a stopped question again</li><li><strong>On-device only.</strong> It reads MediaInfo&#x27;s text report — never the file — with file paths removed, and nothing leaves your Mac</li><li><em>Needs a Mac that supports Apple Intelligence, running macOS 27 or later, with Apple Intelligence turned on. Elsewhere it stays out of the way, and Settings › Siri AI explains why</em></li></ul>
+<h4>📄 Export and share</h4>
+<ul><li><strong>PDF</strong> (new) — an A4 report with the overview, colour-coded highlights, a table for every track, and clickable links. Real text, selectable and searchable</li><li><strong>Markdown</strong> (new) — headings, the Overview, a table per track and a chapter table, ready for the pastebin of your choice</li><li>The <strong>Export menu</strong> is grouped into <strong>Human-readable</strong> (Text, Raw Text, HTML, PDF, Markdown) and <strong>Machine-readable</strong> (CSV, JSON, XML), plus Export All Formats and Export All as ZIP</li><li><strong>HTML exports now look exactly like the in-app HTML view</strong>, and HTML and PDF follow the app&#x27;s light or dark appearance</li><li><strong>Share as a web page</strong> — HTML and PDF become a page on <strong>ship.page</strong>, Markdown a rendered page on <strong>markdown.page</strong>; text formats go to pb.plz.ac and ZIP to up.sb</li><li>The review screen before every upload shows what will be removed, and whether the SHA-256 checksum is included</li></ul>
+<h4>🎨 Code views</h4>
+<ul><li><strong>Syntax highlighting</strong> for JSON and XML, in a restrained Xcode-style palette that reads well in light and dark — on in Compare and while searching too</li><li><strong>Settings › Appearance › Code Views</strong>: On, Off, Only JSON or Only XML</li></ul>
+<h4>🎛 Settings</h4>
+<ul><li>A new <strong>Siri AI</strong> pane</li><li><strong>MediaInfo</strong> is now <strong>Tools</strong>, with sections for <strong>MediaInfo</strong> and <strong>ffmpeg</strong> — status, location, and install or reinstall</li><li><strong>Overview</strong>: Remember Last, Always Expanded or Always Collapsed</li><li><strong>Blob positions</strong> — with the Static background, drag the three colours to where you want them</li><li><strong>Privacy › Include paths in HTML</strong> and <strong>Include the SHA-256 checksum</strong> — Always, Ask or Never (default)</li><li><strong>Privacy › Empty Screen</strong> — show or hide Favorites, Recent Files and the time card</li><li><strong>Media Health › Include SHA-256 availability</strong>, for files over 10 GB</li><li><strong>General › Finder › Right-click menu</strong> — the same switch as in System Settings</li><li><strong>Restore Defaults</strong> also resets the preview&#x27;s volume, speed, zoom and subtitle choices, and turns the Finder menu back on</li></ul>
+<hr class="release__rule">
+<h3>⚡ Improved</h3>
+<h4>🚀 Faster and lighter, same look</h4>
+<p>Measured on an M4 with a large 4K remux open:</p>
+<div class="compare-wrap">
+<table class="compare release__table">
+<thead><tr><th scope="col">&nbsp;</th><th scope="col">Before</th><th scope="col">After</th></tr></thead>
+<tbody>
+<tr><th scope="row"><strong>Scrolling Easy View</strong> (pointer over it)</th><td>30–65 fps</td><td><strong>A steady 100 fps</strong> — my display&#x27;s maximum [100 Hz] (might be different for you)</td></tr>
+<tr><th scope="row"><strong>GPU while scrolling</strong></th><td>71–78 %</td><td><strong>8–26 %</strong></td></tr>
+<tr><th scope="row"><strong>GPU, idle with the animated background</strong></th><td>33–37 %</td><td><strong>14–24 %</strong></td></tr>
+<tr><th scope="row"><strong>CPU, idle</strong></th><td>10–11 %</td><td><strong>0.5 %</strong></td></tr>
+<tr><th scope="row"><strong>Memory</strong></th><td>140 MB</td><td><strong>86 MB</strong></td></tr>
+</tbody>
+</table>
+</div>
+<ul><li>Live window resizing is <strong>twice as smooth</strong>, and Compare Mode scrolls with far fewer dropped frames</li><li>The animated background, the glass cards&#x27; shadows and edges, and scrolling tab names are drawn by <strong>Core Animation</strong>, so the app no longer redraws them every frame</li><li><strong>Faster opening</strong> — MediaInfo runs once, for the view you are looking at; the others load in the background, and switching views moves yours to the front of the queue</li><li>Each view is <strong>cached as soon as it arrives</strong>, so a half-loaded file reopens faster</li></ul>
+<h4>📖 Reading</h4>
+<ul><li><strong>Readable field names everywhere</strong> — copies say &quot;Overall Bit Rate: 3 631 kb/s&quot;, never MediaInfo&#x27;s internal &quot;OverallBitRate_String&quot;</li><li><strong>Languages</strong> show as &quot;English&quot;, not &quot;en&quot;, and <strong>channel counts</strong> show again with newer MediaInfo versions</li><li>Track colours use <strong>deeper shades in light mode</strong>, for clear contrast</li><li><strong>Smoother</strong> Easy View cards, with the text fading in step with the card</li><li>The Text and Raw Text difference view <strong>matches by section and field</strong>, not by line position</li><li>The comparison <strong>updates itself</strong> whenever either side changes</li></ul>
+<h4>🧩 Everything else</h4>
+<ul><li><strong>Export and Share wait</strong> for views that are still loading, instead of writing incomplete files</li><li>Copy, export and share no longer end with stray blank lines</li><li>Compare Mode&#x27;s Export and Share menus have a clearly visible back button and slide between their steps</li><li>Media Health and Siri AI windows have a Liquid Glass close button; the view buttons are slimmer, so the toolbar fits Ask Siri</li><li>The app icon in About and Settings <strong>shrinks while you hold it</strong> and springs back when you let go</li><li>The Finder extension is listed as <strong>&quot;SwiftMediaInfo&quot;</strong> in System Settings, and Finder&#x27;s Get Info shows the app&#x27;s copyright</li><li>Tooltips show <strong>keyboard shortcuts</strong></li><li><strong>VoiceOver</strong> names every switch and pop-up menu in Settings, and the File A / File B choices in Siri AI, Media Health and Share</li></ul>
+<hr class="release__rule">
+<h3>⌨️ Changed</h3>
+<p>These alter habits, so they are listed plainly rather than buried.</p>
+<div class="compare-wrap">
+<table class="compare release__table">
+<thead><tr><th scope="col">&nbsp;</th><th scope="col">Before</th><th scope="col">Now</th></tr></thead>
+<tbody>
+<tr><th scope="row"><strong>⌘1–⌘9</strong></th><td>Switched views</td><td><strong>Switch tabs</strong> — <code>⌘9</code> is the last tab. In Compare Mode, <code>⌘1</code> / <code>⌘2</code> still choose File A / File B</td></tr>
+<tr><th scope="row"><strong>Views</strong></th><td><code>⌘1–⌘6</code></td><td><strong><code>⌃⌘1–⌃⌘6</code></strong> — Easy, Text, Raw Text, HTML, XML, JSON</td></tr>
+<tr><th scope="row"><strong>⌘W</strong></th><td>Closed the open file</td><td><strong>Closes the tab</strong> — and the window once no tabs are left. <code>⌥⌘W</code> closes the window</td></tr>
+<tr><th scope="row"><strong>⌘T</strong></th><td>—</td><td><strong>New Tab</strong></td></tr>
+<tr><th scope="row"><strong>⌘⇧] / ⌘⇧[</strong></th><td>—</td><td><strong>Next / previous tab</strong> — Control-Tab and Control-Shift-Tab too</td></tr>
+<tr><th scope="row"><strong>⌥⌘↓ / ⌥⌘↑</strong></th><td>—</td><td><strong>Next / previous file</strong> in a folder tab</td></tr>
+<tr><th scope="row"><strong>⇧⌘H</strong></th><td>—</td><td><strong>Check Media Health</strong></td></tr>
+<tr><th scope="row"><strong>⇧⌘I</strong></th><td>—</td><td><strong>Ask Siri AI</strong> — and in its window, Esc stops an answer and <code>⌘R</code> asks again</td></tr>
+<tr><th scope="row"><strong>Space</strong></th><td>—</td><td><strong>Preview</strong> — with ← / → to skip 10 seconds</td></tr>
+<tr><th scope="row"><strong>⌘-click a tab</strong></th><td>—</td><td><strong>Compare</strong> with it</td></tr>
+</tbody>
+</table>
+</div>
+<p>The Keyboard Shortcuts window (<code>⌘K</code>) lists all of them.</p>
+<hr class="release__rule">
+<h3>🔒 Privacy</h3>
+<ul><li>Two new settings, both <strong>Never by default</strong>: <strong>Include paths in HTML</strong> and <strong>Include the SHA-256 checksum</strong> — each Always, Ask or Never</li><li><strong>&quot;Remove paths&quot; now also removes</strong> MediaInfo&#x27;s folder name field and your home-folder path, which could still slip into exports and shares</li><li><strong>Siri AI runs entirely on your Mac</strong>, with Apple&#x27;s on-device model. Nothing is sent anywhere</li><li>Nothing is uploaded until you confirm on the review screen, which lists every path that will be removed. Shared links are public to anyone who has them, and free ship.page pages expire after 30 days</li></ul>
+<hr class="release__rule">
+<h3>🐞 Fixed</h3>
+<ul><li>A <strong>crash</strong> when an analysis was cancelled at the moment it started</li><li>Compare Mode showing <strong>every field as &quot;only in File A&quot;</strong> while File B was still loading</li><li><strong><code>⌘W</code> closing the window</strong> — and quitting — instead of the tab</li><li>Easy View showing a <strong>blank screen for folders</strong></li><li><strong>Empty exports</strong> for views that had not loaded yet, and Text exports saved as <strong>&quot;.text&quot;</strong> instead of &quot;.txt&quot;</li><li>The privacy filter could rewrite the app&#x27;s own website link when your account name was part of the domain</li><li>Export and Share dialogs opening while their menu was still closing, flooding the log with <strong>&quot;Publishing changes from within view updates&quot;</strong> warnings</li><li><strong><code>⌘M</code></strong> minimised the window with Media Health, Share or the preview open</li><li><strong>New users had to switch the Finder menu on</strong> in System Settings themselves, and <strong>switching it off</strong> was undone the next time the app opened</li><li>The Keyboard Shortcuts window showed <strong>Control (⌃) instead of Option (⌥)</strong> for Close Window, Copy Path and the folder-tab keys</li><li>The <strong>back button</strong> in Compare Mode&#x27;s Share and Export menus was almost invisible</li></ul>
+<hr class="release__rule">
+<h3>⬆️ Upgrading from 2.0</h3>
+<p>Nothing to do. Your settings and the time you have spent in the app carry over.</p>
+<ul><li><strong>With Homebrew:</strong> <code>brew upgrade --cask swiftmediainfo</code></li><li><strong>With the disk image:</strong> download it below and replace the copy in Applications. macOS checks the new copy once, as it did the first time — the <a href="https://undisclosed0369.app/swiftmediainfo/download" rel="noopener">download page</a> has the steps</li><li><strong>ffmpeg is new and optional.</strong> It is only needed to preview MKV and other formats macOS cannot play, and the app offers to install it the first time you need it</li></ul>
+<hr class="release__rule">
+<h3>📋 Requirements</h3>
+<ul><li><strong>macOS 26</strong> or later</li><li>The <strong>MediaInfo</strong> command-line tool — installed from within the app, or from MediaArea</li><li><strong>Optional: ffmpeg</strong>, for previewing MKV and other formats macOS cannot play — also installed from within the app</li><li><strong>Siri AI:</strong> a Mac that supports Apple Intelligence, running macOS 27 or later, with Apple Intelligence turned on</li></ul>
+<hr class="release__rule">
+<h3>🙏 Built on MediaInfo</h3>
+<p>Every number this app shows you was read by <a href="https://mediaarea.net/en/MediaInfo" rel="noopener">MediaInfo</a>, a separate project by <a href="https://mediaarea.net" rel="noopener">MediaArea</a>, maintained for two decades. They wrote the hard part. This is the window onto it. The new previews are cut and converted by <a href="https://ffmpeg.org" rel="noopener">FFmpeg</a>, the open-source project behind a great deal of the world&#x27;s video software.</p>
+<p>If you need Windows, Linux, a language other than English, or a signed application, <a href="https://mediaarea.net/en/MediaInfo/Download/Mac_OS" rel="noopener">MediaArea&#x27;s Mac app</a> is the better choice and you should use it.</p>
+<hr class="release__rule">
+<p><strong>Found a bug, or have an idea?</strong> <a href="https://github.com/Undisclosed0369/SwiftMediaInfo/issues/new/choose" rel="noopener">Open an issue</a> or use the <a href="https://forms.gle/ZoDwomdm5asgfj386" rel="noopener">feedback form</a>. Ideas are welcome; the <a href="https://github.com/Undisclosed0369/SwiftMediaInfo/blob/main/CONTRIBUTING.md" rel="noopener">contributing guide</a> explains what helps most.</p>
+            </div>
+        </article>
+        <article class="release" id="release-v2-0">
             <header class="release__head">
                 <h2 class="release__version">SwiftMediaInfo v2.0</h2>
                 <span class="release__date">15 September 2026</span>
