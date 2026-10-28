@@ -1,0 +1,3 @@
+# The heavy originals are kept locally but not committed.
+src/*.wav
+src/luxury-hotel-lounge.mp3

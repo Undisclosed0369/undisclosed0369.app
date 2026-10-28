@@ -1,0 +1,358 @@
+/* ==========================================================================
+   The door — a secret code box behind the SwiftMediaInfo icon
+   --------------------------------------------------------------------------
+   Nothing here is visible until the icon has been tapped five times. The
+   icon itself gives no hint it is interactive: no pointer cursor, no hover
+   state. The only tell is that it starts to complain when poked.
+
+   The dialog is built from the same glass as the work cards so it reads as
+   part of the page rather than a browser prompt — then it gets a little
+   theatrical, because finding it should feel like a reward.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   The icon
+   -------------------------------------------------------------------------- */
+
+.work__card--smi .work__icon {
+    position: relative;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Each tap wiggles harder than the last. --poke is set from 1 to 4. */
+.work__icon.is-poked { animation: door-wiggle .5s var(--ease); }
+
+@keyframes door-wiggle {
+    0%   { transform: rotate(0) scale(1); }
+    20%  { transform: rotate(calc(var(--poke, 1) * -3deg)) scale(calc(1 + var(--poke, 1) * .02)); }
+    45%  { transform: rotate(calc(var(--poke, 1) * 3deg)); }
+    70%  { transform: rotate(calc(var(--poke, 1) * -1.5deg)); }
+    100% { transform: rotate(0) scale(1); }
+}
+
+.door-bubble {
+    position: absolute;
+    z-index: 3;
+    padding: .45rem .75rem;
+    border-radius: 12px 12px 12px 4px;
+    font: 600 var(--t-micro)/1.2 var(--sans);
+    color: #fff;
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    box-shadow: 0 8px 24px -8px color-mix(in srgb, var(--violet) 70%, transparent);
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(6px) scale(.9);
+    transform-origin: 0 100%;
+    transition: opacity .25s var(--ease), transform .35s var(--ease);
+}
+.door-bubble.is-on { opacity: 1; transform: none; }
+
+/* --------------------------------------------------------------------------
+   The dialog
+   -------------------------------------------------------------------------- */
+
+.door {
+    position: fixed;
+    inset: 0;
+    z-index: 130;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: color-mix(in srgb, #000 55%, transparent);
+    backdrop-filter: blur(18px) saturate(130%);
+    -webkit-backdrop-filter: blur(18px) saturate(130%);
+    opacity: 0;
+    transition: opacity .35s var(--ease);
+}
+.door.is-open { opacity: 1; }
+
+.door__panel {
+    position: relative;
+    width: min(100%, 30rem);
+    padding: 2.25rem 2rem 1.5rem;
+    border-radius: 28px;
+    text-align: center;
+    color: var(--ink);
+    background: var(--surface);
+    background: color-mix(in srgb, var(--surface) 82%, transparent);
+    backdrop-filter: blur(30px) saturate(170%);
+    -webkit-backdrop-filter: blur(30px) saturate(170%);
+    border: 1px solid var(--glass-line);
+    box-shadow: inset 0 1px 0 var(--glass-edge), 0 40px 100px -30px rgba(0, 0, 0, .65);
+    overflow: hidden;
+    isolation: isolate;
+    transform: translateY(18px) scale(.94);
+    transition: transform .55s cubic-bezier(.2, 1.3, .35, 1), box-shadow .6s var(--ease);
+}
+.door.is-open .door__panel { transform: none; }
+
+/* A slow-turning ring of brand colour behind the glass. */
+.door__glow {
+    position: absolute;
+    inset: -60%;
+    z-index: -1;
+    background: conic-gradient(from 0deg, var(--violet), var(--pink), var(--blue), var(--teal), var(--violet));
+    filter: blur(60px);
+    opacity: .22;
+    animation: door-spin 14s linear infinite;
+}
+@keyframes door-spin { to { transform: rotate(1turn); } }
+
+.door__title {
+    font-family: var(--sans-display);
+    font-size: clamp(1.6rem, 4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    line-height: 1.15;
+}
+
+.door__sub {
+    margin-top: .6rem;
+    color: var(--ink-soft);
+    font-size: var(--t-small);
+}
+
+.door__form {
+    display: grid;
+    gap: .75rem;
+    margin-top: 1.6rem;
+}
+
+.door__input {
+    width: 100%;
+    padding: .95rem 1.1rem;
+    border-radius: 16px;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--surface-alt) 75%, transparent);
+    color: var(--ink);
+    font: 600 1.15rem/1.2 var(--sans-display);
+    letter-spacing: .14em;
+    text-align: center;
+    text-transform: uppercase;
+    outline: none;
+    transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
+}
+.door__input::placeholder {
+    color: var(--ink-faint);
+    letter-spacing: .01em;
+    text-transform: none;
+    font-weight: 500;
+    font-size: .85em;
+}
+.door__input:focus {
+    border-color: color-mix(in srgb, var(--violet) 60%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--violet) 18%, transparent);
+}
+
+/* "Let me in": a glossy brand pill. Glass highlight on top, a sheen that
+   sweeps across on hover, a soft glow underneath, and a springy press. */
+.door__go {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    width: 100%;
+    justify-content: center;
+    padding-block: .95rem;
+    border: 0;
+    border-radius: 999px;
+    background: linear-gradient(100deg, var(--violet), color-mix(in srgb, var(--pink) 72%, var(--violet)) 55%, var(--violet));
+    background-size: 200% 100%;
+    background-position: 0 0;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -1px 0 rgba(0, 0, 0, .18),
+                0 10px 28px -10px color-mix(in srgb, var(--violet) 75%, transparent);
+    font-weight: 650;
+    letter-spacing: -.005em;
+    transition: transform .5s cubic-bezier(.2, 1.4, .4, 1), box-shadow .4s var(--ease),
+                background-position .8s var(--ease), filter .3s var(--ease), opacity .3s var(--ease);
+}
+.door__go::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 50%;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(rgba(255, 255, 255, .22), rgba(255, 255, 255, 0));
+    pointer-events: none;
+}
+.door__go::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -60%;
+    width: 45%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, .38), transparent);
+    transform: skewX(-20deg) translateX(0);
+    pointer-events: none;
+}
+@media (hover: hover) {
+    .door__go:hover:not([disabled]) {
+        transform: translateY(-2px);
+        background-position: 100% 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4), inset 0 -1px 0 rgba(0, 0, 0, .18),
+                    0 18px 40px -12px color-mix(in srgb, var(--violet) 85%, transparent),
+                    0 0 0 4px color-mix(in srgb, var(--violet) 14%, transparent);
+    }
+    .door__go:hover:not([disabled])::after { animation: door-sheen .9s var(--ease); }
+}
+.door__go:active:not([disabled]) { transform: scale(.96); transition-duration: .12s; filter: brightness(.95); }
+.door__go:focus-visible { outline: none; box-shadow: 0 0 0 4px color-mix(in srgb, var(--violet) 35%, transparent); }
+.door__go[disabled] { opacity: .55; cursor: default; transform: none; }
+/* Checking: the gradient keeps flowing until the answer comes back. */
+.door__go.is-busy { cursor: progress; animation: door-flow 1.2s linear infinite; }
+@keyframes door-sheen { to { transform: skewX(-20deg) translateX(420%); } }
+@keyframes door-flow { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) {
+    .door__go, .door__go::after, .door__go.is-busy { animation: none !important; transition: none; }
+}
+
+.door__line {
+    min-height: 2.9em;
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: var(--t-small);
+    line-height: 1.45;
+    color: var(--ink-body);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.door__line.is-on { opacity: 1; transform: none; }
+/* After EVERFLOW's video, when the browser won't open a tab on its own. */
+.door__link { color: var(--violet); font-weight: 650; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.door__link:hover { color: var(--pink); }
+
+/* An easter egg's picture (a looping, muted video or an image) above the line. */
+.door__media { display: none; justify-content: center; margin-top: 1rem; }
+.door__media.is-on { display: flex; animation: door-media-in .5s cubic-bezier(.34, 1.56, .64, 1) both; }
+.door__media video, .door__media img {
+    display: block;
+    max-width: 100%;
+    max-height: min(32vh, 15rem);
+    border-radius: 14px;
+    box-shadow: 0 16px 40px -18px rgba(0, 0, 0, .6), 0 0 0 1px var(--hairline);
+    background: rgba(0, 0, 0, .25);
+}
+@keyframes door-media-in { from { opacity: 0; transform: translateY(8px) scale(.92) rotate(-1.5deg); } }
+@media (prefers-reduced-motion: reduce) { .door__media.is-on { animation: none; } }
+
+/* The progress bar only appears once the door is opening. */
+.door__bar {
+    height: 4px;
+    border-radius: 4px;
+    margin: .25rem auto 0;
+    width: 70%;
+    background: var(--hairline);
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity .3s var(--ease);
+}
+.door__bar span {
+    display: block;
+    height: 100%;
+    width: 100%;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--violet), var(--pink), var(--blue), var(--violet));
+    background-size: 300% 100%;
+    transform: scaleX(0);
+    transform-origin: left;
+    animation: door-shimmer 1.4s linear infinite;
+}
+@keyframes door-shimmer { to { background-position: -300% 0; } }
+
+.door.is-going .door__bar { opacity: 1; }
+.door.is-going .door__bar span { transform: scaleX(1); transition: transform var(--door-wait, 3.5s) linear; }
+
+/* The way out. A quiet glass pill: present, but never competing with the
+   button that matters. On hover it lifts and catches a little brand light. */
+.door__never {
+    display: inline-flex;
+    align-items: center;
+    gap: .45rem;
+    margin-top: 1.1rem;
+    padding: .5rem 1rem .5rem .8rem;
+    border-radius: 999px;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--surface-alt) 55%, transparent);
+    box-shadow: inset 0 1px 0 var(--glass-edge);
+    color: var(--ink-soft);
+    font: 600 var(--t-micro)/1 var(--sans);
+    letter-spacing: .01em;
+    cursor: pointer;
+    transition: color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease),
+                transform .35s var(--ease), box-shadow .35s var(--ease);
+}
+.door__never svg {
+    width: .8rem;
+    height: .8rem;
+    opacity: .7;
+    transition: transform .45s var(--ease), opacity .25s var(--ease);
+}
+.door__never:hover {
+    color: var(--ink);
+    border-color: color-mix(in srgb, var(--violet) 40%, transparent);
+    background: color-mix(in srgb, var(--violet) 10%, transparent);
+    box-shadow: inset 0 1px 0 var(--glass-edge), 0 8px 22px -10px color-mix(in srgb, var(--violet) 60%, transparent);
+    transform: translateY(-1px);
+}
+.door__never:hover svg { opacity: 1; transform: rotate(90deg); }
+.door__never:active { transform: scale(.97); }
+
+/* Wrong: a short shake and a red edge. */
+.door.is-wrong .door__panel { animation: door-shake .45s cubic-bezier(.36, .07, .19, .97); }
+.door.is-wrong .door__input {
+    border-color: color-mix(in srgb, #ff453a 70%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in srgb, #ff453a 16%, transparent);
+}
+@keyframes door-shake {
+    10%, 90% { transform: translateX(-2px); }
+    20%, 80% { transform: translateX(4px); }
+    30%, 50%, 70% { transform: translateX(-8px); }
+    40%, 60% { transform: translateX(8px); }
+}
+
+/* Right: the glass lights up from the inside. */
+.door.is-going .door__panel {
+    box-shadow: inset 0 1px 0 var(--glass-edge),
+        0 0 0 1px color-mix(in srgb, var(--violet) 50%, transparent),
+        0 30px 120px -20px color-mix(in srgb, var(--violet) 75%, transparent);
+}
+.door.is-going .door__glow { opacity: .5; animation-duration: 3s; }
+
+/* The leader gets gold. */
+.door.is-leader .door__glow {
+    background: conic-gradient(from 0deg, #f5a142, #ffd36b, var(--pink), #f5a142);
+}
+.door.is-leader .door__bar span {
+    background: linear-gradient(90deg, #f5a142, #ffd36b, var(--pink), #f5a142);
+    background-size: 300% 100%;
+}
+.door.is-leader.is-going .door__panel {
+    box-shadow: inset 0 1px 0 var(--glass-edge),
+        0 0 0 1px rgba(245, 161, 66, .55),
+        0 30px 120px -20px rgba(245, 161, 66, .7);
+}
+
+/* Leaving: the panel swells into light before the next page loads. */
+.door.is-leaving .door__panel {
+    transform: scale(1.06);
+    filter: blur(6px) brightness(1.4);
+    opacity: 0;
+    transition: transform .5s var(--ease), filter .5s var(--ease), opacity .5s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .work__icon.is-poked, .door__glow, .door__bar span { animation: none; }
+    .door__panel, .door.is-open .door__panel { transform: none; transition: none; }
+    .door.is-wrong .door__panel { animation: none; }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+    .door { backdrop-filter: none; -webkit-backdrop-filter: none; background: rgba(0, 0, 0, .85); }
+    .door__panel { background: var(--surface); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}

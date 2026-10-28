@@ -1,0 +1,37 @@
+// Deal Breaker game server. Local: `npm run dev`. Live: `npm run deploy`
+// (needs `npx wrangler login` once, and the leader code as a secret:
+// `npx wrangler secret put LEADER_CODE`; optionally NAME_PEPPER, a long
+// random string used when hashing name-lock words).
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dealbreaker",
+  "main": "src/index.js",
+  "compatibility_date": "2025-09-01",
+
+  // One Durable Object per room; one per IP address for rate limits.
+  "durable_objects": {
+    "bindings": [
+      { "name": "ROOMS", "class_name": "Room" },
+      { "name": "GUARD", "class_name": "Guard" },
+      // One shared directory of every player: profiles, name locks, bans (Phase 6).
+      { "name": "DIRECTORY", "class_name": "Directory" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_sqlite_classes": ["Room", "Guard"] },
+    { "tag": "v2", "new_sqlite_classes": ["Directory"] }
+  ],
+
+  "vars": {
+    // Pages allowed to talk to the server.
+    "ALLOWED_ORIGINS": "https://undisclosed0369.app",
+    // 1 = real time. Tests run with a smaller number to fast-forward clocks.
+    "TIME_SCALE": "1"
+  },
+
+  // The live address (the domain is on Cloudflare, so it's set up on deploy),
+  // and only that: no spare *.workers.dev address or preview links.
+  "routes": [{ "pattern": "dealbreaker.undisclosed0369.app", "custom_domain": true }],
+  "workers_dev": false,
+  "preview_urls": false
+}

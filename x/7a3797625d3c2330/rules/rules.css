@@ -1,0 +1,483 @@
+/* ==========================================================================
+   Deal Breaker — rules page
+   --------------------------------------------------------------------------
+   Built on site.css (colours, glass, the drifting background) and hidden.css
+   (the pill back button). Read mid-game on a phone as often as at a desk, so
+   the search bar never scrolls away and every section is a tap from the top.
+   ========================================================================== */
+
+html { scroll-padding-top: 9rem; }
+/* Clear of the Dynamic Island and the rounded corners on a phone held
+   sideways. (Inside the game's frame these are zero; the frame does it.) */
+body { padding-left: env(safe-area-inset-left); padding-right: env(safe-area-inset-right); }
+@media (min-width: 62rem) { html { scroll-padding-top: 6rem; } }
+
+/* --------------------------------------------------------------------------
+   The bar
+   -------------------------------------------------------------------------- */
+
+.rbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    padding: calc(.75rem + env(safe-area-inset-top)) 1rem .75rem;
+    background: color-mix(in srgb, var(--surface) 70%, transparent);
+    backdrop-filter: blur(24px) saturate(170%);
+    -webkit-backdrop-filter: blur(24px) saturate(170%);
+    border-bottom: 1px solid var(--glass-line);
+}
+
+.rbar__inner {
+    display: flex;
+    gap: .75rem;
+    align-items: center;
+    max-width: 72rem;
+    margin: 0 auto;
+}
+
+.rbar__back { margin: 0; flex: none; padding: .6rem 1rem .6rem .8rem; }
+
+.rsearch {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    max-width: 34rem;
+    /* Without this the input's built-in width (about 20 characters) props
+       the bar open wider than a phone screen. */
+    min-width: 0;
+    margin-left: auto;
+}
+.rsearch > svg {
+    position: absolute;
+    left: 1rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--ink-faint);
+    pointer-events: none;
+}
+.rsearch input {
+    width: 100%;
+    padding: .78rem 4.2rem .78rem 2.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    box-shadow: inset 0 1px 0 var(--glass-edge);
+    color: var(--ink);
+    font: 500 1rem/1.2 var(--sans);
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color .25s var(--ease), box-shadow .25s var(--ease);
+}
+.rsearch input::-webkit-search-cancel-button { display: none; }
+.rsearch input::placeholder { color: var(--ink-faint); }
+.rsearch input:focus {
+    border-color: color-mix(in srgb, var(--violet) 60%, transparent);
+    box-shadow: inset 0 1px 0 var(--glass-edge), 0 0 0 4px color-mix(in srgb, var(--violet) 16%, transparent);
+}
+
+.rsearch__key {
+    position: absolute;
+    right: .75rem;
+    padding: .12rem .45rem;
+    border-radius: 6px;
+    border: 1px solid var(--glass-line);
+    color: var(--ink-faint);
+    font: 600 .75rem/1.2 var(--mono);
+    pointer-events: none;
+    transition: opacity .2s var(--ease);
+}
+.rsearch__clear {
+    position: absolute;
+    right: .5rem;
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 0;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--ink) 9%, transparent);
+    color: var(--ink-soft);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(.8);
+    transition: opacity .2s var(--ease), transform .3s var(--ease), background .2s;
+}
+.rsearch__clear svg { width: .7rem; height: .7rem; }
+.rsearch__clear:hover { background: color-mix(in srgb, var(--ink) 15%, transparent); }
+.rsearch.has-text .rsearch__clear { opacity: 1; pointer-events: auto; transform: none; }
+.rsearch.has-text .rsearch__key,
+.rsearch:focus-within .rsearch__key { opacity: 0; }
+@media (hover: none) { .rsearch__key { display: none; } }
+
+/* Section chips: the contents, for screens too narrow for a sidebar. */
+.rchips {
+    display: flex;
+    gap: .5rem;
+    max-width: 72rem;
+    margin: .75rem auto 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-mask: linear-gradient(90deg, #000 90%, transparent);
+    mask: linear-gradient(90deg, #000 90%, transparent);
+}
+.rchips::-webkit-scrollbar { display: none; }
+.rchips a {
+    flex: none;
+    padding: .42rem .85rem;
+    border-radius: 999px;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    color: var(--ink-soft);
+    font-size: var(--t-micro);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color .25s, background .25s, border-color .25s;
+}
+.rchips a.is-on {
+    color: #fff;
+    border-color: transparent;
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+}
+.rchips a.is-hidden { display: none; }
+@media (min-width: 62rem) { .rchips { display: none; } }
+
+/* --------------------------------------------------------------------------
+   The page
+   -------------------------------------------------------------------------- */
+
+.rules {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1rem calc(4rem + env(safe-area-inset-bottom));
+}
+
+.rhero { padding: clamp(2.5rem, 7vw, 5rem) .5rem clamp(1.5rem, 4vw, 2.5rem); }
+.rhero__title {
+    margin-top: .6rem;
+    font-family: var(--sans-display);
+    font-size: var(--t-display);
+    font-weight: 700;
+    letter-spacing: -.035em;
+    line-height: 1;
+}
+.rhero__line {
+    margin-top: 1rem;
+    max-width: 34ch;
+    font-size: var(--t-lead);
+    color: var(--ink-body);
+}
+.rhero__count {
+    margin-top: 1rem;
+    min-height: 1.4em;
+    font-size: var(--t-small);
+    font-weight: 600;
+    color: var(--ink-faint);
+}
+
+/* minmax(0, …) so a wide table scrolls inside its card instead of stretching
+   the whole column past the edge of a phone screen. */
+.rlayout { display: grid; gap: 2.5rem; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 62rem) { .rlayout { grid-template-columns: 14rem minmax(0, 1fr); } }
+
+/* Contents sidebar --------------------------------------------------------- */
+
+.rtoc { display: none; }
+@media (min-width: 62rem) {
+    .rtoc {
+        display: block;
+        position: sticky;
+        top: 6rem;
+        align-self: start;
+        max-height: calc(100vh - 8rem);
+        overflow: auto;
+    }
+}
+.rtoc__head {
+    margin-bottom: .75rem;
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+}
+.rtoc__list { display: grid; gap: .15rem; counter-reset: toc; }
+.rtoc__list a {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: .6rem;
+    padding: .42rem .75rem;
+    border-radius: 10px;
+    color: var(--ink-soft);
+    font-size: var(--t-small);
+    font-weight: 500;
+    text-decoration: none;
+    transition: color .25s var(--ease), background .25s var(--ease);
+}
+.rtoc__list a span {
+    font: 600 .72rem/1 var(--mono);
+    color: var(--ink-faint);
+    transition: color .25s;
+}
+.rtoc__list a:hover { color: var(--ink); background: var(--glass-fill); }
+.rtoc__list a.is-on { color: var(--ink); background: var(--glass-fill); }
+.rtoc__list a.is-on span { color: var(--violet); }
+.rtoc__list a::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 25%;
+    bottom: 25%;
+    width: 3px;
+    border-radius: 3px;
+    background: linear-gradient(var(--violet), var(--pink));
+    transform: scaleY(0);
+    transition: transform .35s var(--ease);
+}
+.rtoc__list a.is-on::before { transform: scaleY(1); }
+.rtoc__list li.is-hidden { display: none; }
+
+/* Sections ----------------------------------------------------------------- */
+
+.rbody { display: grid; gap: 1.5rem; min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.rsec, .rule, .rule__text { min-width: 0; }
+
+.rsec {
+    padding: clamp(1.25rem, 3vw, 2rem);
+    border-radius: var(--radius-panel);
+    border: 1px solid var(--glass-line);
+    background: var(--glass-fill);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    box-shadow: inset 0 1px 0 var(--glass-edge), var(--glass-shadow);
+    animation: rsec-in .7s var(--ease) backwards;
+}
+.rsec[hidden] { display: none; }
+@keyframes rsec-in { from { opacity: 0; transform: translateY(12px); } }
+
+.rsec__title {
+    display: flex;
+    align-items: center;
+    gap: .85rem;
+    font-family: var(--sans-display);
+    font-size: var(--t-heading);
+    font-weight: 700;
+    letter-spacing: -.02em;
+}
+.rsec__num {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 12px;
+    flex: none;
+    color: #fff;
+    font: 700 .82rem/1 var(--mono);
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+    box-shadow: 0 8px 20px -10px color-mix(in srgb, var(--violet) 80%, transparent);
+}
+
+.rule {
+    padding: 1.15rem 0;
+    border-top: 1px solid var(--hairline);
+}
+.rsec__title + .rule { margin-top: 1rem; }
+.rule[hidden] { display: none; }
+.rule h3 {
+    font-size: 1.06rem;
+    font-weight: 650;
+    letter-spacing: -.01em;
+    line-height: 1.35;
+}
+.rule p, .rule ul { margin-top: .5rem; color: var(--ink-body); max-width: 62ch; }
+.rule ul { display: grid; gap: .4rem; padding-left: 1.2rem; list-style: none; }
+.rule li { position: relative; }
+.rule li::before {
+    content: "";
+    position: absolute;
+    left: -1rem;
+    top: .62em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--violet), var(--pink));
+}
+.rule a { color: var(--link); }
+.rule__aside {
+    padding-left: .85rem;
+    border-left: 2px solid color-mix(in srgb, var(--violet) 45%, transparent);
+    color: var(--ink-soft) !important;
+    font-style: italic;
+}
+.rule--lead h3 { font-size: clamp(1.2rem, 2.4vw, 1.45rem); }
+
+.rule--cards {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.25rem;
+    align-items: start;
+}
+.rule__text { min-width: 0; }
+.rule__cards { display: flex; gap: .5rem; }
+
+.rule--faq h3::before {
+    content: "Q";
+    display: inline-grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-right: .55rem;
+    border-radius: 7px;
+    font: 700 .72rem/1 var(--mono);
+    color: var(--violet);
+    background: color-mix(in srgb, var(--violet) 14%, transparent);
+    vertical-align: .1em;
+}
+
+/* Cards you can pick up ------------------------------------------------------ */
+
+.rcard {
+    display: block;
+    width: clamp(4.6rem, 12vw, 6.4rem);
+    padding: 0;
+    border: 0;
+    border-radius: 6.5%/4.2%;
+    background: none;
+    cursor: zoom-in;
+    box-shadow: 0 14px 30px -14px rgba(0, 0, 0, .55), 0 0 0 1px rgba(0, 0, 0, .06);
+    transform: rotate(2.5deg);
+    transition: transform .45s var(--ease), box-shadow .45s var(--ease);
+}
+.rcard img { display: block; width: 100%; height: auto; border-radius: inherit; }
+.rcard:hover, .rcard:focus-visible {
+    transform: rotate(0) translateY(-4px) scale(1.04);
+    box-shadow: 0 22px 44px -16px rgba(0, 0, 0, .6), 0 0 0 1px rgba(0, 0, 0, .06);
+}
+
+.rzoom {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    place-items: center;
+    padding: 1.5rem;
+    background: color-mix(in srgb, #000 60%, transparent);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    cursor: zoom-out;
+    opacity: 0;
+    transition: opacity .3s var(--ease);
+}
+.rzoom.is-open { opacity: 1; }
+.rzoom[hidden] { display: none; }
+.rzoom img {
+    height: min(82vh, 40rem);
+    width: auto;
+    max-width: 92vw;
+    border-radius: 22px;
+    box-shadow: 0 40px 100px -30px #000;
+    transform: scale(.85) rotate(-3deg);
+    transition: transform .5s cubic-bezier(.2, 1.25, .35, 1);
+}
+.rzoom.is-open img { transform: none; }
+
+/* Tables --------------------------------------------------------------------- */
+
+.rtable-wrap { margin-top: .9rem; overflow-x: auto; }
+.rtable {
+    width: 100%;
+    margin-top: .9rem;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: var(--t-small);
+}
+.rtable-wrap .rtable { margin-top: 0; }
+.rtable th {
+    padding: .5rem .75rem;
+    text-align: left;
+    font-size: var(--t-micro);
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-bottom: 1px solid var(--hairline);
+}
+.rtable td {
+    padding: .6rem .75rem;
+    border-bottom: 1px solid var(--hairline);
+    vertical-align: top;
+    color: var(--ink-body);
+}
+.rtable tr:last-child td { border-bottom: 0; }
+.rtable tbody tr { transition: background .2s; }
+.rtable tbody tr:hover { background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.rtable td.num { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink); white-space: nowrap; }
+.rtable .muted { color: var(--ink-soft); }
+
+.swatch {
+    display: inline-flex;
+    align-items: center;
+    gap: .55rem;
+    font-weight: 600;
+    color: var(--ink);
+    white-space: nowrap;
+}
+.swatch i {
+    width: .95rem;
+    height: .95rem;
+    border-radius: 4px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .18);
+}
+.rent-steps { display: inline-flex; gap: .3rem; flex-wrap: wrap; }
+.rent-steps b {
+    padding: .1rem .45rem;
+    border-radius: 6px;
+    font-weight: 600;
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+    white-space: nowrap;
+}
+.rent-steps b:last-child { background: color-mix(in srgb, var(--violet) 18%, transparent); color: var(--ink); }
+
+/* Search --------------------------------------------------------------------- */
+
+mark {
+    padding: 0 .1em;
+    border-radius: 4px;
+    color: inherit;
+    background: color-mix(in srgb, var(--pink) 32%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--pink) 30%, transparent);
+}
+
+.rempty {
+    padding: 3rem 1rem;
+    text-align: center;
+    font-size: var(--t-lead);
+    color: var(--ink-soft);
+    border-radius: var(--radius-panel);
+    border: 1px dashed var(--glass-line);
+}
+
+.rfoot {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: var(--t-micro);
+    color: var(--ink-faint);
+}
+
+/* Phones --------------------------------------------------------------------- */
+
+@media (max-width: 40rem) {
+    .rbar__back span { display: none; }
+    .rbar__back { padding: .7rem; }
+    .rule--cards { grid-template-columns: 1fr; }
+    .rule__cards { order: -1; }
+    .rcard { transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rsec, .rcard, .rzoom img { animation: none; transition: none; transform: none; }
+}

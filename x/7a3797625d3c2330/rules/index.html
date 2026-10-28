@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
+<title>Rules — Deal Breaker</title>
+
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+
+<meta name="theme-color" content="#f8f8fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0d0d10" media="(prefers-color-scheme: dark)">
+
+<link rel="icon" href="/assets/img/icon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png">
+
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="/x/hidden.css">
+<link rel="stylesheet" href="rules.css">
+<script src="/assets/js/site.js"></script>
+<script type="module" src="page.js"></script>
+</head>
+
+<body>
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<!-- ======================================================================
+     The bar: a way back, and the search box. It stays put while you scroll,
+     because the whole point of a rules page mid-game is finding one thing
+     fast.
+     ====================================================================== -->
+<header class="rbar">
+    <div class="rbar__inner">
+        <a class="hidden-page__back rbar__back" href="../">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3.5M7.5 4L3.5 8l4 4"/></svg>
+            <span>Table</span>
+        </a>
+
+        <label class="rsearch">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="9" r="6"/><path d="M13.5 13.5L18 18"/></svg>
+            <input id="q" type="search" placeholder="Search the rules" autocomplete="off" spellcheck="false" aria-label="Search the rules">
+            <kbd class="rsearch__key" aria-hidden="true">/</kbd>
+            <button class="rsearch__clear" type="button" aria-label="Clear search">
+                <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M2.5 2.5l7 7M9.5 2.5l-7 7"/></svg>
+            </button>
+        </label>
+    </div>
+    <nav class="rchips" aria-label="Sections"></nav>
+</header>
+
+<main class="rules" id="main">
+
+    <header class="rhero">
+        <p class="hidden-page__kicker">Deal Breaker</p>
+        <h1 class="rhero__title gradient-text">How to play.</h1>
+        <p class="rhero__line">
+            Everything you need to stop losing. Or at least to lose more slowly.
+        </p>
+        <p class="rhero__count" id="count" aria-live="polite"></p>
+    </header>
+
+    <div class="rlayout">
+
+        <aside class="rtoc" aria-label="Contents">
+            <p class="rtoc__head">Contents</p>
+            <ol class="rtoc__list"></ol>
+        </aside>
+
+        <div class="rbody">
+
+            <p class="rempty" id="empty" hidden>
+                Nothing in the rules about that. Which means it's probably
+                allowed. (It isn't.)
+            </p>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="goal" data-title="The goal">
+                <h2 class="rsec__title"><span class="rsec__num">01</span>The goal</h2>
+
+                <article class="rule rule--lead">
+                    <h3>Be the first to collect complete property sets in different colors</h3>
+                    <p>
+                        The leader sets how many: anywhere from <strong>3</strong> to
+                        <strong>6</strong> complete sets, <strong>3</strong> by default —
+                        and can change it mid-game from the menu.
+                        They must all be <em>different</em> colors — two complete
+                        brown sets still count as one.
+                    </p>
+                    <p class="rule__aside">
+                        Money doesn't win the game. It just keeps you alive long
+                        enough to win it.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="setup" data-title="Setting up">
+                <h2 class="rsec__title"><span class="rsec__num">02</span>Setting up</h2>
+
+                <article class="rule">
+                    <h3>Players</h3>
+                    <p>
+                        2 to 5 players: friends, AI players, or a mix — the leader
+                        decides. Everyone gets <strong>5 cards</strong> to start, and a
+                        random player goes first.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>The deck</h3>
+                    <p>
+                        <span data-deck="total">106</span> cards: <span data-deck="money">20</span> money,
+                        <span data-deck="property">28</span> properties, <span data-deck="wild">11</span>
+                        property wild cards, <span data-deck="rent">13</span> rent cards and
+                        <span data-deck="action">34</span> action cards.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>Your three places</h3>
+                    <p>
+                        Your <strong>hand</strong> is private. Your <strong>bank</strong>
+                        and your <strong>properties</strong> sit on the table where
+                        everyone can see them — and where everyone can take from them.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="turn" data-title="Your turn">
+                <h2 class="rsec__title"><span class="rsec__num">03</span>Your turn</h2>
+
+                <article class="rule">
+                    <h3>1. Draw</h3>
+                    <p>
+                        <strong>Tap the deck</strong> to draw <strong>2</strong> cards.
+                        If your hand was empty when your turn began, you draw
+                        <strong>5</strong> instead. The deck glows to remind you.
+                    </p>
+                    <p>
+                        Drawing doesn't use a play. <strong>Draw first</strong>: play
+                        anything before you've drawn (even moving a wild card) and that
+                        turn's cards are <strong>gone</strong>. The same goes if your turn
+                        ends, or your time runs out, before you draw. No catching up next turn.
+                    </p>
+                    <p>
+                        The leader can switch "Draw first" off in the table rules. Then you
+                        can draw any time during your turn, before or after playing cards.
+                    </p>
+                    <p class="rule__aside">The deck doesn't chase you. It just quietly judges.</p>
+                </article>
+
+                <article class="rule">
+                    <h3>2. Play up to 3 cards</h3>
+                    <p>Each of these uses one of your three plays:</p>
+                    <ul>
+                        <li>Put money or an action card in your bank (it's worth the value in its corner).</li>
+                        <li>Put a property down in front of you.</li>
+                        <li>Play an action card for its effect.</li>
+                    </ul>
+                    <p>
+                        You don't have to play anything. Playing nothing is a
+                        strategy. A bad one, usually.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>Free moves</h3>
+                    <p>
+                        Rearranging your own property wild cards between sets is free
+                        — it doesn't use a play — but only on your turn. Drag one onto
+                        another set to switch its color.
+                    </p>
+                    <p class="rule__aside">
+                        Two unfinished sets of the same color always join up: switch a
+                        wild to red and it slides into your red set automatically.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>3. End your turn</h3>
+                    <p>
+                        You may hold at most <strong>7 cards</strong> when your turn
+                        ends. If you have more, you choose which to discard. You get
+                        <strong>60 seconds</strong> to pick, and the next player starts
+                        straight away instead of waiting for you.
+                    </p>
+                    <p class="rule__aside">
+                        Run out of time and the least useful cards go for you. Your
+                        Just Say No is the last thing it throws away.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>When the deck runs out</h3>
+                    <p>The discard pile is shuffled to make a new draw pile.</p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="money" data-title="Money">
+                <h2 class="rsec__title"><span class="rsec__num">04</span>Money</h2>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Money cards</h3>
+                        <p>
+                            Money only ever goes in your bank. It's there to pay rent
+                            and debts — and to make other players think twice about
+                            charging you.
+                        </p>
+                        <table class="rtable" id="money-table">
+                            <thead><tr><th>Value</th><th>Cards</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="money-5"><img src="../cards/money-5.svg" alt="5M money card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule">
+                    <h3>Action cards are money too</h3>
+                    <p>
+                        Any action or rent card can be banked as money instead of being
+                        played. A banked card is just money from then on — it can't be
+                        played for its action later.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="properties" data-title="Properties">
+                <h2 class="rsec__title"><span class="rsec__num">05</span>Properties</h2>
+
+                <article class="rule">
+                    <h3>Building sets</h3>
+                    <p>
+                        Each color needs a certain number of cards to be a complete
+                        set. Every property shows how much rent it charges for how many
+                        you own. A set never holds more than its size — extra cards of
+                        that color start a new set.
+                    </p>
+                    <div class="rtable-wrap">
+                        <table class="rtable rtable--colors" id="color-table">
+                            <thead><tr><th>Color</th><th>Set</th><th>Rent</th><th>Properties</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Properties can't be banked</h3>
+                        <p>
+                            Properties only go on the table. You can still lose them:
+                            to Sly Deal, Forced Deal, Deal Breaker, or when you pay
+                            with them.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="prop-boardwalk"><img src="../cards/prop-boardwalk.svg" alt="Boardwalk property card" loading="lazy"></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="wilds" data-title="Wild cards">
+                <h2 class="rsec__title"><span class="rsec__num">06</span>Property wild cards</h2>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Two-color wild cards</h3>
+                        <p>
+                            Count as either color shown. Pick a color when you put one
+                            down; flip it to the other color any time on your turn, for
+                            free. They're worth the value in their corner when paying.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="wild-lightblue-brown"><img src="../cards/wild-lightblue-brown.svg" alt="Light blue and brown wild card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>The ten-color wild card</h3>
+                        <p>
+                            Counts as any color. It can be stolen, and it can be used to pay:
+                            on the table it's worth what a property of its color is worth
+                            (4M as green, 1M as brown, and so on). In your hand it's worth
+                            nothing.
+                        </p>
+                        <p class="rule__aside">
+                            House rule. In the printed rules it has no value and can never pay.
+                        </p>
+                        <p>
+                            A set made only of ten-color wilds can't charge rent — it
+                            needs at least one real card of that color.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="wild-any"><img src="../cards/wild-any.svg" alt="Ten-color wild property card" loading="lazy"></button>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="rent" data-title="Rent">
+                <h2 class="rsec__title"><span class="rsec__num">07</span>Rent</h2>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Two-color rent</h3>
+                        <p>
+                            Charge <strong>every other player</strong> rent for one of
+                            your sets in either of the card's two colors. The rent is
+                            what that set charges for the number of cards in it, plus any
+                            house and hotel.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="rent-red-yellow"><img src="../cards/rent-red-yellow.svg" alt="Red and yellow rent card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Wild rent</h3>
+                        <p>
+                            Charge <strong>one player</strong> of your choice rent for
+                            one of your sets, in any color.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="rent-any"><img src="../cards/rent-any.svg" alt="Wild rent card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Double the Rent</h3>
+                        <p>
+                            Play it with a rent card to double the amount. It uses a play
+                            of its own, so rent + Double the Rent is two plays. Two of
+                            them on one rent card makes it ×4 and uses all three plays.
+                        </p>
+                        <p class="rule__aside">If the rent gets a Just Say No, the Double the Rent goes down with it.</p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-double-the-rent"><img src="../cards/action-double-the-rent.svg" alt="Double the Rent card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule">
+                    <h3>You need the property</h3>
+                    <p>You can only charge rent for a set you actually have on the table.</p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="actions" data-title="Action cards">
+                <h2 class="rsec__title"><span class="rsec__num">08</span>Action cards</h2>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Deal Breaker</h3>
+                        <p>
+                            Steal a <strong>complete</strong> property set from any
+                            player — including its house and hotel. The single most
+                            friendship-ending card in the deck.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-deal-breaker"><img src="../cards/action-deal-breaker.svg" alt="Deal Breaker card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Sly Deal</h3>
+                        <p>
+                            Steal one property from any player. It can't come from a
+                            complete set.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-sly-deal"><img src="../cards/action-sly-deal.svg" alt="Sly Deal card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Forced Deal</h3>
+                        <p>
+                            Swap one of your properties for one of another player's.
+                            Neither card can come from a complete set.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-forced-deal"><img src="../cards/action-forced-deal.svg" alt="Forced Deal card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Debt Collector</h3>
+                        <p>One player of your choice pays you <strong>5M</strong>.</p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-debt-collector"><img src="../cards/action-debt-collector.svg" alt="Debt Collector card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>It's Your Birthday</h3>
+                        <p>Every other player pays you <strong>2M</strong>. No gift receipts.</p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-birthday"><img src="../cards/action-birthday.svg" alt="It's Your Birthday card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Pass Go</h3>
+                        <p>Draw 2 more cards. Uses one of your three plays.</p>
+                        <p>You can bank it as 1M instead. Drop one on your bank and the game checks first ("Draw 2 instead" or "Bank it"), since the deck and the bank sit side by side.</p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-pass-go"><img src="../cards/action-pass-go.svg" alt="Pass Go card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Just Say No</h3>
+                        <p>Cancel an action played against you. <a href="#no">More below.</a></p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-just-say-no"><img src="../cards/action-just-say-no.svg" alt="Just Say No card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule">
+                    <h3>How many of each</h3>
+                    <div class="rtable-wrap">
+                        <table class="rtable" id="action-table">
+                            <thead><tr><th>Card</th><th>Value</th><th>In the deck</th></tr></thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="buildings" data-title="Houses &amp; hotels">
+                <h2 class="rsec__title"><span class="rsec__num">09</span>Houses &amp; hotels</h2>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>House: +3M rent</h3>
+                        <p>
+                            Goes on a <strong>complete</strong> set. One house per set.
+                            Not on railroads or utilities.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-house"><img src="../cards/action-house.svg" alt="House card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Hotel: +4M rent</h3>
+                        <p>
+                            Goes on a complete set that <strong>already has a house</strong>.
+                            One hotel per set, and the house stays. Not on railroads or
+                            utilities.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-hotel"><img src="../cards/action-hotel.svg" alt="Hotel card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule">
+                    <h3>When a set breaks</h3>
+                    <p>
+                        If a set with buildings stops being complete — you paid with one
+                        of its properties, or moved a wild card out — its house and hotel
+                        drop into your bank as money.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="paying" data-title="Paying up">
+                <h2 class="rsec__title"><span class="rsec__num">10</span>Paying up</h2>
+
+                <article class="rule">
+                    <h3>Money first</h3>
+                    <p>
+                        Pay from your <strong>bank</strong> first. Only once every card in
+                        your bank is in the pile can you add <strong>properties</strong>
+                        (and buildings). Never from your hand.
+                    </p>
+                    <p class="rule__aside">
+                        House rule: the official rules let you mix freely. Here, cash is
+                        king — you can't hide behind a fat bank and pay with your worst
+                        property.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>No change</h3>
+                    <p>
+                        Overpay and the difference is gone. A 10M note for a 2M birthday
+                        is a very generous present.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>Can't cover it?</h3>
+                    <p>
+                        Pay everything you have that's worth money. If you have nothing
+                        on the table, you pay nothing — the debt is simply forgotten.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>Where paid cards go</h3>
+                    <p>
+                        Properties you hand over go onto the other player's
+                        <strong>table</strong>, not into their bank. Money, banked action
+                        cards, houses and hotels go into their <strong>bank</strong>.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="no" data-title="Just Say No">
+                <h2 class="rsec__title"><span class="rsec__num">11</span>Just Say No</h2>
+
+                <article class="rule rule--cards">
+                    <div class="rule__text">
+                        <h3>Cancel any action played against you</h3>
+                        <p>
+                            Rent, birthdays, debts, steals, swaps, Deal Breakers — all of
+                            it. Playing a Just Say No never uses one of your three plays,
+                            even on your own turn.
+                        </p>
+                    </div>
+                    <div class="rule__cards">
+                        <button class="rcard" type="button" data-card="action-just-say-no"><img src="../cards/action-just-say-no.svg" alt="Just Say No card" loading="lazy"></button>
+                    </div>
+                </article>
+
+                <article class="rule">
+                    <h3>No to the no</h3>
+                    <p>
+                        The player who started it can answer your Just Say No with one of
+                        their own, which brings the action back — and you can answer
+                        that with another. It goes on until someone runs out.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>One player at a time</h3>
+                    <p>
+                        When a card hits several players (a birthday, two-color rent),
+                        each one decides for themselves. Your Just Say No only protects
+                        you.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="winning" data-title="Winning">
+                <h2 class="rsec__title"><span class="rsec__num">12</span>Winning</h2>
+
+                <article class="rule">
+                    <h3>The moment you have them, you've won</h3>
+                    <p>
+                        Complete the target number of sets in different colors during your
+                        turn and the game ends on the spot.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>Got there on someone else's turn?</h3>
+                    <p>
+                        You win on the spot. If someone's Forced Deal hands you the card
+                        that finishes your last set, or a payment does, the game ends right
+                        there, whoever's turn it is.
+                    </p>
+                    <p class="rule__aside">
+                        House rule. Careful what you swap. If one move finishes sets for two
+                        players at once, the player whose turn it is wins.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>Everyone else's place</h3>
+                    <p>
+                        After the winner, players are ranked by complete sets of different
+                        colors, then by the total value on their table and in their bank.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="timer" data-title="Timer &amp; connection">
+                <h2 class="rsec__title"><span class="rsec__num">13</span>Timer &amp; connection</h2>
+
+                <article class="rule">
+                    <h3>One clock</h3>
+                    <p>
+                        The leader sets it, from <strong>60</strong> to
+                        <strong>300 seconds</strong>, and can change it at any time from
+                        the menu. Whenever the game is waiting on you
+                        — your turn, or answering a card played against you — you get the
+                        full clock. While others answer you, your own clock pauses.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>When your time runs out</h3>
+                    <ul>
+                        <li><strong>On your turn:</strong> your turn ends. Cards you already played stay played — and if you hadn't drawn yet, that draw is lost.</li>
+                        <li><strong>When charged:</strong> no Just Say No is played, and the game pays for you — the smallest money that covers it, then your cheapest properties.</li>
+                        <li><strong>When stolen from:</strong> the card goes through.</li>
+                    </ul>
+                </article>
+
+                <article class="rule">
+                    <h3>Dropped out?</h3>
+                    <p>
+                        If you disconnect, you have 15 seconds to come back. After that an
+                        AI player takes your seat and keeps playing. Rejoin with the room
+                        code and your name, and the leader can let you back in.
+                    </p>
+                </article>
+
+                <article class="rule">
+                    <h3>Fell asleep?</h3>
+                    <p>
+                        Time out three turns in a row and an AI takes over. Tap
+                        <strong>I'm back</strong> to take your seat back on your next turn.
+                    </p>
+                </article>
+            </section>
+
+            <!-- ============================================================ -->
+            <section class="rsec" id="faq" data-title="Quick answers">
+                <h2 class="rsec__title"><span class="rsec__num">14</span>Quick answers</h2>
+
+                <article class="rule rule--faq">
+                    <h3>Can I steal from a complete set?</h3>
+                    <p>Only with a Deal Breaker, which takes the whole set.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Can I charge rent on a color I don't have?</h3>
+                    <p>No. You need a set of that color on the table.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Can I pay with cards in my hand?</h3>
+                    <p>Never. Only your bank and properties count.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Do I get change?</h3>
+                    <p>No. Everyone learns this the hard way exactly once.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Can I move a wild card on someone else's turn?</h3>
+                    <p>No. Rearranging is only allowed on your own turn.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Does Just Say No use one of my plays?</h3>
+                    <p>No, never.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Can a house go on a railroad?</h3>
+                    <p>No houses or hotels on railroads or utilities.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>What if I start my turn with no cards?</h3>
+                    <p>Tap the deck and you draw 5 instead of 2.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>What if I forget to draw?</h3>
+                    <p>Those cards are lost. You only get the next turn's draw, not both.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Can I bank a property?</h3>
+                    <p>No. Properties only ever go on the table.</p>
+                </article>
+
+                <article class="rule rule--faq">
+                    <h3>Two complete sets of the same color?</h3>
+                    <p>Allowed, but they only count as one color towards winning.</p>
+                </article>
+            </section>
+
+        </div>
+    </div>
+
+    <p class="rfoot">
+        Based on the Monopoly Deal rules, plus a few calls of our own where the
+        printed rules go quiet.
+    </p>
+</main>
+
+<!-- A tapped card opens big, like picking it up off the table. -->
+<div class="rzoom" id="zoom" hidden><img alt=""></div>
+
+</body>
+</html>

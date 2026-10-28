@@ -229,7 +229,6 @@ button { font: inherit; color: inherit; }
 .wrap { width: 100%; max-width: var(--content); margin-inline: auto; padding-inline: 1.5rem; }
 .wrap--wide { max-width: var(--wide); }
 .wrap--xwide { max-width: var(--xwide); }
-.wrap--text { max-width: var(--measure); }
 
 .section { padding-block: clamp(5rem, 12vw, 9rem); position: relative; }
 .section--tight { padding-block: clamp(3.5rem, 8vw, 5.5rem); }
@@ -377,6 +376,11 @@ html[data-theme="dark"] .page-bg { opacity: .34; }
 @media (prefers-reduced-motion: reduce) {
     .page-bg span { animation: none; }
 }
+
+/* site.js moves these loops along itself, 30 times a second (see
+   setupAmbient); paused here so the browser doesn't also run them at the
+   display's full rate. Without JavaScript they simply play as normal. */
+.page-bg.is-stepped span:nth-child(n) { animation-play-state: paused; }
 
 /* Longer travel and more scale than a first pass would suggest. Movement has
    to be proportional to the space it moves through, or on a large display it
@@ -597,8 +601,6 @@ html[data-theme="dark"] .page-bg { opacity: .34; }
 @media (max-width: 46rem) {
     .nav__inner { gap: .85rem; }
     .nav__link { font-size: .75rem; }
-    .nav__link--optional { display: none; }
-
     .nav__brand { min-width: 0; }
     .nav__brand-text { display: none; }
     .nav__logo { width: 22px; height: 22px; }
@@ -606,12 +608,6 @@ html[data-theme="dark"] .page-bg { opacity: .34; }
     .theme { --btn-w: 30px; }
     .theme .pill__btn { height: 26px; }
     .theme .pill__btn svg { width: 14px; height: 14px; }
-}
-
-/* Very narrow phones. GitHub goes too — the footer carries it, and a bar that
-   wraps or clips is worse than a bar with one fewer link. */
-@media (max-width: 24rem) {
-    .nav__link--secondary { display: none; }
 }
 
 /* --------------------------------------------------------------------------
@@ -1664,25 +1660,7 @@ html[data-theme="dark"] .shot__variant--dark { display: block; }
 .path { display: flex; flex-direction: column; }
 .path--primary { border-color: color-mix(in srgb, var(--violet) 40%, transparent); }
 
-.path__head {
-    display: flex;
-    align-items: center;
-    gap: .6rem;
-    margin-bottom: .35rem;
-}
-
 .path__title { font-size: var(--t-heading); font-weight: 600; letter-spacing: -.014em; }
-
-.path__badge {
-    font-size: .6875rem;
-    font-weight: 600;
-    letter-spacing: .01em;
-    color: #fff;
-    background: linear-gradient(100deg, var(--violet), color-mix(in srgb, var(--pink) 65%, var(--violet)));
-    padding: .15rem .5rem;
-    border-radius: 999px;
-    white-space: nowrap;
-}
 
 .path__body { font-size: var(--t-small); color: var(--ink-soft); }
 
@@ -1982,11 +1960,6 @@ html:not(.js) .cmd__code { padding-right: 1rem; }
     border: 1px solid var(--glass-line);
     background: color-mix(in srgb, var(--ink) 6%, transparent);
     color: var(--ink);
-}
-.dialog__btn--primary {
-    background: color-mix(in srgb, var(--blue) 82%, transparent);
-    border-color: transparent;
-    color: #fff;
 }
 
 /* ==========================================================================
@@ -2917,7 +2890,6 @@ html[data-theme="dark"] .cursor-glow.is-visible { opacity: .5; }
 /* Deliberately still grey. */
 .footer__note,
 .compare__source,
-.shot__spec,
 .identity__handle,
 .swatch__hexes { color: var(--ink-faint); font-weight: 400; }
 

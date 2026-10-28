@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no, interactive-widget=resizes-content">
+
+<title>Deal Breaker</title>
+
+<!-- Behind the door: never indexed, never followed. -->
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+
+<meta name="theme-color" content="#0b0b0e">
+<meta name="color-scheme" content="dark">
+
+<!-- Saved to the iPhone Home Screen, it opens fullscreen like an app. -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Deal Breaker">
+<link rel="manifest" href="app.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+
+<!-- Apple devices use SF Pro (the system font, same as the main site).
+     Everyone else gets Inter, the closest open match. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+
+<link rel="stylesheet" href="/assets/css/site.css">
+<link rel="stylesheet" href="app.css">
+<script src="/assets/js/site.js"></script>
+<script type="module" src="js/app.js"></script>
+</head>
+
+<body class="db">
+
+<div class="page-bg" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+</div>
+
+<!-- ======================================================================
+     Start: join a room, or (for the leader) open one.
+     ====================================================================== -->
+<main class="screen screen--start" id="start" hidden>
+    <div class="start">
+        <div class="start__fan" aria-hidden="true">
+            <img src="cards/money-10.svg" alt="" style="--i:0; --r:-24deg">
+            <img src="cards/action-sly-deal.svg" alt="" style="--i:1; --r:-12deg">
+            <img src="cards/action-deal-breaker.svg" alt="" style="--i:2; --r:0deg">
+            <img src="cards/action-just-say-no.svg" alt="" style="--i:3; --r:12deg">
+            <img src="cards/back.svg" alt="" style="--i:4; --r:24deg">
+        </div>
+
+        <form class="gpanel start__panel" id="join-form" novalidate>
+          <div class="start__step" id="step-form">
+            <p class="kicker" id="start-kicker">You're in</p>
+            <h1 class="start__title gradient-text">Deal Breaker</h1>
+            <p class="start__lead" id="start-lead">Got a room code? Pull up a chair.</p>
+
+            <label class="field">
+                <span class="field__label" id="room-label">Room code</span>
+                <input class="field__input field__input--code" id="room" name="room" autocomplete="off" autocapitalize="characters"
+                       spellcheck="false" maxlength="12" placeholder="Something your friends can spell" enterkeyhint="next">
+            </label>
+            <label class="field">
+                <span class="field__label">Your name</span>
+                <input class="field__input" id="name" name="name" autocomplete="nickname" autocapitalize="words"
+                       spellcheck="false" maxlength="16" placeholder="Your name, not your Wi-Fi password" enterkeyhint="go">
+            </label>
+            <p class="form-line" id="join-error" aria-live="polite"></p>
+
+            <button class="btn btn--primary btn--big" id="join-go" type="submit"><span>Take a seat</span></button>
+
+            <nav class="start__links">
+                <a class="pill-link" id="start-rules" href="rules/">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 3.5c2-1 4-1 5.5.5v9c-1.5-1.5-3.5-1.5-5.5-.5zM13.5 3.5c-2-1-4-1-5.5.5v9c1.5-1.5 3.5-1.5 5.5-.5z"/></svg>
+                    How to play
+                </a>
+                <a class="pill-link" href="/">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 8H3.5M7.5 4L3.5 8l4 4"/></svg>
+                    Back to the real world
+                </a>
+            </nav>
+          </div>
+
+          <!-- A locked name: the panel turns into the PIN pad (js: pinStep). -->
+          <div class="start__step pinstep" id="step-pin" hidden>
+            <div class="pinstep__icon" aria-hidden="true">🔒</div>
+            <p class="kicker">Name locked</p>
+            <h2 class="pinstep__title">Enter your PIN</h2>
+            <p class="pinstep__sub"><b id="pin-name"></b> is locked. Prove it's really you.</p>
+            <div class="pinstep__boxes" id="pin-boxes"></div>
+            <p class="pinstep__msg" id="pin-msg" aria-live="polite"></p>
+            <button class="btn btn--quiet pinstep__back" id="pin-back" type="button"><span>← Not me</span></button>
+          </div>
+        </form>
+    </div>
+</main>
+
+<!-- Waiting for the leader's yes, or reconnecting. -->
+<main class="screen screen--wait" id="wait" hidden>
+    <div class="gpanel wait">
+        <div class="spinner" aria-hidden="true"></div>
+        <p class="wait__line" id="wait-line">Shuffling…</p>
+        <button class="pill-link" id="wait-cancel" type="button">Never mind</button>
+    </div>
+</main>
+
+<!-- ======================================================================
+     Lobby
+     ====================================================================== -->
+<main class="screen screen--lobby" id="lobby" hidden>
+    <div class="lobby">
+        <header class="lobby__head">
+            <div>
+                <p class="kicker">Room</p>
+                <button class="lobby__code" id="lobby-code" type="button" title="Copy the room code"></button>
+                <p class="lobby__hint" id="lobby-hint">Tap the code to copy it. Tell your victims — <em>friends</em>.</p>
+            </div>
+            <div class="lobby__actions">
+                <button class="icon-btn" id="lobby-people" type="button" title="Players &amp; bans" aria-label="Players and bans" hidden>
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="5.5" r="2.3"/><path d="M1.8 13.2c.5-2.4 2.2-3.7 4.2-3.7s3.7 1.3 4.2 3.7M10.5 3.5a2.2 2.2 0 0 1 0 4.2M12 9.8c1.2.5 2 1.6 2.3 3.4"/></svg>
+                </button>
+                <button class="icon-btn" id="lobby-audio" type="button" title="Sound &amp; music" aria-label="Sound and music">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.2V3.4l7-1.6v8.8"/><circle cx="4.2" cy="12.2" r="1.8"/><circle cx="11.2" cy="10.6" r="1.8"/></svg>
+                </button>
+                <button class="icon-btn" id="lobby-stats" type="button" title="My stats" aria-label="My stats">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 13.5h11M4.5 11V8M8 11V4.5M11.5 11V6.5"/></svg>
+                </button>
+                <button class="icon-btn" id="lobby-lock" type="button" title="Lock my name" aria-label="Lock my name">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="10" height="7" rx="2"/><path d="M5.3 7V5a2.7 2.7 0 0 1 5.4 0v2"/></svg>
+                </button>
+                <button class="icon-btn" id="lobby-rules" type="button" title="How to play" aria-label="How to play">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 3.5c2-1 4-1 5.5.5v9c-1.5-1.5-3.5-1.5-5.5-.5zM13.5 3.5c-2-1-4-1-5.5.5v9c1.5-1.5 3.5-1.5 5.5-.5z"/></svg>
+                </button>
+                <button class="icon-btn" id="lobby-leave" type="button" title="Leave" aria-label="Leave the room">
+                    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5H3.5v11H6M10 5l3 3-3 3M13 8H6"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <div class="lobby__grid">
+            <section class="gpanel lobby__players">
+                <h2 class="gpanel__title">Players <span id="seat-count"></span></h2>
+                <ul class="seats" id="seats"></ul>
+            </section>
+
+            <section class="gpanel lobby__settings" id="settings">
+                <h2 class="gpanel__title">Table rules <span class="gpanel__note" id="settings-note"></span></h2>
+                <div class="rules-form" id="rules-form"></div>
+                <button class="btn btn--primary btn--big lobby__start" id="start-game" type="button"><span>Deal the cards</span></button>
+                <p class="form-line" id="lobby-error" aria-live="polite"></p>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- ======================================================================
+     The table: opponents around a felt, you at the bottom.
+     ====================================================================== -->
+<main class="screen screen--table" id="table" hidden>
+    <div class="table" id="tbl">
+        <div class="side side--top" id="side-top"></div>
+        <div class="side side--left" id="side-left"></div>
+        <div class="side side--right" id="side-right"></div>
+
+        <div class="felt" id="felt" data-drop="felt">
+            <div class="felt__piles">
+                <div class="pile pile--deck" id="deck" aria-label="Deck"><img src="cards/back.svg" alt="" draggable="false"><span class="pile__count"></span><span class="pile__cta" aria-hidden="true"></span></div>
+                <div class="pile pile--discard" id="discard"></div>
+            </div>
+            <ol class="announce" id="announce" aria-live="polite" aria-label="What just happened. Tap for the full activity." title="Tap for the full activity"></ol>
+            <span class="drop-hint">Drop to play</span>
+        </div>
+
+        <section class="mine" id="mine" data-drop="mine" aria-label="Your table">
+            <div class="sets" id="my-sets"></div>
+            <div class="bank" id="my-bank" data-drop="bank" role="button" tabindex="0" aria-label="Your bank"></div>
+        </section>
+
+        <section class="me" id="me">
+            <div class="me__status">
+                <div class="timer" id="my-timer" hidden><svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16"/><circle class="timer__arc" cx="18" cy="18" r="16"/></svg><span></span></div>
+                <div class="plays" id="plays" aria-label="Plays left"><i></i><i></i><i></i></div>
+                <p class="plays-left" id="plays-left" aria-live="polite"></p>
+                <p class="turn-line" id="turn-line"></p>
+            </div>
+            <div class="hand" id="hand" aria-label="Your hand"></div>
+            <div class="me__buttons">
+                <div class="me__tools">
+                    <button class="icon-btn" id="chat-btn" type="button" aria-label="Chat">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 3.5c4.1 0 7 2.6 7 5.8s-2.9 5.8-7 5.8c-.8 0-1.6-.1-2.3-.3L4.5 16.5l.9-3C4 12.4 3 11 3 9.3 3 6.1 5.9 3.5 10 3.5z"/></svg>
+                        <span class="badge" id="chat-badge" hidden></span>
+                    </button>
+                    <button class="icon-btn" id="menu-btn" type="button" aria-label="Menu">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3 4.5h10M3 8h10M3 11.5h10"/></svg>
+                    </button>
+                </div>
+                <button class="btn btn--primary end-turn" id="end-turn" type="button"><span>End turn</span><kbd class="keycap end-turn__key" aria-hidden="true">↩</kbd></button>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- ======================================================================
+     Chat — Messages-style. A side panel on desktop, a slide-over on phones.
+     ====================================================================== -->
+<aside class="chat" id="chat" aria-label="Chat" hidden>
+    <header class="chat__head">
+        <div class="chat__faces" id="chat-faces"></div>
+        <p class="chat__title">Table chat</p>
+        <button class="chat__clear" id="chat-clear" type="button" hidden aria-label="Clear the chat for everyone">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5h11M6.5 4.5V3a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1.5M4 4.5l.7 8.6a1 1 0 0 0 1 .9h4.6a1 1 0 0 0 1-.9l.7-8.6M6.8 7v4.2M9.2 7v4.2"/></svg>
+            <span>Clear</span>
+        </button>
+        <button class="chat__done" id="chat-close" type="button">Done</button>
+    </header>
+    <ol class="chat__log" id="chat-log"></ol>
+    <div class="typing" id="chat-typing" aria-live="polite"></div>
+    <div class="chat__reacts" id="reacts"></div>
+    <form class="chat__form" id="chat-form">
+        <div class="chat__field">
+            <input id="chat-input" maxlength="200" autocomplete="off" placeholder="Message" enterkeyhint="send" aria-label="Message">
+            <button class="chat__emoji" id="chat-emoji" type="button" aria-label="Emoji" title="Emoji"></button>
+            <button class="chat__send" id="chat-send" type="submit" aria-label="Send">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15.5v-11M5.5 9L10 4.5 14.5 9"/></svg>
+            </button>
+        </div>
+    </form>
+</aside>
+<button class="chat-fab" id="chat-fab" type="button" aria-label="Open chat" hidden>
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M10 3.5c4.1 0 7 2.6 7 5.8s-2.9 5.8-7 5.8c-.8 0-1.6-.1-2.3-.3L4.5 16.5l.9-3C4 12.4 3 11 3 9.3 3 6.1 5.9 3.5 10 3.5z"/></svg>
+    <span class="badge" id="chat-fab-badge" hidden></span>
+</button>
+
+<!-- A card someone just played, held up in the middle for a moment. -->
+<div class="spot" id="spot" aria-live="polite" hidden>
+    <div class="spot__card"><img alt=""></div>
+    <p class="spot__title"></p>
+    <p class="spot__sub"></p>
+</div>
+
+<!-- Sheets, full-screen overlays (menu, results), toasts, effects. -->
+<div class="layer" id="layer"></div>
+<div class="overlay-root" id="overlays"></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+<canvas class="fx" id="fx" aria-hidden="true"></canvas>
+
+<!-- Phones held upright. -->
+<div class="rotate" id="rotate" aria-hidden="true">
+    <div class="rotate__phone"></div>
+    <p>Turn your phone sideways.</p>
+    <p class="rotate__sub">The table needs room to breathe.</p>
+</div>
+
+</body>
+</html>

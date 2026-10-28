@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "icons": "node tools/build-icons.mjs",
+    "gallery": "echo 'Open http://localhost:8765/_dealbreaker/cards/gallery.html' && python3 -m http.server 8765 --directory ../.."
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "dealbreaker-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "test": "node test/server.test.mjs",
+    "test:server": "wrangler dev --port 8788 --var TIME_SCALE:0.01 --persist-to .wrangler/test-state",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.152.0"
+  }
+}

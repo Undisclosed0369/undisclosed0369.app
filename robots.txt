@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /x/
 
 Sitemap: https://undisclosed0369.app/sitemap.xml

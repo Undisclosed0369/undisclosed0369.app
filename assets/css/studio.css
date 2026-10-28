@@ -94,6 +94,17 @@
     .studio-hero__cue::after { animation: none; opacity: .8; }
 }
 
+/* A phone held sideways is short but wide: the name and lines, sized by
+   width, filled the height and the cue landed on top of the last line. Keep
+   a strip at the bottom for the cue, and let the height cap the type too. */
+@media (max-height: 34rem) {
+    .studio-hero { padding-block: 1rem 4.75rem; }
+    .studio-hero__name { font-size: clamp(3rem, min(11vw, 21svh), 9rem); margin-bottom: 1.1rem; }
+    .studio-hero__line { font-size: clamp(1.2rem, min(3.4vw, 7svh), 2.5rem); }
+    .studio-hero__sub { margin-top: .7rem; }
+    .studio-hero__cue { bottom: 1.25rem; }
+}
+
 /* --------------------------------------------------------------------------
    Work
    -------------------------------------------------------------------------- */

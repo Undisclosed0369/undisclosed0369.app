@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Deal Breaker Cards</title>
+<style>
+  :root {
+    --bg: #0b0c10;
+    --panel: rgba(255, 255, 255, .04);
+    --line: rgba(255, 255, 255, .08);
+    --text: #f2f2f5;
+    --muted: #8b8d98;
+    --violet: #a855f7;
+    --magenta: #d946ef;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: radial-gradient(1200px 600px at 10% -10%, rgba(168, 85, 247, .18), transparent 60%),
+                radial-gradient(900px 500px at 110% 10%, rgba(217, 70, 239, .12), transparent 60%), var(--bg);
+    color: var(--text);
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    position: sticky; top: 0; z-index: 5;
+    display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+    padding: 18px 28px;
+    background: rgba(11, 12, 16, .72);
+    backdrop-filter: blur(18px) saturate(1.4);
+    border-bottom: 1px solid var(--line);
+  }
+  h1 { font: 700 22px/1 -apple-system, "SF Pro Display", system-ui; margin: 0; letter-spacing: -.01em; }
+  .count { color: var(--muted); }
+  main { padding: 28px; }
+  section { margin-bottom: 44px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .14em; color: var(--muted); margin: 0 0 18px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(var(--w, 190px), 1fr)); gap: 26px; }
+  figure { margin: 0; }
+  .pair { display: flex; gap: 10px; }
+  .card {
+    position: relative; flex: 1; aspect-ratio: 640 / 1000; border-radius: 5.3% / 3.4%;
+    transform-style: preserve-3d; transition: transform .5s cubic-bezier(.2, .8, .2, 1), box-shadow .5s;
+    box-shadow: 0 18px 40px -18px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .05);
+    overflow: hidden; cursor: zoom-in;
+  }
+  .card img { width: 100%; height: 100%; display: block; }
+  .card::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .45) 46%, transparent 62%);
+    mix-blend-mode: soft-light; transform: translateX(-120%); transition: transform .9s cubic-bezier(.2, .8, .2, 1);
+  }
+  .card:hover::after { transform: translateX(120%); }
+  figcaption { margin-top: 10px; font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; }
+  figcaption b { color: var(--text); font-weight: 600; }
+  .zoom {
+    position: fixed; inset: 0; z-index: 10; display: none; place-items: center; gap: 30px;
+    background: rgba(5, 5, 8, .82); backdrop-filter: blur(14px); cursor: zoom-out;
+  }
+  .zoom.on { display: grid; grid-auto-flow: column; }
+  .zoom img { height: min(86vh, 900px); border-radius: 22px; box-shadow: 0 40px 90px -30px #000; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Deal Breaker cards</h1>
+  <span class="count" id="count"></span>
+</header>
+<main id="main"></main>
+<div class="zoom" id="zoom"></div>
+<script type="module">
+  import { CARDS, DECK_SIZE } from "/x/7a3797625d3c2330/engine/deck.js";
+
+  const groups = [
+    ["Properties", "property"], ["Wild properties", "wild"], ["Rent", "rent"],
+    ["Actions", "action"], ["Money", "money"],
+  ];
+  const label = (c) => c.name || (c.type === "money" ? `${c.value}M` : c.id.replace(/^\w+-/, "").replace(/-/g, " / "));
+  const figure = (id, name, count) => `
+    <figure>
+      <div class="pair">
+        <div class="card" data-id="${id}" style="--rx:0deg;--ry:0deg"><img src="/x/7a3797625d3c2330/cards/${id}.svg" alt="${name}" loading="lazy"></div>
+      </div>
+      <figcaption><b>${name}</b><span>${count ? "×" + count : ""}</span></figcaption>
+    </figure>`;
+
+  document.getElementById("count").textContent = `${CARDS.length} designs · ${DECK_SIZE} cards`;
+  document.getElementById("main").innerHTML = groups.map(([title, type]) => `
+    <section><h2>${title}</h2><div class="grid">
+      ${CARDS.filter((c) => c.type === type).map((c) => figure(c.id, label(c), c.count)).join("")}
+    </div></section>`).join("") +
+    `<section><h2>Back</h2><div class="grid">${figure("back", "Card back", 0)}</div></section>`;
+
+  // Gentle 3D tilt toward the pointer.
+  document.addEventListener("pointermove", (e) => {
+    const card = e.target.closest(".card");
+    document.querySelectorAll(".card.tilt").forEach((c) => {
+      if (c !== card) { c.classList.remove("tilt"); c.style.transform = ""; }
+    });
+    if (!card) return;
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    card.classList.add("tilt");
+    card.style.transform = `perspective(800px) rotateY(${x * 14}deg) rotateX(${-y * 14}deg) translateY(-6px)`;
+  });
+
+  const zoom = document.getElementById("zoom");
+  document.addEventListener("click", (e) => {
+    const card = e.target.closest(".card");
+    if (card) {
+      zoom.innerHTML = `<img src="/x/7a3797625d3c2330/cards/${card.dataset.id}.svg">`;
+      zoom.classList.add("on");
+    } else if (e.target.closest(".zoom")) zoom.classList.remove("on");
+  });
+</script>
+</body>
+</html>

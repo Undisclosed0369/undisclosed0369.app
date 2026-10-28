@@ -90,6 +90,7 @@
         setupFaq();
         setupToc();
         setupGlow();
+        setupAmbient();
         setupShowcase();
         setupCopy();
         setupScroll();
@@ -773,6 +774,39 @@
        decoding frames is a battery drain nobody can see, and there is no
        reason to spend it on a panel the reader is not looking at.
        ---------------------------------------------------------------------- */
+
+    /* ----------------------------------------------------------------------
+       The background glows, at a gentle frame rate
+
+       The four glows drift on long CSS loops (19 to 31 seconds). Left to the
+       browser, a running animation is redrawn at the display's full rate,
+       60 or 120 times a second, forever, and so is every frosted-glass panel
+       above it, which has to re-blur whatever moved underneath. For shapes
+       this soft and this slow, 30 steps a second is indistinguishable.
+
+       So the loops stay exactly as written in the stylesheet (same paths,
+       same easing, same timing), but they're paused, and this moves their
+       playhead along 30 times a second. Nothing runs while the tab is in
+       the background, and with reduced motion there are no loops to move.
+       ---------------------------------------------------------------------- */
+
+    function setupAmbient() {
+        var bg = document.querySelector(".page-bg");
+        if (!bg || !bg.getAnimations) return;
+
+        var started = new WeakMap();   /* each loop's own start, so a late one (the studio's arrival) starts at 0 */
+        bg.classList.add("is-stepped");
+
+        window.setInterval(function () {
+            if (document.hidden) return;
+            var now = performance.now();
+            bg.getAnimations({ subtree: true }).forEach(function (a) {
+                if (!a.animationName || a.animationName.indexOf("drift-") !== 0) return;
+                if (!started.has(a)) started.set(a, now - (a.currentTime || 0));
+                a.currentTime = now - started.get(a);
+            });
+        }, 1000 / 30);
+    }
 
     function setupShowcase() {
         var root = document.querySelector("[data-showcase]");
