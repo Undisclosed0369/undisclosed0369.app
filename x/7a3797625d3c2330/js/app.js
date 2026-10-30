@@ -3,7 +3,8 @@
 // menu and results, and full-screen overlays live in their own modules.
 
 import { api, Connection } from "./net.js";
-import { h, closeSheet, toast, openSheetKey, press, sinceSheet } from "./sheets.js";
+import { h, closeSheet, toast, openSheetKey, press, sinceSheet, cardSrc } from "./sheets.js";
+import { DEF } from "../engine/rules.js";
 import { renderTable, capture, animateFrom, dealIn, avatar } from "./table.js";
 import * as play from "./play.js";
 import * as chat from "./chat.js";
@@ -386,6 +387,18 @@ function redraw() {
   renderTable(G, handlers);
 }
 
+$("deck").querySelector("img").src = cardSrc(null);
+
+// Every card's picture, fetched quietly a few seconds into the first game
+// (about a megabyte on a phone), so a card never appears blank the first time
+// it's drawn. Only fetched, not drawn: nothing is held in memory until needed.
+let cardsFetched = false;
+function fetchCards() {
+  if (cardsFetched) return;
+  cardsFetched = true;
+  setTimeout(() => { for (const id of [...Object.keys(DEF), null]) fetch(cardSrc(id), { priority: "low" }).catch(() => {}); }, 4000);
+}
+
 function onState(view, moves, events) {
   const first = !S.view;
   const drop = S.drop && Date.now() - S.drop.at < 15000 ? S.drop : null;
@@ -396,6 +409,7 @@ function onState(view, moves, events) {
   if (first) { announced.clear(); S.lastTurnMine = false; clearFeed(); }
   if ($("table").hidden) show("table");
   redraw();
+  fetchCards();
   // A fresh deal: cards fly out round the table. Otherwise everything that
   // moved glides from where it was.
   if (first && view.turn.number <= 1 && !view.turn.drawn && S.view.players.every((p) => !p.sets.length && !p.bank.length)) { sound("deal"); voice("start", { at: 1.4 }); dealIn(view, S.me); }
@@ -505,10 +519,17 @@ dragScroll($("my-sets"), { canStart: (e) => {
 
 // ------------------------------------------------------------------ timers
 
-// Five times a second, but the page is only touched where a number actually
-// changed, so a steady clock costs no layout or repaint.
+// Five times a second, but the page is only touched where something visibly
+// changed: the seconds, and the ring once it has moved by half a pixel or so
+// (a 0.4% step: on a five-minute turn, about once a second). Between those,
+// a running clock costs nothing at all.
 const setText = (el, text) => { if (el.textContent !== String(text)) el.textContent = text; };
-const setLeft = (el, frac) => { const f = frac.toFixed(3); if (el.style.getPropertyValue("--left") !== f) el.style.setProperty("--left", f); };
+const setLeft = (el, frac) => {
+  const was = el._left ?? -1;
+  if (Math.abs(frac - was) < 0.004 && !(frac === 0 && was !== 0)) return;
+  el._left = frac;
+  el.style.setProperty("--left", frac.toFixed(4));
+};
 let lastTick = 0;
 setInterval(() => {
   const v = S.view, c = S.clock;

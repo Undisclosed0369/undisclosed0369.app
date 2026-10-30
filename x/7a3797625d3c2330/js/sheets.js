@@ -18,10 +18,27 @@ export function h(tag, attrs = {}, ...kids) {
   return el;
 }
 
+// Cards on the table are pictures pre-rendered from the vector originals
+// (_dealbreaker/cards/tools/build-rasters.mjs), 240 px wide for phones and
+// 384 px for anything bigger: a browser only has to scale a picture, where it
+// redraws a vector card from scratch at every new size. The width is the
+// smallest that's still sharp at the biggest a card gets on this screen (in
+// your hand, held up to drag); the big views use the vector file itself.
+const CARD_W = (() => {
+  const phoneLike = matchMedia("(pointer: coarse)").matches;
+  const h = phoneLike ? Math.min(screen.width, screen.height) : screen.height;
+  const hand = h <= 480 ? Math.min(Math.max(64, h * 0.25), 120) : Math.min(Math.max(96, h * 0.27), 228);
+  const need = hand * 0.64 * 1.1 * (devicePixelRatio || 1);
+  return need <= 240 ? 240 : need <= 384 ? 384 : 0;
+})();
+
+/** A card's picture. big: a view where it's shown large (the vector original). */
+export const cardSrc = (defId, { big = false } = {}) =>
+  big || !CARD_W ? `cards/${defId || "back"}.svg` : `cards/${CARD_W}/${defId || "back"}.webp`;
+
 /** A card face (or back). `id` is the card instance, `defId` what it is. */
-export function cardEl(id, defId, extra = {}) {
-  const src = defId ? `cards/${defId}.svg` : "cards/back.svg";
-  return h("div", { class: "card", "data-card": id || null, ...extra }, h("img", { src, alt: "", draggable: "false" }));
+export function cardEl(id, defId, { big = false, ...extra } = {}) {
+  return h("div", { class: "card", "data-card": id || null, ...extra }, h("img", { src: cardSrc(defId, { big }), alt: "", draggable: "false" }));
 }
 
 // ------------------------------------------------------------------ sheets

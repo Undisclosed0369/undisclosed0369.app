@@ -5,12 +5,13 @@
 //   dragScroll(el, { canStart(event) -> bool, pointerTypes: ["mouse"] })
 
 import { reduceMotion } from "./util.js";
+import { frame } from "./frames.js";
 
 const START = 6; // px before a press becomes a scroll
 
 export function dragScroll(el, { canStart = () => true, pointerTypes = null } = {}) {
   let st = null;
-  let glide = 0;
+  let stopGlide = null;
   const overflows = () => el.scrollWidth > el.clientWidth + 1;
 
   const fade = () => {
@@ -24,7 +25,7 @@ export function dragScroll(el, { canStart = () => true, pointerTypes = null } = 
     if (e.button !== 0 && e.pointerType === "mouse") return;
     if (pointerTypes && !pointerTypes.includes(e.pointerType)) return;
     if (!overflows() || !canStart(e)) return;
-    cancelAnimationFrame(glide);
+    stopGlide?.();
     st = { id: e.pointerId, x: e.clientX, y: e.clientY, left: el.scrollLeft, moved: false, v: 0, lx: e.clientX, lt: performance.now() };
   });
 
@@ -55,14 +56,16 @@ export function dragScroll(el, { canStart = () => true, pointerTypes = null } = 
     el.addEventListener("click", swallow, { capture: true, once: true });
     setTimeout(() => el.removeEventListener("click", swallow, { capture: true }), 50);
     if (reduceMotion.matches) return;
+    // The glide was tuned in 60ths of a second; it's moved by the time that
+    // passed, so it slides as far, as fast, on any screen.
     let speed = -v * 16;
-    const step = () => {
-      if (Math.abs(speed) < 0.4) return;
-      el.scrollLeft += speed;
-      speed *= 0.93;
-      glide = requestAnimationFrame(step);
-    };
-    glide = requestAnimationFrame(step);
+    stopGlide = frame((dt) => {
+      if (Math.abs(speed) < 0.4) return false;
+      const k = dt / (1000 / 60);
+      el.scrollLeft += speed * k;
+      speed *= Math.pow(0.93, k);
+      return true;
+    });
   };
   addEventListener("pointerup", end);
   addEventListener("pointercancel", end);

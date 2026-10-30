@@ -13,6 +13,7 @@ import { COLORS } from "../engine/deck.js";
 import { top } from "../engine/stats.js";
 import { setPicOf, viewable } from "./pictures.js";
 import { nameKey as key } from "./util.js";
+import { frame } from "./frames.js";
 
 let ctx = null;
 /** ctx: { overlay(key, el), closeOverlay(), overlayKey(), send(msg), me() -> player, leader() -> bool, toast(text, opts), openPicker(opts) } */
@@ -92,12 +93,11 @@ function counter(n, fmt = (x) => String(x)) {
   const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (still || !n) { el.textContent = fmt(n); return el; }
   const start = performance.now() + 120, ms = Math.min(1100, 500 + n * 20);
-  const step = (t) => {
+  frame((dt, t) => {
     const k = Math.min(1, Math.max(0, (t - start) / ms));
     el.textContent = fmt(Math.round(n * (1 - (1 - k) ** 3)));
-    if (k < 1 && el.isConnected !== false) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
+    return k < 1 && el.isConnected !== false;
+  });
   return el;
 }
 

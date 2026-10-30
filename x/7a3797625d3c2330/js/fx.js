@@ -12,10 +12,11 @@
 // each. She can be switched off on each device.
 
 import { reduceMotion } from "./util.js";
+import { frame } from "./frames.js";
 
 // ------------------------------------------------------------------ the studio
 
-let A = null;   // { ctx, out, verb }
+let A = null;   // { ctx, out, verb (built when first needed), napping }
 let muted = (() => { try { return localStorage.getItem("db:mute") === "1"; } catch { return false; } })();
 
 export const isMuted = () => muted;
@@ -37,8 +38,19 @@ function studio() {
   const master = ctx.createGain();
   master.gain.value = 0.85;
   comp.connect(master).connect(ctx.destination);
+  A = { ctx, out: comp, verb: null, napping: false };
+  ctx.addEventListener("statechange", () => { if (ctx.state === "running") A.napping = false; });
+  setInterval(nap, 15000);
+  if (!muted) preload();
+  return A;
+}
 
-  // A small, warm room: decaying stereo noise, softened at the top.
+/** The small, warm room the synthesised sounds play in (decaying stereo
+ *  noise, softened at the top). Built the first time one plays: most games
+ *  never need it, every recorded sound plays dry. */
+function room() {
+  if (A.verb) return A.verb;
+  const { ctx, out } = A;
   const len = Math.floor(ctx.sampleRate * 1.6);
   const ir = ctx.createBuffer(2, len, ctx.sampleRate);
   for (let ch = 0; ch < 2; ch++) {
@@ -54,10 +66,31 @@ function studio() {
   verb.buffer = ir;
   const verbGain = ctx.createGain();
   verbGain.gain.value = 0.28;
-  verb.connect(verbGain).connect(comp);
-  A = { ctx, out: comp, verb };
-  if (!muted) preload();
-  return A;
+  verb.connect(verbGain).connect(out);
+  return (A.verb = verb);
+}
+
+// With the music off, the audio device naps after half a minute of silence:
+// a running audio context keeps it (and a thread) busy playing nothing. The
+// next sound wakes it, which takes a few hundredths of a second.
+const NAP_AFTER = 30000;
+let lastHeard = 0;
+let musicPlaying = () => false;
+/** music.js tells us when it's playing: the device stays awake for it. */
+export const keepAwakeWhile = (fn) => { musicPlaying = fn; };
+function nap() {
+  if (A.ctx.state !== "running" || musicPlaying() || performance.now() - lastHeard < NAP_AFTER) return;
+  A.napping = true;
+  A.ctx.suspend().catch(() => { A.napping = false; });
+}
+/** Play now if the audio is awake; wake it first if it's napping. (Before
+ *  the first tap it's neither, and stays quiet, as browsers insist.) */
+function awake(play) {
+  const go = () => { lastHeard = performance.now(); play(); };
+  if (A.ctx.state === "running") return go();
+  if (!A.napping) return;
+  const asked = performance.now();
+  A.ctx.resume().then(() => { if (performance.now() - asked < 400) go(); }).catch(() => {});
 }
 
 /** The shared audio context (the music player plays through it too). */
@@ -70,7 +103,7 @@ addEventListener("pointerdown", () => {
 
 /** A voice's output: dry plus a reverb send. */
 function bus(wet = 0.35, pan = 0) {
-  const { ctx, out, verb } = A;
+  const { ctx, out } = A;
   const g = ctx.createGain();
   const p = ctx.createStereoPanner();
   p.pan.value = pan;
@@ -78,7 +111,7 @@ function bus(wet = 0.35, pan = 0) {
   send.gain.value = wet;
   g.connect(p);
   p.connect(out);
-  p.connect(send).connect(verb);
+  p.connect(send).connect(room());
   return g;
 }
 
@@ -296,7 +329,12 @@ export function sound(name) {
   lastPlayed.set(name, now);
   try {
     studio();
-    if (A.ctx.state !== "running") return;
+    awake(() => play(name));
+  } catch { /* ignore */ }
+}
+
+function play(name) {
+  try {
     if (RECORDED.includes(name)) {
       const file = `sounds/sfx/${name}.mp3`;
       const buf = ready.get(file);
@@ -338,7 +376,12 @@ export function voice(key, { at = 0 } = {}) {
   if (muted || voiceMode === "off") return;
   try {
     studio();
-    if (A.ctx.state !== "running") return;
+    awake(() => say(key, at));
+  } catch { /* ignore */ }
+}
+
+function say(key, at) {
+  try {
     const file = `sounds/voice/${key}.mp3`;
     const asked = performance.now();
     buffer(file).then((buf) => {
@@ -355,6 +398,11 @@ export function voice(key, { at = 0 } = {}) {
 
 // ------------------------------------------------------------------ confetti
 
+// Drawn on the shared clock (60 frames a second at most), moved by the time
+// that passed rather than per frame, so it falls the same on every screen.
+// The canvas is only shown, and only holds pixels, while confetti is falling,
+// and never at more than twice the page's resolution (falling confetti gains
+// nothing from a phone's third).
 const canvas = () => document.getElementById("fx");
 let particles = [];
 let running = false;
@@ -377,16 +425,20 @@ export function confetti({ x = innerWidth / 2, y = innerHeight * 0.35, count = 1
 
 function loop() {
   const cv = canvas();
-  const dpr = devicePixelRatio || 1;
-  if (cv.width !== innerWidth * dpr) { cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; }
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  cv.width = innerWidth * dpr;
+  cv.height = innerHeight * dpr;
+  cv.classList.add("is-on");
   const g = cv.getContext("2d");
   g.setTransform(dpr, 0, 0, dpr, 0, 0);
   running = true;
-  const step = () => {
+  frame((dt) => {
+    const k = dt / (1000 / 60); // the motion was tuned in 60ths of a second
+    const drag = Math.pow(0.985, k);
     g.clearRect(0, 0, innerWidth, innerHeight);
     for (const p of particles) {
-      p.vy += 0.32; p.vx *= 0.985; p.vy *= 0.985;
-      p.x += p.vx; p.y += p.vy; p.r += p.vr; p.life -= 0.006;
+      p.vy += 0.32 * k; p.vx *= drag; p.vy *= drag;
+      p.x += p.vx * k; p.y += p.vy * k; p.r += p.vr * k; p.life -= 0.006 * k;
       g.save();
       g.globalAlpha = Math.max(0, Math.min(1, p.life * 1.5));
       g.translate(p.x, p.y);
@@ -397,10 +449,13 @@ function loop() {
       g.restore();
     }
     particles = particles.filter((p) => p.life > 0 && p.y < innerHeight + 40);
-    if (particles.length) requestAnimationFrame(step);
-    else { g.clearRect(0, 0, innerWidth, innerHeight); running = false; }
-  };
-  requestAnimationFrame(step);
+    if (particles.length) return true;
+    // Done: hide the canvas and give its memory back.
+    cv.classList.remove("is-on");
+    cv.width = cv.height = 0;
+    running = false;
+    return false;
+  });
 }
 
 // ------------------------------------------------------------------ shock, stamp, amounts

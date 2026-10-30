@@ -179,11 +179,16 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
     letter-spacing: -.005em;
     text-decoration: none;
     cursor: pointer;
-    backdrop-filter: blur(20px) saturate(160%);
-    -webkit-backdrop-filter: blur(20px) saturate(160%);
     transition: color .25s var(--ease), background .25s var(--ease), box-shadow .3s var(--ease), transform .4s var(--spring);
 }
-.pill-link { padding: .65rem 1.05rem .65rem .9rem; }
+/* Frosted glass is one of the most expensive things a phone draws: what's
+   behind is redrawn, blurred, whenever anything under it changes. Over this
+   page's still, soft background, a blur changes nothing you can see (measured:
+   under one colour level in 255, on average, on panels, seats and icons), so
+   only the pills keep theirs: they sit over the start panel and pick up a
+   faint tint from it. The sheets, menus and toasts that open over the table
+   keep their glass too: there, what's behind is cards. */
+.pill-link { padding: .65rem 1.05rem .65rem .9rem; backdrop-filter: blur(20px) saturate(160%); -webkit-backdrop-filter: blur(20px) saturate(160%); }
 .pill-link svg { width: .95rem; height: .95rem; transition: transform .4s var(--spring); }
 .icon-btn { width: 2.6rem; height: 2.6rem; padding: 0; color: var(--ink); }
 .icon-btn svg { width: 1.1rem; height: 1.1rem; transition: transform .4s var(--spring); }
@@ -323,8 +328,6 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
     position: relative;
     border-radius: 26px;
     background: rgba(28, 28, 34, .55);
-    backdrop-filter: blur(30px) saturate(170%);
-    -webkit-backdrop-filter: blur(30px) saturate(170%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 0 0 1px rgba(255, 255, 255, .06), 0 30px 80px -30px rgba(0, 0, 0, .8);
 }
 .gpanel__title {
@@ -570,8 +573,6 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
     padding: .5rem .6rem .55rem;
     border-radius: 18px;
     background: rgba(28, 28, 34, .5);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .09), 0 0 0 1px rgba(255, 255, 255, .06), 0 14px 40px -24px rgba(0, 0, 0, .9);
     cursor: pointer;
     --o-scale: 1;
@@ -781,8 +782,10 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
     scrollbar-width: none;
 }
 .sets::-webkit-scrollbar { display: none; }
-/* Rows that scroll sideways fade out at whichever edge has more. */
-.sets, .chat__reacts {
+/* Rows that scroll sideways fade out at whichever edge has more. Only while
+   they overflow: a mask makes the browser draw the row separately and then
+   mask it, on every frame anything in it moves (the shine on a set). */
+.sets.can-scroll, .chat__reacts.can-scroll {
     -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade-l, 0px), #000 calc(100% - var(--fade-r, 0px)), transparent 100%);
     mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade-l, 0px), #000 calc(100% - var(--fade-r, 0px)), transparent 100%);
 }
@@ -818,8 +821,9 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
 /* The shine on a complete set. The streak is its own element, 2.5 sets wide,
    slid across a clipped window: moving it is a transform the GPU does alone.
    (Sliding a background-position looks the same but repaints the set on
-   every frame, for as long as the set is complete.) -90% → 60% of its width
-   is exactly the old 150% → -100% background-position. */
+   every frame, for as long as the set is complete.) table.js sweeps it from
+   -90% to 60% of its width, then pauses; between sweeps it rests at 60%,
+   out of sight, and nothing is redrawn. */
 .set__sheen {
     position: absolute;
     inset: 0;
@@ -835,9 +839,8 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
     width: 250%;
     height: 100%;
     background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, .25) 50%, transparent 65%);
-    animation: sheen 3.5s ease-in-out infinite;
+    transform: translateX(60%);
 }
-@keyframes sheen { 0% { transform: translateX(-90%); } 60%, 100% { transform: translateX(60%); } }
 .set.is-drop { box-shadow: 0 0 0 1.5px rgba(255, 207, 107, .6); }
 .set.is-over { transform: translateY(-4px); box-shadow: 0 0 0 2px var(--gold), 0 14px 30px -10px var(--gold); }
 .set__count { margin-top: .25rem; font: 700 .64rem/1 var(--f-round); font-variant-numeric: tabular-nums; color: var(--ink-soft); }
@@ -934,7 +937,10 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
     stroke-linecap: round;
     stroke-dasharray: 100.5;
     stroke-dashoffset: calc(100.5 * (1 - var(--left, 1)));
-    transition: stroke-dashoffset .25s linear, stroke .3s;
+    /* app.js moves it in steps of about half a pixel, with no glide
+       between: a glide restarted five times a second never stopped, so the
+       screen was redrawn on every frame of every turn. */
+    transition: stroke .3s;
 }
 .timer span { position: absolute; inset: 0; display: grid; place-items: center; font: 700 .76rem/1 var(--f-round); font-variant-numeric: tabular-nums; }
 .timer.is-low .timer__arc { stroke: var(--danger); }
@@ -969,10 +975,12 @@ body.chat-docked .toasts { left: calc(50% - 170px); }
 .me__buttons { padding-bottom: .4rem; display: grid; gap: .5rem; justify-items: end; }
 .me__tools { display: flex; gap: .45rem; }
 .db .end-turn { white-space: nowrap; padding-inline: 1.25rem; }
-.end-turn.is-ready { animation: ready 2.2s ease-in-out infinite; }
+/* Ready (nothing left but to end the turn): table.js switches the glow on
+   for the middle half of every 2.2 seconds. It switches, it doesn't fade. */
+.end-turn.is-ready { transition-property: transform, filter, background; }
+.end-turn.is-ready.is-lit { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .38), 0 0 0 4px rgba(224, 66, 245, .3), 0 12px 30px -10px #e042f5; }
 /* The ↩ only shows once Return would press it (no plays left). */
 .end-turn:not(.is-ready) .end-turn__key { display: none !important; }
-@keyframes ready { 50% { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .38), 0 0 0 4px rgba(224, 66, 245, .3), 0 12px 30px -10px #e042f5; } }
 
 
 /* Cards ------------------------------------------------------------------------------- */
@@ -1675,7 +1683,8 @@ body.on-table .chat-fab { display: none; }
     box-shadow: 0 0 0 2px #0b0b0e;
     animation: bump .5s var(--spring);
 }
-body.chat-docked .chat { transform: none; box-shadow: -1px 0 0 rgba(255, 255, 255, .08); }
+/* Docked, the chat sits over the still background, not the table: no blur. */
+body.chat-docked .chat { transform: none; box-shadow: -1px 0 0 rgba(255, 255, 255, .08); backdrop-filter: none; -webkit-backdrop-filter: none; }
 body.chat-docked .chat-fab, body.chat-docked #chat-btn { display: none; }
 
 /* --------------------------------------------------------------------------
@@ -1715,7 +1724,10 @@ body.chat-docked .chat-fab, body.chat-docked #chat-btn { display: none; }
 .db .toast .btn { min-height: 2.1rem; padding: .5rem .9rem; font-size: .8rem; }
 .toast--bad { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .1), 0 0 0 1px rgba(255, 69, 58, .45), 0 20px 50px -20px #000; }
 
-.fx { position: fixed; inset: 0; z-index: 90; width: 100%; height: 100%; pointer-events: none; }
+/* Shown only while confetti falls: an empty full-screen canvas left on top
+   would still be blended over everything, on every frame. */
+.fx { position: fixed; inset: 0; z-index: 90; width: 100%; height: 100%; pointer-events: none; display: none; }
+.fx.is-on { display: block; }
 .shock {
     position: fixed;
     z-index: 84;
@@ -2032,8 +2044,6 @@ body.chat-typing { overflow: hidden; }
     border: 0;
     border-radius: 999px;
     background: rgba(255, 255, 255, .08);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12), 0 0 0 1px rgba(255, 255, 255, .08);
     color: var(--ink-soft);
     cursor: pointer;

@@ -2,7 +2,7 @@
 
 import { COLORS } from "../engine/deck.js";
 import { completeColors, setSize, isComplete } from "../engine/rules.js";
-import { h, sheet, closeSheet, option, toast, keycap } from "./sheets.js";
+import { h, sheet, closeSheet, option, toast, keycap, cardEl } from "./sheets.js";
 import { avatar, bankTotal, setCardEl } from "./table.js";
 import * as play from "./play.js";
 import { rulesForm } from "./controls.js";
@@ -184,7 +184,7 @@ function playerCard(p, confirming, redraw) {
       h("div", { class: "pcard__cards" }, ...[...st.cards, st.house, st.hotel].filter(Boolean).map((c) => pick(c, setCardEl(S.view, c, st.color)))))),
     seat.bank.length ? h("div", { class: "pcard__set" },
       h("p", { class: "pcard__label" }, `Bank · ${bankTotal(S.view, seat)}M`),
-      h("div", { class: "pcard__cards" }, ...seat.bank.map((c) => pick(c, h("div", { class: "card" }, h("img", { src: `cards/${S.view.cards[c]}.svg`, alt: "" })))))) : null)
+      h("div", { class: "pcard__cards" }, ...seat.bank.map((c) => pick(c, cardEl(null, S.view.cards[c]))))) : null)
     : playing && seat ? h("p", { class: "pcard__empty" }, "Nothing on the table yet. Suspiciously quiet.") : null;
   // Everyone's stats, a tap away (robots keep none).
   const statsTile = p.bot ? null : tile({ row: p.id !== S.me, icon: "📊", label: p.id === S.me ? "My stats" : `${p.name}'s stats`,

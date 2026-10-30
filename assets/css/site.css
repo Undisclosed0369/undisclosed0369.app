@@ -382,6 +382,14 @@ html[data-theme="dark"] .page-bg { opacity: .34; }
    display's full rate. Without JavaScript they simply play as normal. */
 .page-bg.is-stepped span:nth-child(n) { animation-play-state: paused; }
 
+/* A still background (`data-still`: the game, on every screen). The glows
+   stay where each loop begins and are painted once, as part of the page:
+   no loops, no layers of their own, nothing redrawn while nothing else
+   moves, and nothing behind the frosted panels changing under them. */
+.page-bg[data-still] span { animation: none; will-change: auto; transform: none; }
+.page-bg[data-still] span:nth-child(2), .page-bg[data-still] span:nth-child(4) { transform: scale(1.08); }
+.page-bg[data-still] span:nth-child(3) { transform: scale(.96); }
+
 /* Longer travel and more scale than a first pass would suggest. Movement has
    to be proportional to the space it moves through, or on a large display it
    reads as static. */

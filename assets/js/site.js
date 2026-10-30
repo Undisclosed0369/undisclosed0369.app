@@ -697,6 +697,10 @@
            tablets — where this would be a smudge left at the last tap. */
         var fine = window.matchMedia("(hover: hover) and (pointer: fine)");
         if (!fine.matches || reduceMotion.matches) return;
+        /* A page can do without it (`data-cursor-glow="off"` on the body):
+           the game, where it would sit over the table and have the whole
+           screen blended again every time the mouse moved. */
+        if (document.body.getAttribute("data-cursor-glow") === "off") return;
 
         var glow = document.createElement("div");
         glow.className = "cursor-glow";
@@ -793,6 +797,8 @@
     function setupAmbient() {
         var bg = document.querySelector(".page-bg");
         if (!bg || !bg.getAnimations) return;
+        /* A still background (`data-still`, the game) has no loops to move. */
+        if (bg.hasAttribute("data-still")) return;
 
         var started = new WeakMap();   /* each loop's own start, so a late one (the studio's arrival) starts at 0 */
         bg.classList.add("is-stepped");

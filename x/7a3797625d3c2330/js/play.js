@@ -35,7 +35,7 @@ const back = (fn) => option({ label: "Back", quiet: true, onClick: fn });
 export function showCard(card) {
   const d = defOf(G.view, card);
   sheet({ center: true, title: d.name || (d.type === "money" ? `${d.value}M` : d.type === "wild" ? "Wild property" : "Rent"),
-    sub: d.value ? `Worth ${d.value}M` : "No money value", body: h("div", { class: "big-card" }, cardEl(null, d.id)) });
+    sub: d.value ? `Worth ${d.value}M` : "No money value", body: h("div", { class: "big-card" }, cardEl(null, d.id, { big: true })) });
 }
 
 /** `extra`: anything to add under their table (the leader's player options). */

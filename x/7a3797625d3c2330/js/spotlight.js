@@ -4,6 +4,7 @@
 // Anything that should wait for the reveal (your prompt to answer it) waits.
 
 import { $ } from "./util.js";
+import { cardSrc } from "./sheets.js";
 
 const queue = [];
 const waiting = [];
@@ -31,7 +32,7 @@ function next() {
   busy = true;
   const el = $("spot");
   const img = el.querySelector("img");
-  img.src = `cards/${item.def}.svg`;
+  img.src = cardSrc(item.def, { big: true });
   el.querySelector(".spot__title").textContent = item.title || "";
   el.querySelector(".spot__sub").textContent = item.sub || "";
   el.style.setProperty("--spot-glow", item.glow || "rgba(176, 106, 247, .65)");

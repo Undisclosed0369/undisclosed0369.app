@@ -12,7 +12,7 @@
 
 import { COLORS, COLOR_VALUE } from "../engine/deck.js";
 import { DEF, setSize, isComplete, completeColors } from "../engine/rules.js";
-import { h, cardEl } from "./sheets.js";
+import { h, cardEl, cardSrc } from "./sheets.js";
 import { sound } from "./fx.js";
 import { picArt, picContent, animate as animatePic } from "./pictures.js";
 import { $, reduceMotion } from "./util.js";
@@ -59,13 +59,29 @@ export function avatar(name, { bot = false, online = true, animate = false } = {
 
 // A seat's stats always fit, however narrow the seat: if they'd overflow,
 // the words go first ("in hand", "Bank"), then the little fan of card
-// backs. The sets counter is never cut. Re-checked whenever a seat resizes.
-const metaFit = new ResizeObserver((entries) => { for (const e of entries) fitMeta(e.target); });
-function fitMeta(m) {
-  const over = () => m.scrollWidth > m.clientWidth + 1;
-  m.classList.remove("is-tight", "is-tighter");
-  if (over()) m.classList.add("is-tight");
-  if (over()) m.classList.add("is-tighter");
+// backs. The sets counter is never cut. How wide each version is gets
+// measured once per seat (again if the window changes); after that, a seat
+// that grows or shrinks (every turn, on every frame of it) just picks the
+// version that fits, without measuring anything.
+// (Applied on the next frame: hiding the fan of card backs changes the
+// stats' height, and changing what's being observed from inside the
+// observer would have the browser complain and re-check.)
+const fits = new Map();
+const metaFit = new ResizeObserver((entries) => {
+  if (!fits.size) requestAnimationFrame(() => { for (const [m, w] of fits) if (m.isConnected) fitMeta(m, w); fits.clear(); });
+  for (const e of entries) fits.set(e.target, Math.round(e.contentRect.width));
+});
+function fitMeta(m, width = m.clientWidth) {
+  const key = innerWidth + "x" + innerHeight;
+  if (m._fit?.key !== key) {
+    m.classList.remove("is-tight", "is-tighter");
+    const full = m.scrollWidth;
+    m.classList.add("is-tight");
+    m._fit = { key, full, tight: m.scrollWidth };
+    width = m.clientWidth;
+  }
+  m.classList.toggle("is-tight", m._fit.full > width + 1);
+  m.classList.toggle("is-tighter", m._fit.tight > width + 1);
 }
 
 const TYPE_ORDER = { property: 0, wild: 1, rent: 2, action: 3, money: 4 };
@@ -175,8 +191,10 @@ export function renderTable(G, handlers) {
       return keep("opp:" + p.id, sig, () => oppSeat(p));
     }));
   }
+  // A new seat is fitted now, before it's drawn; the observer then only has
+  // to pick a version when it changes size.
   metaFit.disconnect();
-  for (const m of tbl.querySelectorAll(".oseat__meta")) { metaFit.observe(m); fitMeta(m); }
+  for (const m of tbl.querySelectorAll(".oseat__meta")) { if (!m._fit) fitMeta(m); metaFit.observe(m); }
 
   function oppSeat(p) {
     const rp = roomPlayer(p.id);
@@ -234,7 +252,7 @@ export function renderTable(G, handlers) {
       .map((c) => setCardEl(view, c, s.color));
     return h("div", { class: "set" + (isComplete(s) ? " is-full" : ""), "data-set": s.id, "data-color": s.color, "data-drop": "set" },
       ...cards, h("span", { class: "set__count" }, `${Math.min(s.cards.length, size)}/${size}`),
-      isComplete(s) ? h("span", { class: "set__sheen", "aria-hidden": "true" }, h("i")) : null);
+      isComplete(s) ? h("span", { class: "set__sheen", "aria-hidden": "true" }, shine(h("i"))) : null);
   })));
 
   // My bank: the top three notes, and the total.
@@ -305,6 +323,7 @@ export function renderTable(G, handlers) {
   const end = $("end-turn");
   end.disabled = !canEnd;
   end.classList.toggle("is-ready", canEnd && !canDraw && view.turn.plays >= 3);
+  readyGlow(end.classList.contains("is-ready"));
 
   // A wild card that changed colour flips over.
   const seen = new Set();
@@ -335,6 +354,40 @@ export function renderTable(G, handlers) {
   for (const k of [...kept.keys()]) if (!used.has(k)) kept.delete(k);
 }
 
+// The shine on a complete set: one sweep across, then a pause, for as long
+// as the set is on the table. Nothing moves during the pause, so nothing is
+// redrawn (a looping animation would keep the screen busy through it).
+function shine(streak) {
+  if (reduceMotion.matches) return streak;
+  const sweep = () => {
+    // A slow loop ("ambient", frames.js): 30 frames a second on fast displays.
+    const a = streak.animate([{ transform: "translateX(-90%)" }, { transform: "translateX(60%)" }], { duration: 2100, easing: "ease-in-out", id: "ambient" });
+    a.onfinish = () => setTimeout(() => { if (streak.isConnected) sweep(); }, 1400);
+  };
+  sweep();
+  return streak;
+}
+
+// "End turn" glows while it's the only thing left to do: lit for the middle
+// half of every 2.2 seconds. The glow only ever switches on and off, so a
+// timer flips it; an animation would have the browser redo the button on
+// every frame in between.
+let glow = null;
+function readyGlow(on) {
+  const end = $("end-turn");
+  if (!on || reduceMotion.matches) {
+    if (glow) { clearTimeout(glow.wait); clearInterval(glow.every); glow = null; }
+    end.classList.remove("is-lit");
+    return;
+  }
+  if (glow) return;
+  const flip = () => end.classList.toggle("is-lit");
+  glow = { wait: setTimeout(() => { flip(); glow.every = setInterval(flip, 1100); }, 550) };
+}
+
+/** A full-screen menu or a sheet's frosted backdrop is over the table. */
+const covered = () => !!document.querySelector(".overlay:not(.is-out), .scrim:not(.is-out)");
+
 // ------------------------------------------------------------------ motion
 
 /** Where everything is right now. `override` pins a card's start (a drop). */
@@ -351,7 +404,9 @@ export function capture(override) {
 
 /** Glide every card from where it was to where it is. */
 export function animateFrom(before, events, view, me) {
-  if (!before || reduceMotion.matches || document.hidden) return;
+  // Under a frosted menu or sheet, cards just go where they're going: a glide
+  // nobody can see would still have the whole blur redone on every frame.
+  if (!before || reduceMotion.matches || document.hidden || covered()) return;
   const actorOf = (card) => {
     for (const e of events) {
       if (e.card === card || e.take === card || e.give === card || e.cards?.includes(card) || e.doubles?.includes(card)) return e.p || e.from || e.a;
@@ -463,7 +518,7 @@ function pulse(pid, me, color, delay) {
 // ------------------------------------------------------------------ dealing
 
 const DEAL_GAP = 110; // ms between cards leaving the deck
-const BACK = "cards/back.svg";
+const BACK = cardSrc(null);
 
 /** A face-down card from the deck to a spot on screen. Resolves on landing. */
 function flight(from, to, delay, { fade = false } = {}) {

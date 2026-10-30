@@ -8,7 +8,7 @@
 // nothing more is downloaded. Tracks stream, so the 100-minute lounge mix
 // only downloads as far as it's played; where you left it is remembered.
 
-import { audio, onSpeak } from "./fx.js";
+import { audio, onSpeak, keepAwakeWhile } from "./fx.js";
 
 export const TRACKS = [
   { id: "lounge", name: "Luxury Hotel Lounge", note: "Smooth jazz, 100 minutes" },
@@ -37,6 +37,8 @@ const changed = () => { for (const fn of listeners) fn(getMusic()); };
 
 /** { on, volume, track, playing } */
 export const getMusic = () => ({ on: state.on, volume: state.volume, track: state.track, playing: !!el && !el.paused });
+// While it plays, the audio device stays awake (it naps in silence otherwise).
+keepAwakeWhile(() => !!el && !el.paused);
 export const onMusic = (fn) => { listeners.add(fn); return () => listeners.delete(fn); };
 
 /** The <audio> element, routed through the audio context so the volume
